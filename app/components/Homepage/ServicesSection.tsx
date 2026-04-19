@@ -120,118 +120,48 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <>
-      {/* Castoro Titling loaded via next/font in layout */}
-      <style>{`
-        #services * { box-sizing: border-box; }
+    <section
+      id="services"
+      className="relative bg-[#EDEDDD] text-[#771605] px-8 py-24">
+      {/* Cursor-following images */}
+      {services.map((s, i) => (
+        <img
+          key={i}
+          ref={(el) => {
+            imgRefs.current[i] = el;
+          }}
+          src={s.img}
+          alt={s.title}
+          className="service-cursor-img"
+        />
+      ))}
 
-        #services .service-num {
-          font-size: 0.6rem;
-          letter-spacing: 0.12em;
-          color: #999;
-          vertical-align: super;
-          margin-left: 6px;
-          font-weight: 300;
-        }
+      {/* Header */}
+      <div className="flex items-center justify-between mb-12">
+        <span className="header-label">Our Services</span>
+        <span className="header-label text-[#771605]">
+          {services.length.toString().padStart(2, "0")} Disciplines
+        </span>
+      </div>
 
-        #services .service-title {
-          font-family: var(--font-castoro), serif;
-          font-weight: 600;
-          color: #0d0d0d;
-          line-height: 1;
-          letter-spacing: -0.01em;
-          font-size: clamp(3rem, 8vw, 6.5rem);
-          text-transform: uppercase;
-          display: inline;
-        }
-
-     
-        #services li:last-child {
-          border-bottom: 1px solid #e0e0e0;
-        }
-
-        #services .header-label {
-          font-size: 0.6rem;
-          letter-spacing: 0.25em;
-          text-transform: uppercase;
-          color: #999;
-          font-weight: 400;
-        }
-      `}</style>
-
-      <section
-        id="services"
-        style={{
-          position: "relative",
-          background: "#fff",
-          color: "#0d0d0d",
-          padding: "6rem 3rem",
-        }}>
-        {/* Cursor-following images */}
+      {/* Service list */}
+      <ul className="w-full m-0 p-0 list-none">
         {services.map((s, i) => (
-          <img
+          <li
             key={i}
             ref={(el) => {
-              imgRefs.current[i] = el;
+              rowRefs.current[i] = el;
             }}
-            src={s.img}
-            alt={s.title}
-            style={{
-              pointerEvents: "none",
-              position: "fixed",
-              top: 0,
-              left: 0,
-              zIndex: 50,
-              width: 320,
-              height: 320,
-              objectFit: "cover",
-            }}
-          />
+            className="w-full py-6 cursor-default select-none">
+            <div className="flex items-baseline justify-center">
+              <h3 className="service-title">
+                {s.title}
+                <sup className="service-num">(0{i + 1})</sup>
+              </h3>
+            </div>
+          </li>
         ))}
-
-        {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: "3rem",
-          }}>
-          <span className="header-label">Our Services</span>
-          <span className="header-label" style={{ color: "#0d0d0d" }}>
-            {services.length.toString().padStart(2, "0")} Disciplines
-          </span>
-        </div>
-
-        {/* Service list */}
-        <ul style={{ width: "100%", margin: 0, padding: 0, listStyle: "none" }}>
-          {services.map((s, i) => (
-            <li
-              key={i}
-              ref={(el) => {
-                rowRefs.current[i] = el;
-              }}
-              style={{
-                width: "100%",
-                padding: "1.5rem 0",
-                cursor: "default",
-                userSelect: "none",
-              }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "center",
-                }}>
-                <h3 className="service-title">
-                  {s.title}
-                  <sup className="service-num">(0{i + 1})</sup>
-                </h3>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </>
+      </ul>
+    </section>
   );
 }

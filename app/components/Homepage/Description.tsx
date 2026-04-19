@@ -53,7 +53,7 @@ const Description = () => {
                 fontSize: "0.6rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "rgba(13,13,13,0.4)",
+                color: "rgba(119,22,5,0.4)",
               }}>
               + Our Focus
             </span>
@@ -67,7 +67,7 @@ const Description = () => {
               fontWeight: 500,
               lineHeight: 1.15,
               letterSpacing: "-0.02em",
-              color: "#0d0d0d",
+              color: "#771605",
               margin: 0,
             }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur

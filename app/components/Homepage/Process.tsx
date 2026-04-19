@@ -207,7 +207,12 @@ const Process = () => {
     <section
       id="process-section"
       ref={sectionRef}
-      style={{ background: "#0e0e0c", color: "#fff", overflow: "hidden" }}>
+      style={{
+        background: "#771605",
+        color: "#ECEDDD",
+        overflow: "hidden",
+        clipPath: "inset(0)",
+      }}>
       {/* Header */}
       <div
         style={{
@@ -224,8 +229,8 @@ const Process = () => {
               fontSize: "0.65rem",
               letterSpacing: "0.22em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.3)",
-              border: "0.5px solid rgba(255,255,255,0.15)",
+              color: "rgba(236,237,221,0.3)",
+              border: "0.5px solid rgba(236,237,221,0.15)",
               padding: "0.35em 1em",
               borderRadius: "999px",
             }}>
@@ -238,11 +243,11 @@ const Process = () => {
             fontWeight: 300,
             letterSpacing: "-0.045em",
             lineHeight: 0.9,
-            color: "#fff",
+            color: "#ECEDDD",
           }}>
           Your idea.
           <br />
-          <span style={{ color: "rgba(255,255,255,0.22)" }}>Made real.</span>
+          <span style={{ color: "rgba(236,237,221,0.22)" }}>Made real.</span>
         </h2>
       </div>
 
@@ -270,7 +275,7 @@ const Process = () => {
           <path
             ref={mobileGhostRef}
             fill="none"
-            stroke="rgba(255,255,255,0.08)"
+            stroke="rgba(236,237,221,0.08)"
             strokeWidth="1"
           />
           <path
@@ -287,7 +292,7 @@ const Process = () => {
             cx="0"
             cy="0"
             r="0"
-            fill="#0e0e0c"
+            fill="#771605"
             stroke={ACCENT}
             strokeWidth="1.5"
           />
@@ -314,8 +319,8 @@ const Process = () => {
                   width: "9px",
                   height: "9px",
                   borderRadius: "50%",
-                  background: i <= activeMobileStep ? ACCENT : "#0e0e0c",
-                  border: `1px solid ${i <= activeMobileStep ? ACCENT : "rgba(255,255,255,0.15)"}`,
+                  background: i <= activeMobileStep ? ACCENT : "#771605",
+                  border: `1px solid ${i <= activeMobileStep ? ACCENT : "rgba(236,237,221,0.15)"}`,
                   transition: "background 0.4s, border-color 0.4s",
                   zIndex: 2,
                 }}
@@ -323,11 +328,11 @@ const Process = () => {
               {/* Number */}
               <p
                 style={{
-                  fontSize: "clamp(2.6rem, 10vw, 3.5rem)",
+                  fontSize: "clamp(3.2rem, 12vw, 4.5rem)",
                   fontWeight: 300,
                   letterSpacing: "-0.04em",
                   lineHeight: 1,
-                  color: "rgba(255,255,255,0.88)",
+                  color: "rgba(236,237,221,0.88)",
                   marginBottom: "14px",
                 }}>
                 {s.n}
@@ -338,7 +343,7 @@ const Process = () => {
                   fontSize: "0.6rem",
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.38)",
+                  color: "rgba(236,237,221,0.38)",
                   marginBottom: "12px",
                 }}>
                 {s.title}
@@ -348,7 +353,7 @@ const Process = () => {
                 style={{
                   fontSize: "13px",
                   lineHeight: 1.75,
-                  color: "rgba(255,255,255,0.45)",
+                  color: "rgba(236,237,221,0.45)",
                   maxWidth: "36ch",
                 }}>
                 {s.body}
@@ -384,7 +389,7 @@ const Process = () => {
             <path
               ref={ghostPathRef}
               fill="none"
-              stroke="rgba(255,255,255,0.06)"
+              stroke="rgba(236,237,221,0.06)"
               strokeWidth="1"
             />
             <path
@@ -401,7 +406,7 @@ const Process = () => {
               cx="0"
               cy="0"
               r="0"
-              fill="#0e0e0c"
+              fill="#771605"
               stroke={ACCENT}
               strokeWidth="1.5"
             />
@@ -436,7 +441,7 @@ const Process = () => {
                     padding: "40px 3vw",
                     borderRight:
                       i < steps.length - 1
-                        ? "0.5px solid rgba(255,255,255,0.05)"
+                        ? "0.5px solid rgba(236,237,221,0.05)"
                         : "none",
                   }}>
                   {/* Upper half: step number */}
@@ -453,8 +458,8 @@ const Process = () => {
                         letterSpacing: "0.2em",
                         textTransform: "uppercase",
                         color: isActive
-                          ? "rgba(255,255,255,0.35)"
-                          : "rgba(255,255,255,0.12)",
+                          ? "rgba(236,237,221,0.35)"
+                          : "rgba(236,237,221,0.12)",
                         transition: "color 0.4s",
                       }}>
                       {s.n}
@@ -468,9 +473,9 @@ const Process = () => {
                       height: "8px",
                       borderRadius: "50%",
                       border: `1px solid ${
-                        isActive ? ACCENT : "rgba(255,255,255,0.12)"
+                        isActive ? ACCENT : "rgba(236,237,221,0.12)"
                       }`,
-                      background: isActive ? ACCENT : "#0e0e0c",
+                      background: isActive ? ACCENT : "#771605",
                       flexShrink: 0,
                       position: "relative",
                       zIndex: 3,
@@ -489,11 +494,11 @@ const Process = () => {
                     }}>
                     <p
                       style={{
-                        fontSize: "clamp(1.4rem, 2vw, 2.2rem)",
-                        fontWeight: 100,
+                        fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
+                        fontWeight: 300,
                         letterSpacing: "-0.035em",
                         lineHeight: 1,
-                        color: isActive ? "#fff" : "rgba(255,255,255,0.28)",
+                        color: isActive ? "#ECEDDD" : "rgba(236,237,221,0.28)",
                         marginBottom: "16px",
                         textAlign: "center",
                         transition: "color 0.4s",
@@ -505,8 +510,8 @@ const Process = () => {
                         fontSize: "13px",
                         lineHeight: 1.75,
                         color: isActive
-                          ? "rgba(255,255,255,0.45)"
-                          : "rgba(255,255,255,0.15)",
+                          ? "rgba(236,237,221,0.45)"
+                          : "rgba(236,237,221,0.15)",
                         maxWidth: "22ch",
                         textAlign: "center",
                         transition: "color 0.4s",

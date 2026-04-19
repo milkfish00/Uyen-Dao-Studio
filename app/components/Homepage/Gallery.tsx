@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -396,7 +395,8 @@ const Gallery = () => {
           left: 0,
           right: 0,
           height: "40vh",
-          background: "linear-gradient(to bottom, transparent 0%, #fff 100%)",
+          background:
+            "linear-gradient(to bottom, transparent 0%, #EDEDDD 100%)",
           pointerEvents: "none",
           zIndex: 10,
           opacity: 0,
@@ -417,12 +417,12 @@ const Gallery = () => {
           justifyContent: "center",
           zIndex: 0,
           pointerEvents: "none",
-          background: "white",
+          background: "#EDEDDD",
         }}>
         <span
           style={{
             display: "block",
-            color: "#0d0d0d",
+            color: "#771605",
             fontSize: "clamp(2.5rem, 9vw, 9rem)",
             fontFamily: "var(--font-castoro), serif",
             fontWeight: 500,
@@ -582,13 +582,6 @@ const Gallery = () => {
                     style={{ width: "100%", display: "block" }}
                   />
                 </div>
-                <Link
-                  href={`/work/${c.slug}`}
-                  style={{
-                    gridColumn: "3 / span 5",
-                    textDecoration: "none",
-                    marginTop: "1.5rem",
-                  }}></Link>
               </div>
             </div>
 

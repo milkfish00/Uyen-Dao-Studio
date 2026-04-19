@@ -25,7 +25,7 @@ export default async function IndividualProjectPage({
   if (!slugs.includes(slug)) notFound();
 
   return (
-    <main className="min-h-screen bg-white text-[#0d0d0d]">
+    <main className="min-h-screen bg-[#EDEDDD] text-[#771605]">
       {/* ── Title + metadata ── */}
       <section className="px-6 pt-60 pb-10 sm:px-10 lg:px-16">
         <h1
@@ -50,7 +50,7 @@ export default async function IndividualProjectPage({
       <section className="px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:items-start">
           <p
-            className="leading-relaxed text-[rgba(13,13,13,0.65)] max-w-md"
+            className="leading-relaxed text-[rgba(119,22,5,0.65)] max-w-md"
             style={{ fontSize: "clamp(0.9rem, 1.3vw, 1rem)" }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. The brand
             needed to communicate luxury and a sense of fun surrounding the
@@ -74,7 +74,7 @@ export default async function IndividualProjectPage({
       <section className="px-6 pb-16 sm:px-10 lg:px-16  pt-10">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-20 max-w-4xl">
           <p
-            className="leading-relaxed text-[rgba(13,13,13,0.65)]"
+            className="leading-relaxed text-[rgba(119,22,5,0.65)]"
             style={{ fontSize: "clamp(0.85rem, 1.2vw, 0.95rem)" }}>
             The platform required multiple platforms, multiple deliverables, and
             multiple stakeholders. We worked closely with the team to define

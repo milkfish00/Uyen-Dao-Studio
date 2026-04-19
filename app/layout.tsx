@@ -31,10 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${castoro.variable} ${jetbrains.variable}`}>
-      <body className="antialiased" style={{ color: "#0d0d0d" }}>
+      <body className="antialiased" style={{ color: "#771605" }}>
         <RevealOnScroll />
 
-        <div className="relative z-10  min-h-screen ">
+        <div className="relative z-10 min-h-screen">
           <Navbar />
           {children}
         </div>

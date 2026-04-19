@@ -6,17 +6,17 @@
   --width-400: 100rem;
   --footer-height: clamp(30rem, 68vh, 38rem);
   --cream: #fdf6ec;
-  --red: #7b1110;
-  --ink: #0d0d0d;
+  --red: #771605;
+  --ink: #771605;
 }
 
 :root {
-  --ink: #0d0d0d;
+  --ink: #771605;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: white;
+  backgroundr: #ede9e1;
 }
 
 @font-face {
@@ -165,16 +165,59 @@ html {
 
 html {
   font-family: "Switzer", sans-serif;
-  color: #0d0d0d;
+  color: #771605;
 }
 
 body {
   margin: 0;
-  color: #0d0d0d;
+  color: #771605;
 }
 
-.font-playfair {
-  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+/* ── Service cursor images: hidden until GSAP reveals ── */
+.service-cursor-img {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* ── Services section ── */
+#services .service-num {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: #999;
+  vertical-align: super;
+  margin-left: 6px;
+  font-weight: 300;
+}
+
+#services .service-title {
+  font-family: var(--font-castoro), serif;
+  font-weight: 400;
+  color: #771605;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  text-transform: uppercase;
+  display: inline;
+}
+
+#services li:last-child {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#services .header-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 400;
 }
 
 .font-jetbrains {

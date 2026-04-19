@@ -91,11 +91,11 @@ const Hero = () => {
 
   return (
     <section ref={sectionRef} id="hero" className="relative h-[260vh]">
-      <div className="sticky top-0 h-screen overflow-hidden bg-[#ffffff]">
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#771605]">
         {/* Expanding image with flicker */}
         <div
           ref={imgWrapRef}
-          className="absolute  overflow-hidden will-change-[width,height]"
+          className="absolute overflow-hidden will-change-[width,height]"
           style={{
             width: "35%",
             height: "55vh",
@@ -143,7 +143,7 @@ const Hero = () => {
                       transform: mounted ? "translateY(0)" : "translateY(110%)",
                       transition: `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.05 + i * 0.13}s`,
                     }}>
-                    <path d={TITLE_PATH} fill="#0d0d0d" fillRule="evenodd" />
+                    <path d={TITLE_PATH} fill="#ECEDDD" fillRule="evenodd" />
                   </svg>
                 </div>
               ))}
@@ -154,7 +154,7 @@ const Hero = () => {
           <div className="flex items-end justify-between">
             <p
               className="text-[0.65rem] font-medium uppercase tracking-[0.22em]"
-              style={{ color: "rgba(13,13,13,0.40)" }}>
+              style={{ color: "rgba(236,237,221,0.40)" }}>
               Brand identity &amp; digital design
             </p>
             {/* Scroll indicator */}
@@ -162,7 +162,7 @@ const Hero = () => {
               <span
                 className="text-[0.6rem] font-medium uppercase tracking-[0.2em]"
                 style={{
-                  color: "rgba(13,13,13,0.40)",
+                  color: "rgba(236,237,221,0.40)",
                   writingMode: "vertical-rl",
                   transform: "rotate(180deg)",
                 }}>
@@ -170,7 +170,7 @@ const Hero = () => {
               </span>
               <div
                 className="w-px h-12"
-                style={{ background: "rgba(13,13,13,0.20)" }}
+                style={{ background: "rgba(236,237,221,0.20)" }}
               />
             </div>
           </div>

@@ -113,12 +113,12 @@ export default function WorkPage() {
       : projects.filter((p) => p.categories.includes(active));
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#EDEDDD]">
       {/* ── Hero heading ── */}
       <section className="px-6 pt-40 pb-10 sm:px-10 lg:px-16 text-center">
         <h1
           className="font-bold leading-tight tracking-tight"
-          style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)", color: "#0d0d0d" }}>
+          style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)", color: "#771605" }}>
           The Work
         </h1>
       </section>
@@ -132,7 +132,7 @@ export default function WorkPage() {
               onClick={() => setActive(cat)}
               className="text-[0.65rem] font-medium uppercase tracking-[0.18em] transition-opacity duration-200 hover:opacity-100"
               style={{
-                color: cat === active ? "#0d0d0d" : "rgba(13,13,13,0.35)",
+                color: cat === active ? "#771605" : "rgba(119,22,5,0.35)",
               }}>
               {cat}
             </button>
@@ -157,7 +157,7 @@ export default function WorkPage() {
                       className="px-2 py-0.5 text-[0.55rem] rounded-sm font-medium uppercase tracking-[0.14em]"
                       style={{
                         background: "rgba(255,255,255,0.90)",
-                        color: "#0d0d0d",
+                        color: "#771605",
                       }}>
                       {c}
                     </span>
@@ -175,13 +175,13 @@ export default function WorkPage() {
                   className="font-semibold tracking-tight"
                   style={{
                     fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
-                    color: "#0d0d0d",
+                    color: "#771605",
                   }}>
                   {p.title}
                 </p>
                 <p
                   className="mt-2 leading-snug"
-                  style={{ fontSize: "0.78rem", color: "rgba(13,13,13,0.50)" }}>
+                  style={{ fontSize: "0.78rem", color: "rgba(119,22,5,0.50)" }}>
                   {p.description}
                 </p>
               </div>

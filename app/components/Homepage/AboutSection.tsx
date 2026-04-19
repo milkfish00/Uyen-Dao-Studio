@@ -33,7 +33,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      style={{ background: "#fff", color: "#0d0d0d" }}
+      style={{ background: "#EDEDDD", color: "#771605" }}
       className="px-6 sm:px-10 lg:px-16 py-28 lg:py-40">
       <div className="max-w-6xl mx-auto">
         {/* Label */}
@@ -43,8 +43,8 @@ export default function AboutSection() {
               fontSize: "0.65rem",
               letterSpacing: "0.22em",
               textTransform: "uppercase",
-              color: "rgba(13,13,13,0.35)",
-              border: "0.5px solid rgba(13,13,13,0.15)",
+              color: "rgba(119,22,5,0.35)",
+              border: "0.5px solid rgba(119,22,5,0.15)",
               padding: "0.35em 1em",
               borderRadius: "999px",
             }}>
@@ -125,7 +125,7 @@ export default function AboutSection() {
                 }}>
                 Brand&nbsp;identity
                 <br />
-                <span style={{ color: "rgba(13,13,13,0.2)" }}>
+                <span style={{ color: "rgba(119,22,5,0.2)" }}>
                   &amp;&nbsp;digital design.
                 </span>
               </h2>
@@ -133,7 +133,7 @@ export default function AboutSection() {
                 style={{
                   fontSize: "13px",
                   lineHeight: 1.85,
-                  color: "rgba(13,13,13,0.45)",
+                  color: "rgba(119,22,5,0.45)",
                   maxWidth: "38ch",
                   marginBottom: "40px",
                 }}>
@@ -145,7 +145,7 @@ export default function AboutSection() {
 
             <div
               style={{
-                borderTop: "0.5px solid rgba(13,13,13,0.1)",
+                borderTop: "0.5px solid rgba(119,22,5,0.1)",
                 paddingTop: "24px",
               }}>
               <button
@@ -154,7 +154,7 @@ export default function AboutSection() {
                   fontSize: "0.65rem",
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "rgba(13,13,13,0.4)",
+                  color: "rgba(119,22,5,0.4)",
                   background: "none",
                   border: "none",
                   cursor: "pointer",

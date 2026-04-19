@@ -34,7 +34,7 @@ export default function WorkSection({ works }: { works: Work[] }) {
   return (
     <section
       id="work"
-      className="relative bg-white py-24 lg:py-36 border-t border-[rgba(13,13,13,0.10)] overflow-hidden">
+      className="relative bg-[#EDEDDD] py-24 lg:py-36 border-t border-[rgba(119,22,5,0.10)] overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-6 mb-10">
         <span
@@ -42,14 +42,14 @@ export default function WorkSection({ works }: { works: Work[] }) {
             fontFamily: "var(--font-castoro), serif",
             fontWeight: 500,
           }}
-          className="text-[1.5rem] text-[#0d0d0d]">
+          className="text-[1.5rem] text-[#771605]">
           Types of work
         </span>
         <div className="flex items-center gap-2">
           <button
             onClick={() => sliderRef.current?.slickPrev()}
             aria-label="Previous"
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(13,13,13,0.15)] text-[#0d0d0d] hover:bg-[#0d0d0d] hover:text-white hover:border-[#0d0d0d] transition-colors duration-200">
+            className="flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(119,22,5,0.15)] text-[#771605] hover:bg-[#771605] hover:text-white hover:border-[#771605] transition-colors duration-200">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 d="M10 3L5 8L10 13"
@@ -63,7 +63,7 @@ export default function WorkSection({ works }: { works: Work[] }) {
           <button
             onClick={() => sliderRef.current?.slickNext()}
             aria-label="Next"
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(13,13,13,0.15)] text-[#0d0d0d] hover:bg-[#0d0d0d] hover:text-white hover:border-[#0d0d0d] transition-colors duration-200">
+            className="flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(119,22,5,0.15)] text-[#771605] hover:bg-[#771605] hover:text-white hover:border-[#771605] transition-colors duration-200">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 d="M6 3L11 8L6 13"
@@ -94,12 +94,12 @@ export default function WorkSection({ works }: { works: Work[] }) {
                 {/* Caption */}
                 <div className="pt-5">
                   <h3
-                    className="font-semibold tracking-tight text-[#0d0d0d] mb-1"
+                    className="font-semibold tracking-tight text-[#771605] mb-1"
                     style={{ fontSize: "clamp(1.2rem, 2vw, 1.8rem)" }}>
                     {w.title}
                   </h3>
                   {w.subtitle && (
-                    <p className="text-[0.82rem] text-[rgba(13,13,13,0.5)] leading-snug max-w-xs">
+                    <p className="text-[0.82rem] text-[rgba(119,22,5,0.5)] leading-snug max-w-xs">
                       {w.subtitle}
                     </p>
                   )}
