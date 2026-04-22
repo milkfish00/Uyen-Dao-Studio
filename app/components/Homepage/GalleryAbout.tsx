@@ -124,17 +124,18 @@ export default function AboutSection() {
           </div>
 
           {/* Body text */}
-          <p className="text-[0.65rem] sm:text-[0.7rem] text-justify max-w-xl uppercase tracking-[0.25em] text-white/80 relative z-20 leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc purus
-            orci, dignissim sed vehicula at, tristique vel est. Maecenas
-            sollicitudin bibendum ante. In condimentum semper tincidunt. Etiam
-            ex mauris, euismod fermentum nisl in, hendrerit vulputate mauris. Ut
-            eget ipsum purus. Curabitur accumsan neque a elit ultrices volutpat.
-            Quisque pretium mattis nunc, vitae sodales ipsum laoreet vitae. Orci
-            varius natoque penatibus et magnis dis parturient montes, nascetur
-            ridiculus mus. Fusce ut facilisis dui.
-          </p>
-
+          <div className="flex items-center justify-center">
+            <p className="text-[clamp(0.74rem,0.86vw,0.82rem)] max-w-2xl  text-justify leading-[1.75] text-white m-0">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+              purus orci, dignissim sed vehicula at, tristique vel est. Maecenas
+              sollicitudin bibendum ante. In condimentum semper tincidunt. Etiam
+              ex mauris, euismod fermentum nisl in, hendrerit vulputate mauris.
+              Ut eget ipsum purus. Curabitur accumsan neque a elit ultrices
+              volutpat. Quisque pretium mattis nunc, vitae sodales ipsum laoreet
+              vitae. Orci varius natoque penatibus et magnis dis parturient
+              montes, nascetur ridiculus mus. Fusce ut facilisis dui.
+            </p>
+          </div>
           {/* CTA row */}
           <div className="flex gap-4 mt-16 w-full max-w-sm relative z-20">
             <a

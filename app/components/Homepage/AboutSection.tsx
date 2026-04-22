@@ -70,7 +70,7 @@ export default function AboutSection() {
               alt="Uyen Dao Studio"
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 80vw, 460px"
+              sizes="(max-width: 768px) 80vw, 260px"
               priority
             />
           </div>

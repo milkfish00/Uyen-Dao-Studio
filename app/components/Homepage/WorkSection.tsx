@@ -13,7 +13,35 @@ type Work = {
   img: string;
 };
 
-export default function WorkSection({ works }: { works: Work[] }) {
+const PLACEHOLDER_WORKS: Work[] = [
+  {
+    title: "Brand Identity",
+    subtitle: "Visual identity & strategy",
+    category: "Branding",
+    img: "https://picsum.photos/seed/ws1/480/640",
+  },
+  {
+    title: "Packaging Design",
+    subtitle: "Structural & graphic design",
+    category: "Packaging",
+    img: "https://picsum.photos/seed/ws2/480/640",
+  },
+  {
+    title: "Art Direction",
+    subtitle: "Campaign & editorial",
+    category: "Art Direction",
+    img: "https://picsum.photos/seed/ws3/480/640",
+  },
+  {
+    title: "Digital Experience",
+    subtitle: "Web design & motion",
+    category: "Digital",
+    img: "https://picsum.photos/seed/ws4/480/640",
+  },
+];
+
+export default function WorkSection({ works }: { works?: Work[] }) {
+  const items = works && works.length > 0 ? works : PLACEHOLDER_WORKS;
   const sliderRef = useRef<Slider>(null);
 
   const settings: Settings = {
@@ -32,19 +60,17 @@ export default function WorkSection({ works }: { works: Work[] }) {
   };
 
   return (
-    <section
-      id="work"
-      className="relative bg-[#ffffff] py-24 lg:py-36 border-t border-[rgba(118,0,1,0.10)] overflow-hidden">
+    <section id="work" className="relative bg-[#ffffff] overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-6 mb-10">
-        <span className="text-[1.5rem] text-ink font-serif font-medium">
+        <span className="text-[3.15rem] tracking-[-0.03em] uppercase font-bold text-[#c2090a]  ">
           Types of work
         </span>
         <div className="flex items-center gap-2">
           <button
             onClick={() => sliderRef.current?.slickPrev()}
             aria-label="Previous"
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(0,0,0,0.15)] text-ink hover:bg-ink hover:text-cream hover:border-ink transition-colors duration-200">
+            className="flex items-center justify-center w-9 h-9 rounded-full  text-[#c2090a] hover:bg-[#c2090a] hover:text-cream  transition-colors duration-200">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 d="M10 3L5 8L10 13"
@@ -58,7 +84,7 @@ export default function WorkSection({ works }: { works: Work[] }) {
           <button
             onClick={() => sliderRef.current?.slickNext()}
             aria-label="Next"
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(0,0,0,0.15)] text-ink hover:bg-ink hover:text-cream hover:border-ink transition-colors duration-200">
+            className="flex items-center justify-center w-9 h-9 rounded-full  text-[#c2090a] hover:bg-[#c2090a] hover:text-cream transition-colors duration-200">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
                 d="M6 3L11 8L6 13"
@@ -75,11 +101,11 @@ export default function WorkSection({ works }: { works: Work[] }) {
       {/* Carousel */}
       <div className="">
         <Slider ref={sliderRef} {...settings}>
-          {works.map((w) => (
+          {items.map((w) => (
             <div key={w.title} className="pr-4">
               <Link href="/work" className="group block">
                 {/* Image */}
-                <div className="relative w-full overflow-hidden rounded-xl aspect-3/4">
+                <div className="relative w-full overflow-hidden  aspect-3/4">
                   <img
                     src={w.img}
                     alt={w.title}
@@ -88,14 +114,9 @@ export default function WorkSection({ works }: { works: Work[] }) {
                 </div>
                 {/* Caption */}
                 <div className="pt-5">
-                  <h3 className="font-semibold tracking-tight text-ink mb-1 text-[clamp(1.2rem,2vw,1.8rem)]">
+                  <h3 className="font-semibold tracking-tight text-[#c2090a] mb-1 text-[clamp(1.2rem,2vw,1.8rem)]">
                     {w.title}
                   </h3>
-                  {w.subtitle && (
-                    <p className="text-[0.82rem] text-[rgba(208,0,1,0.5)] leading-snug max-w-xs">
-                      {w.subtitle}
-                    </p>
-                  )}
                 </div>
               </Link>
             </div>

@@ -6,6 +6,7 @@ import Process from "./components/Homepage/Process";
 import ContactPage from "./components/Homepage/Contact";
 import BigImage from "./components/Homepage/BigImage";
 import Gallery from "./components/Homepage/Gallery";
+import WorkSection from "./components/Homepage/WorkSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Gallery />
       <GalleryAbout />
       <ServicesSection />
+      <WorkSection />
     </div>
   );
 }

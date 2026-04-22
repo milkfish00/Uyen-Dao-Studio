@@ -27,12 +27,6 @@ const services = [
     num: "04",
     img: "https://assets.codepen.io/16327/portrait-image-14.jpg",
   },
-  {
-    title: "Sed Do Eiusmod",
-    subtitle: "Motion",
-    num: "05",
-    img: "https://assets.codepen.io/16327/portrait-image-6.jpg",
-  },
 ];
 
 export default function ServicesSection() {
