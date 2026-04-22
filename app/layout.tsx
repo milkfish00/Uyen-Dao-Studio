@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import RevealOnScroll from "./components/ui/RevealOnScroll";
+import Preloader from "./components/ui/Preloader";
 
 const bdGrotesk = localFont({
   src: [
@@ -53,6 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bdGrotesk.variable} ${geistMono.variable}`}>
       <body className="antialiased text-ink">
+        <Preloader />
         <RevealOnScroll />
 
         <div className="relative z-10 min-h-screen">
