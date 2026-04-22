@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -7,34 +8,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
-    title: "Products",
+    title: "Industrial Design",
     subtitle: "Strategy",
     num: "01",
+    href: "/services#industrial-design",
     img: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
-    title: "Fashion",
+    title: "  Fashion Design",
     subtitle: "Identity",
     num: "02",
+    href: "/services#fashion-design",
     img: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
-  {
-    title: "Industrial",
-    subtitle: "Direction",
-    num: "03",
-    img: "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=800",
-  },
+
   {
     title: "Art Direction",
     subtitle: "Campaign",
     num: "04",
+    href: "/services#art-direction",
     img: "https://assets.codepen.io/16327/portrait-image-14.jpg",
-  },
-  {
-    title: "Branding",
-    subtitle: "Campaign",
-    num: "05",
-    img: "https://picsum.photos/seed/fb2/1600/700",
   },
 ];
 
@@ -185,13 +178,15 @@ export default function ServicesSection() {
             }}
             className="w-full py-6 cursor-default select-none">
             <div className="flex items-baseline justify-center">
-              <h3 className="text-center uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold text-red leading-none flex flex-wrap justify-center gap-x-[0.2em]">
-                {s.title.split(" ").map((word, wi) => (
-                  <div key={wi} className="overflow-hidden">
-                    <span className="block service-title-word">{word}</span>
-                  </div>
-                ))}
-              </h3>
+              <Link href={s.href} className="no-underline">
+                <h3 className="text-center uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold text-red leading-none flex flex-wrap justify-center gap-x-[0.2em] hover:opacity-60 transition-opacity duration-200">
+                  {s.title.split(" ").map((word, wi) => (
+                    <div key={wi} className="overflow-hidden">
+                      <span className="block service-title-word">{word}</span>
+                    </div>
+                  ))}
+                </h3>
+              </Link>
             </div>
           </li>
         ))}

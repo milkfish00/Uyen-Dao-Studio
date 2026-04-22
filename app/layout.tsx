@@ -42,7 +42,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Uyen  Dao Studio",
+  title: "Uyen  Dao Design",
   description: "Design studio portfolio",
 };
 

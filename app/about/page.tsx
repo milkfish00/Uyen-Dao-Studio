@@ -42,7 +42,7 @@ const GalleryAbout = () => {
         {/* Right — bio + contact info */}
         <div className="flex flex-col gap-12 lg:pt-8">
           <p className="text-[clamp(1.05rem,2vw,1.5rem)] font-semibold leading-[1.35] tracking-[-0.02em] text-red max-w-[36ch]">
-            Uyen Dao Studio is a multidisciplinary creative studio specialising
+            Uyen Dao Design is a multidisciplinary creative studio specialising
             in brand identity, art direction, and visual storytelling for
             fashion, lifestyle, and culture brands.
           </p>
@@ -52,7 +52,7 @@ const GalleryAbout = () => {
               <p className="text-[0.6rem] font-bold uppercase tracking-[0.18em] text-red mb-1">
                 Info
               </p>
-              <p className="text-red/60">hello@uyendaostudio.com</p>
+              <p className="text-red/60">hello@uyendaodesign.com</p>
               <p className="text-red/60">+1 234 45670</p>
             </div>
 

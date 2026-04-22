@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-const WORDS = ["✳", "UYEN", "DAO", "STUDIO"];
+const WORDS = ["✳", "UYEN", "DAO", "DESIGN"];
 
 export default function Preloader() {
   const [visible, setVisible] = useState(true);
@@ -71,7 +71,7 @@ export default function Preloader() {
                 wordRefs.current[i] = el;
               }}
               className="block font-bold text-white tracking-[-0.03em]"
-              style={{ fontSize: "clamp(1.4rem, 5vw, 3.5rem)" }}>
+              style={{ fontSize: "clamp(1.4rem, 5vw,1rem)" }}>
               {word}
             </span>
           </div>

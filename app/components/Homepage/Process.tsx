@@ -9,23 +9,23 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 const steps = [
   {
     n: "01",
-    title: "Discovery",
-    body: "We partner with you to understand your vision, goals, and audience — mapping the creative foundation before anything else.",
+    title: "Ideation",
+    body: "You have an idea — rough, unformed, maybe just a feeling. That's where we start. No pitch decks, no big-agency pressure. Just you, your vision, and room to think out loud.",
   },
   {
     n: "02",
-    title: "Strategy",
-    body: "Research, moodboards, and direction. We chart the path forward with clarity and purpose.",
+    title: "Sketching",
+    body: "Ideas need to be drawn before they can be built. I translate your concept into early sketches — exploring form, proportion, and function without committing to anything permanent yet.",
   },
   {
     n: "03",
-    title: "Design",
-    body: "From sketches to polished visuals — every detail shaped with intention, proportion, and care.",
+    title: "Prototyping",
+    body: "Cardboard, foam, paper — the first physical version of your idea doesn't need to be perfect. It just needs to exist. I help you build your first tangible object on a real-world budget.",
   },
   {
     n: "04",
-    title: "Delivery",
-    body: "Final files, guidelines, and assets — everything packaged and ready for launch. On your terms.",
+    title: "Concept",
+    body: "A refined concept ready to take the next step — whether that's a manufacturer, an investor, or simply proof that your idea is real. You started with nothing. Now you have something.",
   },
 ];
 
@@ -49,7 +49,6 @@ const Process = () => {
   const headingRef = useRef<HTMLDivElement>(null);
   const moverRef = useRef<HTMLDivElement>(null);
   const nodesContainerRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef(0);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -59,42 +58,6 @@ const Process = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Block scrolling past the top of the section until scrub reverses to start
-  useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY >= 0) return;
-      const wrap = wrapRef.current;
-      if (!wrap) return;
-      const rect = wrap.getBoundingClientRect();
-      // Within 300px of the section top and star hasn't returned to start
-      if (rect.top >= -300 && rect.top < 20 && progressRef.current > 0.05) {
-        e.preventDefault();
-      }
-    };
-    let touchStartY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      const goingUp = e.touches[0].clientY > touchStartY;
-      if (!goingUp) return;
-      const wrap = wrapRef.current;
-      if (!wrap) return;
-      const rect = wrap.getBoundingClientRect();
-      if (rect.top >= -300 && rect.top < 20 && progressRef.current > 0.05) {
-        e.preventDefault();
-      }
-    };
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
-    };
   }, []);
 
   // Heading slide-up animation
@@ -168,10 +131,12 @@ const Process = () => {
           scrollTrigger: {
             trigger: wrap,
             start: "top top",
-            end: "bottom bottom",
+            end: () => "+=" + window.innerHeight * 3,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
             scrub: 1.2,
             onUpdate: (self) => {
-              progressRef.current = self.progress;
               const p = self.progress;
               const step = Math.min(
                 steps.length - 1,
@@ -268,21 +233,21 @@ const Process = () => {
   }, [isDesktop]);
 
   return (
-    <div id="process" ref={wrapRef} className="relative h-[400vh] bg-red">
-      <section className="sticky top-0 h-screen text-white flex flex-col items-center justify-center px-[5vw] pt-16 md:pt-0 overflow-hidden">
+    <div id="process" ref={wrapRef} className="relative bg-red">
+      <section className="h-screen text-white flex flex-col items-center justify-center px-[5vw] pt-16 md:pt-0 overflow-hidden">
         <div ref={headingRef} className="relative inline-block mb-2 md:mb-16">
           <h2
             className="flex flex-col items-center text-center justify-center uppercase text-[clamp(1rem,5.5vw,7rem)] tracking-[-0.05em] font-bold leading-none"
-            aria-label="From idea to launch, we got you covered">
+            aria-label="Big ideas, small budget, real results">
             <div className="flex flex-nowrap md:flex-wrap justify-center gap-x-[0.25em]">
-              {["From", "idea", "to", "launch,"].map((word, i) => (
+              {["Big", "ideas,"].map((word, i) => (
                 <div key={i} className="overflow-hidden">
                   <span className="block heading-word text-white">{word}</span>
                 </div>
               ))}
             </div>
             <div className="flex flex-nowrap md:flex-wrap justify-center gap-x-[0.25em]">
-              {["we", "got", "you", "covered"].map((word, i) => (
+              {["small", "budget."].map((word, i) => (
                 <div key={i} className="overflow-hidden">
                   <span className="block heading-word text-white/40">
                     {word}

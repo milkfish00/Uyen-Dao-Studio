@@ -7,6 +7,7 @@ import SplitTextLink from "./SplitTextLink";
 const navLinks = [
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
+  { label: "Services", href: "/services" },
   { label: "Process", href: "/#process" },
 ];
 
@@ -14,6 +15,7 @@ const mobileMenuLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
+  { label: "Services", href: "/services" },
   { label: "Process", href: "/#process" },
   { label: "Inquire", href: "/contact" },
 ];
@@ -104,7 +106,7 @@ const Navbar = () => {
             className={`text-[0.7rem] font-bold uppercase tracking-[0.14em] whitespace-nowrap ${
               isContact ? "text-white" : "text-red"
             }`}>
-            Uyen Dao Studio
+            Uyen Dao Design
           </Link>
           {/* Desktop nav links — far right */}
           <div className="hidden md:flex items-center gap-0.5">
@@ -144,7 +146,7 @@ const Navbar = () => {
           <Link
             href="/"
             className="text-[0.7rem] font-bold uppercase tracking-[0.14em] whitespace-nowrap text-red">
-            Uyen Dao Studio
+            Uyen Dao Design
           </Link>
           {hamburger("bg-red")}
         </nav>
@@ -154,7 +156,7 @@ const Navbar = () => {
       {isHome && (
         <nav className="hidden md:flex fixed bottom-5 left-0 right-0 z-50 justify-center pointer-events-none">
           <div
-            className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-red/15 px-1.5 py-1.5 bg-red backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
+            className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-red/15 px-1.5 py-1.5 bg-red/70 backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
               !pastHero || nearFooter
                 ? "opacity-0 -translate-y-2 pointer-events-none"
                 : "opacity-100 translate-y-0"
@@ -162,7 +164,7 @@ const Navbar = () => {
             <Link
               href="/"
               className="rounded-lg px-4 py-2 text-[0.65rem] font-medium uppercase tracking-[0.14em] text-[#ffffff] transition-colors duration-200 hover:bg-white/10 whitespace-nowrap">
-              Uyen Dao
+              Uyen Dao Design
             </Link>
 
             <span className="h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />

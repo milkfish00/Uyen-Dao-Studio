@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -10,38 +11,43 @@ const mk = (seed: string, w: number, h: number) => `${PICSUM}${seed}/${w}/${h}`;
 
 interface Work {
   title: string;
+  slug: string;
   skills: string[];
-  imgs: [string, string, string];
+  // boards: full 11×17 tabloid presentation boards — no cropping
+  boards: [string, string];
+  // hero: portrait shot to accent the layout
+  hero: string;
 }
 
 const works: Work[] = [
   {
     title: "Lorem Ipsum",
-    skills: ["strategy", "identity", "branding"],
-    imgs: [mk("c1a", 400, 560), mk("c1b", 500, 680), mk("c1c", 320, 420)],
+    slug: "lorem-ipsum",
+    skills: ["Strategy", "Identity", "Branding"],
+    boards: [mk("c1a", 880, 1360), mk("c1b", 880, 1360)],
+    hero: mk("c1c", 600, 900),
   },
   {
     title: "Dolor Sit",
-    skills: ["concept", "packaging", "storytelling"],
-    imgs: [mk("c2a", 400, 520), mk("c2b", 500, 700), mk("c2c", 320, 380)],
+    slug: "dolor-sit",
+    skills: ["Concept", "Packaging", "Storytelling"],
+    boards: [mk("c2a", 880, 1360), mk("c2b", 880, 1360)],
+    hero: mk("c2c", 600, 900),
   },
   {
     title: "Amet Consec",
-    skills: ["innovation", "strategy", "prototype"],
-    imgs: [mk("c3a", 400, 540), mk("c3b", 500, 660), mk("c3c", 320, 400)],
+    slug: "amet-consec",
+    skills: ["Innovation", "Strategy", "Prototype"],
+    boards: [mk("c3a", 880, 1360), mk("c3b", 880, 1360)],
+    hero: mk("c3c", 600, 900),
   },
   {
     title: "Adipiscing Elit",
-    skills: ["branding", "art direction", "packaging"],
-    imgs: [mk("c4a", 400, 580), mk("c4b", 500, 720), mk("c4c", 320, 460)],
+    slug: "adipiscing-elit",
+    skills: ["Branding", "Art Direction", "Packaging"],
+    boards: [mk("c4a", 880, 1360), mk("c4b", 880, 1360)],
+    hero: mk("c4c", 600, 900),
   },
-];
-
-// Full-bleed images inserted between work items
-const fullBleedImgs = [
-  mk("fb1", 1600, 700),
-  mk("fb2", 1600, 700),
-  mk("fb3", 1600, 700),
 ];
 
 const titleWords = ["Selected", "Work"];
@@ -50,6 +56,7 @@ const Gallery = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingWrapRef = useRef<HTMLDivElement>(null);
 
+  // Heading slide-up animation
   useEffect(() => {
     const el = headingWrapRef.current;
     if (!el) return;
@@ -71,14 +78,14 @@ const Gallery = () => {
     return () => ctx.revert();
   }, []);
 
+  // Parallax on every .img-wrap
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Parallax on every image wrapper
       sectionRef.current
         ?.querySelectorAll<HTMLElement>(".img-wrap")
         .forEach((el) => {
-          const yFrom = parseFloat(el.dataset.yFrom ?? "12");
-          const yTo = parseFloat(el.dataset.yTo ?? "-12");
+          const yFrom = parseFloat(el.dataset.yFrom ?? "8");
+          const yTo = parseFloat(el.dataset.yTo ?? "-8");
           gsap.fromTo(
             el,
             { yPercent: yFrom },
@@ -95,14 +102,13 @@ const Gallery = () => {
           );
         });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
   return (
     <div ref={sectionRef} className="relative overflow-clip">
-      {/* Sticky heading — sits behind the gallery, clipped to this container */}
-      <div className="sticky top-0 h-screen flex items-center justify-center bg-cream">
+      {/* Sticky heading — sits behind, clipped to this container */}
+      <div className="sticky top-0 h-screen flex items-center justify-center ">
         <div ref={headingWrapRef} className="relative">
           <h2
             className="flex flex-wrap justify-center text-red gap-x-[0.25em] uppercase text-[clamp(2rem,8vw,7rem)] tracking-[-0.05em] font-bold leading-none"
@@ -119,59 +125,107 @@ const Gallery = () => {
         </div>
       </div>
 
-      {/* Works — scrolls over the sticky heading */}
-      <div className="relative z-10 pb-16 md:pb-56">
-        <div className="flex flex-col gap-16 md:gap-36 lg:gap-48 px-[5vw]">
-          {works.map((w, i) => (
-            <div key={w.title}>
-              {/* Three-column collage — mobile: single column, desktop: staggered grid */}
-              <div className="flex flex-col gap-6 md:grid md:grid-cols-12 md:gap-8 md:items-start">
-                {/* Left image */}
-                <div
-                  className="img-wrap w-full overflow-hidden aspect-3/4 md:aspect-auto md:col-span-4"
-                  data-y-from="12"
-                  data-y-to="-12">
-                  <img
-                    src={w.imgs[0]}
-                    alt={w.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover block md:h-auto"
-                  />
-                </div>
-
-                {/* Right image — small, offset on desktop */}
-                <div
-                  className="img-wrap w-full overflow-hidden aspect-3/4 md:aspect-auto md:col-start-10 md:col-span-3 md:mt-[4%]"
-                  data-y-from="16"
-                  data-y-to="-8">
-                  <img
-                    src={w.imgs[2]}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    className="w-full h-full object-cover block md:h-auto"
-                  />
-                </div>
-              </div>
-
-              {/* Full-bleed image between work items */}
-              {i < works.length - 1 && fullBleedImgs[i] && (
-                <div
-                  className="img-wrap mt-24 -mx-[5vw] overflow-hidden h-screen"
+      {/* Exhibition grid — scrolls over the sticky heading */}
+      <div className="relative z-10 ">
+        {works.map((w, i) => (
+          <div key={w.title} className="px-[5vw] py-16 md:py-24">
+            {/* ── Layout A (even): primary board left, hero + secondary board right stacked */}
+            {i % 2 === 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-[5fr_4fr] gap-4 md:gap-6 items-start">
+                {/* Primary board — full 11:17, no cropping */}
+                <Link
+                  href={`/work/${w.slug}`}
+                  className="img-wrap block overflow-hidden"
                   data-y-from="6"
                   data-y-to="-6">
                   <img
-                    src={fullBleedImgs[i]}
-                    alt=""
-                    aria-hidden="true"
+                    src={w.boards[0]}
+                    alt={w.title}
                     loading="lazy"
-                    className="w-full h-full object-cover block"
+                    className="w-full aspect-11/17 object-contain bg-red/3"
                   />
+                </Link>
+
+                {/* Right column: hero photo + secondary board, offset down */}
+                <div className="flex flex-col gap-4 md:gap-6 md:pt-[12%]">
+                  <div
+                    className="img-wrap overflow-hidden"
+                    data-y-from="10"
+                    data-y-to="-5">
+                    <img
+                      src={w.hero}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="w-full aspect-2/3 object-cover"
+                    />
+                  </div>
+                  <Link
+                    href={`/work/${w.slug}`}
+                    className="img-wrap block overflow-hidden"
+                    data-y-from="8"
+                    data-y-to="-8">
+                    <img
+                      src={w.boards[1]}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="w-full aspect-11/17 object-contain bg-red/3"
+                    />
+                  </Link>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
+              </div>
+            ) : (
+              /* ── Layout B (odd): secondary board + hero left stacked, primary board right */
+              <div className="grid grid-cols-1 md:grid-cols-[4fr_5fr] gap-4 md:gap-6 items-start">
+                {/* Left column: secondary board + hero, offset down on right side */}
+                <div className="flex flex-col gap-4 md:gap-6 md:pb-[12%]">
+                  <Link
+                    href={`/work/${w.slug}`}
+                    className="img-wrap block overflow-hidden"
+                    data-y-from="8"
+                    data-y-to="-6">
+                    <img
+                      src={w.boards[1]}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="w-full aspect-11/17 object-contain bg-red/3"
+                    />
+                  </Link>
+                  <div
+                    className="img-wrap overflow-hidden"
+                    data-y-from="10"
+                    data-y-to="-5">
+                    <img
+                      src={w.hero}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="w-full aspect-2/3 object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* Primary board — large, anchored to top */}
+                <Link
+                  href={`/work/${w.slug}`}
+                  className="img-wrap block overflow-hidden"
+                  data-y-from="6"
+                  data-y-to="-4">
+                  <img
+                    src={w.boards[0]}
+                    alt={w.title}
+                    loading="lazy"
+                    className="w-full aspect-11/17 object-contain bg-red/3"
+                  />
+                </Link>
+              </div>
+            )}
+          </div>
+        ))}
+
+        <div className="h-24 md:h-48" />
       </div>
     </div>
   );

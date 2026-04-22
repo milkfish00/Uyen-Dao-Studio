@@ -67,7 +67,7 @@ export default function AboutSection() {
           <div className="relative w-[80vw] max-w-115 aspect-3/4 overflow-hidden">
             <Image
               src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=800"
-              alt="Uyen Dao Studio"
+              alt="Uyen Dao Design"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 80vw, 260px"

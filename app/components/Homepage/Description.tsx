@@ -83,10 +83,9 @@ const Description = () => {
           <p
             ref={paraRef}
             className="text-[clamp(1.6rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.02em] text-red m-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            suscipit massa ut lectus consectetur pulvinar. Nulla aliquet
-            vulputate magna vel viverra. Morbi vel nisi euismod, molestie est
-            semper, bibendum ligula.
+            I believe products are statement accessories. They coexist with
+            their users — enhancing everyday life through function, expression,
+            and style.
           </p>
         </div>
       </div>

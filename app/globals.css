@@ -24,6 +24,15 @@
   display: none;
 }
 
+@keyframes scrollCue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
 /* ── Project page ── */
 @keyframes heroUp {
   from {
@@ -118,7 +127,7 @@ html {
 body {
   margin: 0;
   color: #000000;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ── Service cursor images: hidden until GSAP reveals ── */

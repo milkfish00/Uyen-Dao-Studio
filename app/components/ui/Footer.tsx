@@ -74,7 +74,7 @@ const Footer = () => {
           className={`text-[0.6rem] uppercase tracking-[0.16em] ${
             isContact ? "text-white/70" : "text-red/40"
           }`}>
-          © {new Date().getFullYear()} Uyen Dao Studio
+          © {new Date().getFullYear()} Uyen Dao Design
         </span>
         <div className="flex items-center gap-6 text-[0.6rem] uppercase tracking-[0.16em]">
           <Link

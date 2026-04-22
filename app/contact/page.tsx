@@ -61,15 +61,15 @@ export default function ContactPage() {
         <div className="flex flex-col gap-20">
           <h1
             ref={headingRef}
-            className="text-[clamp(3rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.04em] font-semibold">
-            <div className="flex flex-wrap gap-x-[0.3em]">
+            className="text-[clamp(3rem,8vw,4rem)] leading-[0.95] tracking-[-0.04em] font-semibold">
+            <div className="flex flex-wrap gap-x-[0.3em] uppercase">
               {["Let\u2019s", "start", "a"].map((word, i) => (
                 <div key={i} className="overflow-hidden pb-[0.15em]">
                   <span className="block heading-word">{word}</span>
                 </div>
               ))}
             </div>
-            <div className="flex flex-wrap gap-x-[0.3em]">
+            <div className="flex flex-wrap gap-x-[0.3em] uppercase">
               {["project", "together"].map((word, i) => (
                 <div key={i} className="overflow-hidden pb-[0.15em]">
                   <span className="block heading-word">{word}</span>
@@ -139,15 +139,14 @@ export default function ContactPage() {
 
           <div className="text-sm text-white/70 space-y-3">
             <p className="uppercase text-white/30 text-xs">Contact details</p>
-            <p>hello@uyendaostudio.comm</p>
+            <p>hello@uyendaodesign.comm</p>
             <p>+1 234 45670</p>
           </div>
 
           <div className="text-sm text-white/70 space-y-2">
             <p className="uppercase text-white/30 text-xs">Services</p>
-            <p>Brand Identity</p>
+            <p>Industrial Design</p> <p>Fashion Design</p>
             <p>Art Direction</p>
-            <p>Fashion & Editorial</p>
           </div>
 
           <div className="text-sm text-white/70 space-y-2">

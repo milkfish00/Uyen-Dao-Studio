@@ -9,7 +9,7 @@ const PROJECTS = [
   {
     slug: "lorem-ipsum",
     name: ["Lorem Ipsum"],
-    school: "Lorem Ipsum Studio",
+    school: "Lorem Ipsum Design",
     year: "2023",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     secondaryTitle: "Dolor sit amet",
@@ -200,7 +200,9 @@ export default function IndividualProjectPage({
   }, []);
 
   return (
-    <main className="w-screen bg-cream font-sans overflow-x-hidden lg:h-screen lg:overflow-hidden">
+    <main
+      className="w-screen bg-cream font-sans lg:h-screen"
+      style={{ overflow: "clip" }}>
       {/* Fixed nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between px-[2.8rem] py-[1.6rem] pointer-events-none">
         <Link
@@ -216,7 +218,7 @@ export default function IndividualProjectPage({
         className="scrollbar-hide w-full overflow-y-auto overflow-x-hidden lg:h-full lg:overflow-x-auto lg:overflow-y-hidden lg:cursor-grab">
         <div className="flex flex-col lg:flex-row lg:h-full lg:min-w-max">
           {/* ── P1: HERO ── */}
-          <section className="w-full shrink-0 flex flex-col-reverse lg:flex-row lg:h-full">
+          <section className=" shrink-0 flex flex-col-reverse lg:flex-row lg:h-full">
             {/* Left: title + meta + 2-col desc */}
             <div className="w-full lg:w-[54vw] flex flex-col justify-end pt-8 px-6 sm:px-10 pb-12 lg:pt-0 lg:pr-[4vw] lg:pb-[9vh] lg:pl-[5.5vw]">
               <div className="relative inline-block">

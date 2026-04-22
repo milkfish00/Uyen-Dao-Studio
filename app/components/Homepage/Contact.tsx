@@ -53,9 +53,9 @@ export default function ContactPage() {
 
           <div className="flex flex-col gap-1">
             <a
-              href="mailto:hello@uyendaostudio.com"
+              href="mailto:hello@uyendaoDesign.com"
               className="text-sm text-ecru no-underline hover:text-ecru/70 transition-colors duration-200">
-              hello@uyendaostudio.com
+              hello@uyendaoDesign.com
             </a>
             <span className="text-sm text-ecru">0407 720 300</span>
           </div>
