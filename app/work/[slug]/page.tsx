@@ -200,12 +200,12 @@ export default function IndividualProjectPage({
   }, []);
 
   return (
-    <main className="w-screen bg-[#f7f7f7] font-sans overflow-x-hidden lg:h-screen lg:overflow-hidden">
+    <main className="w-screen bg-cream font-sans overflow-x-hidden lg:h-screen lg:overflow-hidden">
       {/* Fixed nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between px-[2.8rem] py-[1.6rem] pointer-events-none">
         <Link
           href="/work"
-          className="pointer-events-auto text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a] no-underline">
+          className="pointer-events-auto bg-cream font-bold px-6 py-2 rounded-full text-[0.6rem] tracking-[0.2em] uppercase text-red no-underline">
           ← Back
         </Link>
       </nav>
@@ -219,22 +219,22 @@ export default function IndividualProjectPage({
           <section className="w-full shrink-0 flex flex-col-reverse lg:flex-row lg:h-full">
             {/* Left: title + meta + 2-col desc */}
             <div className="w-full lg:w-[54vw] flex flex-col justify-end pt-8 px-6 sm:px-10 pb-12 lg:pt-0 lg:pr-[4vw] lg:pb-[9vh] lg:pl-[5.5vw]">
-              <h1 className="text-[clamp(3.5rem,7vw,9rem)]  cursor-pointer uppercase tracking-[-0.04em]  font-bold text-[#c2090a] leading-none">
-                {name.map((w, i) => (
-                  <div key={i} className="hero-line">
-                    <span className={i === 1 ? "pl-[1.1em]" : ""}>{w}</span>
-                  </div>
-                ))}
-              </h1>
+              <div className="relative inline-block">
+                <h1 className="text-[clamp(3.5rem,7vw,9rem)] text-center md:text-left cursor-pointer uppercase tracking-[-0.04em] font-bold text-red leading-none pb-20">
+                  {name.map((w, i) => (
+                    <div key={i} className="hero-line">
+                      <span className={i === 1 ? "pl-[1.1em]" : ""}>{w}</span>
+                    </div>
+                  ))}
+                </h1>
+              </div>
               <div className="hero-meta">
-                <p className=" text-[clamp(0.8rem,1.05vw,0.95rem)]    text-[#c2090a] mb-[3.5vh] tracking-[0.01em]">
+                <p className="text-[clamp(0.8rem,1.05vw,0.95rem)] text-red mb-[3.5vh] tracking-[0.01em]">
                   {school}&nbsp;&nbsp;/&nbsp;&nbsp;{year}
                 </p>
               </div>
               <div className="hero-desc columns-1 sm:columns-2 gap-x-[3vw] max-w-full lg:max-w-[43vw]">
-                <p className="text-[clamp(0.74rem,0.86vw,0.82rem)] leading-[1.75] text-[#c2090a]/52 m-0">
-                  {desc}
-                </p>
+                <p className="text-[clamp(0.74rem,0.86vw,0.82rem)] leading-[1.75] text-red/52 m-0"></p>
               </div>
             </div>
             {/* Right: full-bleed portrait */}
@@ -249,7 +249,7 @@ export default function IndividualProjectPage({
           </section>
 
           {/* ── P2: THREE PORTRAITS ── */}
-          <section className="w-full min-h-[100vw] lg:w-screen lg:min-h-0 lg:h-full shrink-0 relative bg-[#f7f7f7]">
+          <section className="w-full min-h-[100vw] lg:w-screen lg:min-h-0 lg:h-full shrink-0 relative bg-cream">
             {/* Small — far left */}
             <div className="absolute left-[4%] top-[27%] w-[21%] overflow-hidden">
               <img
@@ -290,7 +290,7 @@ export default function IndividualProjectPage({
           </section>
 
           {/* ── P3: B&W IMAGES + TEXT ── */}
-          <section className="w-full shrink-0 flex flex-col lg:flex-row lg:w-screen lg:h-full bg-[#f7f7f7]">
+          <section className="w-full shrink-0 flex flex-col lg:flex-row lg:w-screen lg:h-full bg-cream">
             {/* Left: two overlapping B&W images */}
             <div className="w-full h-[80vw] sm:h-[65vw] lg:w-[57%] lg:h-full relative">
               <div className="absolute left-0 top-[6%] w-[55%] bottom-[12%] overflow-hidden">
@@ -312,10 +312,10 @@ export default function IndividualProjectPage({
             </div>
             {/* Right: secondary text */}
             <div className="w-full lg:w-[43%] flex flex-col justify-center px-6 sm:px-10 py-12 lg:py-0 lg:pr-[5.5vw] lg:pl-[2vw]">
-              <h2 className=" text-[clamp(1.8rem,3.2vw,3.8rem)] tracking-[-0.05em] font-bold     leading-[1.1] mb-[2.8vh] text-[#c2090a] x">
+              <h2 className="text-[clamp(1.8rem,3.2vw,3.8rem)] tracking-[-0.05em] font-bold leading-[1.1] mb-[2.8vh] text-red">
                 {secondaryTitle}
               </h2>
-              <p className="text-[clamp(0.74rem,0.86vw,0.82rem)] leading-[1.75] text-[#c2090a]/52 max-w-[36ch]">
+              <p className="text-[clamp(0.74rem,0.86vw,0.82rem)] leading-[1.75] text-red/52 max-w-[36ch]">
                 {secondaryText}
               </p>
             </div>
@@ -332,7 +332,7 @@ export default function IndividualProjectPage({
           </section>
 
           {/* ── P4: SCATTER COLLAGE (wider) ── */}
-          <section className="w-full min-h-[130vw] sm:min-h-[100vw] lg:w-[155vw] lg:min-h-0 lg:h-full shrink-0 relative bg-[#f7f7f7]">
+          <section className="w-full min-h-[130vw] sm:min-h-[100vw] lg:w-[155vw] lg:min-h-0 lg:h-full shrink-0 relative bg-cream">
             {/* Tall portrait — far left */}
             <div className="absolute left-[2%] top-[36%] w-[16%] overflow-hidden">
               <img
@@ -381,14 +381,14 @@ export default function IndividualProjectPage({
           </section>
 
           {/* ── P5: NEXT PROJECT ── */}
-          <section className="w-full shrink-0 flex flex-col lg:flex-row lg:w-screen lg:h-full bg-[#f7f7f7]">
+          <section className="w-full shrink-0 flex flex-col lg:flex-row lg:w-screen lg:h-full bg-cream">
             {/* Left: label + big title */}
             <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 pt-14 pb-12 lg:pt-0 lg:pb-0 lg:px-[5vw]">
-              <p className="text-[0.6rem] tracking-[0.22em] uppercase text-[#c2090a]/40 mb-[1.4rem]">
+              <p className="text-[0.6rem] tracking-[0.22em] uppercase text-red/40 mb-[1.4rem]">
                 Next project
               </p>
               <Link href={`/work/${next.slug}`} className="no-underline">
-                <h2 className="text-[clamp(3.5rem,7vw,9rem)]  cursor-pointer uppercase  tracking-[-0.05em] font-bold text-[#c2090a]  leading-none">
+                <h2 className="text-[clamp(3.5rem,7vw,9rem)] cursor-pointer uppercase tracking-[-0.05em] font-bold text-red leading-none">
                   {next.name}
                 </h2>
               </Link>

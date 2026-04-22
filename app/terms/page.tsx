@@ -202,7 +202,7 @@ export default function IndividualProjectPage({
   }, []);
 
   return (
-    <main className="h-screen w-screen overflow-hidden bg-white">
+    <main className="h-screen w-screen overflow-hidden bg-cream">
       {/* Fixed nav */}
       <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 pointer-events-none">
         <Link
@@ -227,29 +227,34 @@ export default function IndividualProjectPage({
             <div className="flex flex-col justify-center px-16 pt-20 w-[58%]">
               {/* Vertical rule */}
               <div className="w-px h-32 bg-[#0a0a0a] mb-8" />
-              <h1 className="text-[clamp(4rem,11vw,10rem)] font-normal leading-[0.88] tracking-[-0.04em] mb-10">
-                {name.map((word, i) => (
-                  <span key={i} className="mask-wrap block">
-                    <span className={`mask-inner${i === 1 ? " d1" : ""}`}>
-                      {word}
+              <div className="relative inline-block mb-10">
+                <h1 className="text-[clamp(4rem,11vw,10rem)] font-normal leading-[0.88] tracking-[-0.04em]">
+                  {name.map((word, i) => (
+                    <span key={i} className="mask-wrap block">
+                      <span className={`mask-inner${i === 1 ? " d1" : ""}`}>
+                        {word}
+                      </span>
                     </span>
-                  </span>
-                ))}
-              </h1>
+                  ))}
+                </h1>
+                <span className="absolute text-red -top-[0.3em] -right-[0.8em] text-[3em] font-bold leading-none">
+                  ✳
+                </span>
+              </div>
               <div className="flex items-center gap-8 mb-10">
                 <span className="mask-wrap">
-                  <span className="mask-inner d2 text-[0.62rem] tracking-[0.22em] uppercase text-[#c2090a]/40 italic">
+                  <span className="mask-inner d2 text-[0.62rem] tracking-[0.22em] uppercase text-red/40 italic">
                     {school}
                   </span>
                 </span>
                 <span className="mask-wrap">
-                  <span className="mask-inner d3 text-[0.62rem] tracking-[0.22em] uppercase text-[#c2090a]/40">
+                  <span className="mask-inner d3 text-[0.62rem] tracking-[0.22em] uppercase text-red/40">
                     / {year}
                   </span>
                 </span>
               </div>
               <div className="mask-wrap max-w-152">
-                <p className="mask-inner d4 text-[clamp(0.85rem,1.1vw,0.95rem)] leading-[1.7] text-[#c2090a]/55">
+                <p className="mask-inner d4 text-[clamp(0.85rem,1.1vw,0.95rem)] leading-[1.7] text-red/55">
                   {desc}
                 </p>
               </div>
@@ -365,7 +370,7 @@ export default function IndividualProjectPage({
               <h2 className="font-serif italic font-normal text-[clamp(1.8rem,3.5vw,3.5rem)] tracking-[-0.02em] leading-[1.15] mb-8">
                 {secondaryTitle}
               </h2>
-              <p className="text-[clamp(0.82rem,1vw,0.92rem)] leading-[1.75] text-[#c2090a]/55">
+              <p className="text-[clamp(0.82rem,1vw,0.92rem)] leading-[1.75] text-red/55">
                 {secondaryText}
               </p>
             </div>
@@ -428,7 +433,7 @@ export default function IndividualProjectPage({
             href={`/work/${next.slug}`}
             className="next-panel relative shrink-0 flex h-full w-screen">
             {/* Left: white with text */}
-            <div className="flex flex-col justify-center px-16 w-[58%] bg-white">
+            <div className="flex flex-col justify-center px-16 w-[58%] bg-cream">
               <p
                 style={{
                   fontSize: "0.62rem",

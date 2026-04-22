@@ -29,9 +29,14 @@ export default function ContactPage() {
 
       {/* Split heading */}
       <div className="max-w-9xl flex items-baseline gap-[38%] mb-16">
-        <h1 className="text-[clamp(3rem,7vw,6rem)] font-bold tracking-[-0.03em] leading-none">
-          Let&rsquo;s Talk
-        </h1>
+        <div className="relative inline-block">
+          <h1 className="text-[clamp(3rem,7vw,6rem)] font-bold tracking-[-0.03em] leading-none">
+            Let&rsquo;s Talk
+          </h1>
+          <span className="absolute text-red -top-[0.3em] -right-[0.8em] text-[3em] font-bold leading-none">
+            ✳
+          </span>
+        </div>
       </div>
 
       {/* Two-column: info + form */}

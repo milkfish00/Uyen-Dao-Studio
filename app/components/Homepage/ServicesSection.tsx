@@ -1,41 +1,55 @@
 "use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
-    title: "Lorem Ipsum",
+    title: "Products",
     subtitle: "Strategy",
     num: "01",
     img: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
-    title: "Dolor Sit",
+    title: "Fashion",
     subtitle: "Identity",
     num: "02",
     img: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
-    title: "Amet Consect",
+    title: "Industrial",
     subtitle: "Direction",
     num: "03",
     img: "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
-    title: "Adipiscing Elit",
+    title: "Art Direction",
     subtitle: "Campaign",
     num: "04",
     img: "https://assets.codepen.io/16327/portrait-image-14.jpg",
   },
+  {
+    title: "Branding",
+    subtitle: "Campaign",
+    num: "05",
+    img: "https://picsum.photos/seed/fb2/1600/700",
+  },
 ];
 
 export default function ServicesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const rowRefs = useRef<(HTMLLIElement | null)[]>([]);
   const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
     gsap.set(imgRefs.current, { yPercent: -50, xPercent: -50, autoAlpha: 0 });
-    gsap.set(rowRefs.current, { opacity: 0.13 });
+    if (!isMobile) {
+      gsap.set(rowRefs.current, { opacity: 0.13 });
+    }
 
     const cleanups: (() => void)[] = [];
 
@@ -43,6 +57,7 @@ export default function ServicesSection() {
       if (!el) return;
       const image = imgRefs.current[i];
       if (!image) return;
+      if (isMobile) return;
 
       let firstEnter = false;
 
@@ -113,8 +128,33 @@ export default function ServicesSection() {
     return () => cleanups.forEach((fn) => fn());
   }, []);
 
+  // Service title slide-up animation
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const words = el.querySelectorAll<HTMLElement>(".service-title-word");
+    gsap.set(words, { y: "110%" });
+    const ctx = gsap.context(() => {
+      gsap.to(words, {
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.04,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="services" className="relative bg-cream text-ink px-8 py-40">
+    <section
+      ref={sectionRef}
+      id="services"
+      className="relative bg-cream text-ink px-6 sm:px-10 lg:px-16 pt-24 pb-24  ">
       {/* Cursor-following images */}
       {services.map((s, i) => (
         <img
@@ -130,7 +170,7 @@ export default function ServicesSection() {
 
       {/* Header */}
       <div className="mb-8 flex items-center justify-center">
-        <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a]/38 ">
+        <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-red/38">
           + Our Services
         </span>
       </div>
@@ -145,9 +185,12 @@ export default function ServicesSection() {
             }}
             className="w-full py-6 cursor-default select-none">
             <div className="flex items-baseline justify-center">
-              <h3 className="text-center  uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold text-[#c2090a] leading-none">
-                {s.title}
-                <sup className="service-num">(0{i + 1})</sup>
+              <h3 className="text-center uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold text-red leading-none flex flex-wrap justify-center gap-x-[0.2em]">
+                {s.title.split(" ").map((word, wi) => (
+                  <div key={wi} className="overflow-hidden">
+                    <span className="block service-title-word">{word}</span>
+                  </div>
+                ))}
               </h3>
             </div>
           </li>

@@ -65,7 +65,9 @@ const Description = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="px-6 sm:px-10 lg:px-16 py-40 lg:py-56">
+    <section
+      ref={sectionRef}
+      className="px-6 sm:px-10 lg:px-16 py-16 sm:py-24 lg:py-40">
       <div className="max-w-7xl mx-auto">
         {/* Top row: label + paragraph */}
         <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-10 lg:gap-16 mb-16">
@@ -73,7 +75,7 @@ const Description = () => {
           <div className="pt-1.5">
             <span
               ref={labelRef}
-              className="text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a]/40">
+              className="text-[0.6rem] tracking-[0.2em] uppercase text-red/40">
               + Our Focus
             </span>
           </div>
@@ -81,7 +83,7 @@ const Description = () => {
           {/* Main paragraph */}
           <p
             ref={paraRef}
-            className="text-[clamp(1.6rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#c2090a]  m-0">
+            className="text-[clamp(1.6rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.02em] text-red m-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
             suscipit massa ut lectus consectetur pulvinar. Nulla aliquet
             vulputate magna vel viverra. Morbi vel nisi euismod, molestie est

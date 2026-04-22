@@ -40,7 +40,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative bg-[#000000] min-h-[200vh]">
+      className="relative bg-ink min-h-[200vh]">
       {/* Brand name — sticky, pinned behind scroll content */}
       <div className="sticky top-0 h-screen z-0 flex flex-col items-center justify-center overflow-hidden pointer-events-none select-none">
         <p
@@ -54,7 +54,7 @@ export default function AboutSection() {
       <div className="relative z-10 -mt-[40vh] flex flex-col items-center pb-40">
         <div
           ref={imageRef}
-          className="relative bg-white shadow-[0_48px_120px_rgba(0,0,0,0.8)]"
+          className="relative bg-cream shadow-[0_48px_120px_rgba(0,0,0,0.8)]"
           style={{
             padding: "clamp(8px, 1.5vw, 14px)",
             paddingBottom: "clamp(40px, 8vw, 72px)",
@@ -78,7 +78,7 @@ export default function AboutSection() {
 
         <div
           ref={textRef}
-          className="mt-14 text-center space-y-5 max-w-sm px-8">
+          className="mt-14 text-center space-y-5 max-w-xs px-8">
           <p className="text-lg leading-[1.72] text-white/80 font-sans">
             Hi, I&apos;m Uyen &ndash; a brand identity designer crafting
             tailor-made visual systems for ambitious founders.

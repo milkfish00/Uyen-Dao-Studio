@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -49,22 +49,26 @@ const titleWords = ["Selected", "Work"];
 const Gallery = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingWrapRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = headingWrapRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const words = el.querySelectorAll<HTMLElement>(".heading-word");
+    gsap.set(words, { y: "110%" });
+    const ctx = gsap.context(() => {
+      gsap.to(words, {
+        y: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+    return () => ctx.revert();
   }, []);
 
   useEffect(() => {
@@ -101,29 +105,23 @@ const Gallery = () => {
       <div className="sticky top-0 h-screen flex items-center justify-center bg-cream">
         <div ref={headingWrapRef} className="relative">
           <h2
-            className="flex flex-wrap justify-center text-[#c2090a] gap-x-[0.25em] uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold  leading-none"
+            className="flex flex-wrap justify-center text-red gap-x-[0.25em] uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold leading-none"
             aria-label="Selected Work">
-            {titleWords.map((word, i) => (
+            {titleWords.map((word) => (
               <div key={word} className="overflow-hidden">
-                <span
-                  className={`block ${visible ? "translate-y-0" : "translate-y-[110%]"}`}
-                  style={{
-                    transition: `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.05 + i * 0.13}s`,
-                  }}>
-                  {word}
-                </span>
+                <span className="block heading-word">{word}</span>
               </div>
             ))}
           </h2>
-          <span className="absolute text-[#c2090a]   -top-[0.3em] -right-[0.8em] text-[3em] font-bold leading-none">
+          <span className="absolute text-red -top-[0.3em] -right-[0.8em] text-[3em] font-bold leading-none">
             ✳
           </span>
         </div>
       </div>
 
       {/* Works — scrolls over the sticky heading */}
-      <div className="relative z-10 pb-56">
-        <div className="flex flex-col gap-48 px-[5vw]">
+      <div className="relative z-10 pb-16 md:pb-56">
+        <div className="flex flex-col gap-16 md:gap-36 lg:gap-48 px-[5vw]">
           {works.map((w, i) => (
             <div key={w.title}>
               {/* Three-column collage — mobile: single column, desktop: staggered grid */}

@@ -1,48 +1,92 @@
 "use client";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const image = imageRef.current;
+    const text = textRef.current;
+    if (!image || !text) return;
+
+    gsap.set(image, { opacity: 0, y: 56 });
+    gsap.set(text, { opacity: 0, y: 36 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: image,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    tl.to(image, { opacity: 1, y: 0, duration: 1.3, ease: "power3.out" }).to(
+      text,
+      { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+      "<0.3",
+    );
+
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+  }, []);
+
   return (
-    <section id="about" className="relative bg-white text-[#c2090a]">
-      <div className="min-h-screen px-6 sm:px-10 lg:px-16 pt-20 pb-24 flex flex-col items-center">
-        {/* Polaroid */}
-        <div className="flex justify-center mb-14">
-          <div className="bg-white p-2.5 pb-14 shadow-2xl -rotate-2">
-            <div className="relative w-[260px] sm:w-[360px] md:w-[440px] aspect-[4/5] overflow-hidden">
-              <Image
-                src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=900"
-                alt="About — Uyen Dao Studio"
-                fill
-                className="object-cover grayscale"
-                sizes="(max-width: 640px) 260px, (max-width: 768px) 360px, 440px"
-                priority
-              />
-            </div>
+    <section
+      ref={sectionRef}
+      id="about"
+      className="relative bg-ink min-h-[200vh]">
+      {/* Brand name — sticky, pinned behind scroll content */}
+      <div className="sticky top-0 h-screen z-0 flex flex-col items-center justify-center overflow-hidden pointer-events-none select-none">
+        <p
+          className="font-bold uppercase text-white text-center leading-[0.88] tracking-[-0.03em]"
+          style={{ fontSize: "clamp(5rem, 22vw, 16rem)" }}>
+          UYEN DAO
+        </p>
+      </div>
+
+      {/* Scroll content — image + text scroll over the brand name */}
+      <div className="relative z-10 -mt-[40vh] flex flex-col items-center pb-40">
+        <div
+          ref={imageRef}
+          className="relative bg-cream shadow-[0_48px_120px_rgba(0,0,0,0.8)]"
+          style={{
+            padding: "clamp(8px, 1.5vw, 14px)",
+            paddingBottom: "clamp(40px, 8vw, 72px)",
+          }}>
+          {/* Washi tape */}
+          <div
+            className="absolute -top-5 left-1/2 -translate-x-1/2 z-10 w-20 h-7 bg-[#c9a97e]/55"
+            style={{ clipPath: "polygon(1% 8%, 99% 2%, 98% 92%, 2% 98%)" }}
+          />
+          <div className="relative w-[80vw] max-w-115 aspect-3/4 overflow-hidden">
+            <Image
+              src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=800"
+              alt="Uyen Dao Studio"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 80vw, 260px"
+              priority
+            />
           </div>
         </div>
 
-        {/* Body text */}
-        <div className="max-w-lg text-center">
-          <p className="font-serif text-base sm:text-lg leading-relaxed text-[#c2090a]">
-            The <em>founders</em>, Mie Ejdrup and Caroline Chalmer, <em>are</em>{" "}
-            long-time friends <em>from</em> business school <em>and</em> have
-            always had the <em>ambition &amp; entrepreneurial</em> spirit{" "}
-            <em>to</em> build their own company.
+        <div
+          ref={textRef}
+          className="mt-14 text-center space-y-5 max-w-xs px-8">
+          <p className="text-lg leading-[1.72] text-white/80 font-sans">
+            Hi, I&apos;m Uyen &ndash; a brand identity designer crafting
+            tailor-made visual systems for ambitious founders.
           </p>
-        </div>
-
-        {/* CTA row */}
-        <div className="flex gap-4 mt-16 w-full max-w-sm">
-          <a
-            href="/contact"
-            className="flex-1 border border-[#c2090a] text-[#c2090a] text-center text-[0.6rem] uppercase tracking-[0.18em] py-3.5 no-underline hover:bg-[#c2090a] hover:text-white transition-colors duration-200 font-sans">
-            Book Now
-          </a>
-          <a
-            href="/contact"
-            className="flex-1 border border-[#c2090a] text-[#c2090a] text-center text-[0.6rem] uppercase tracking-[0.18em] py-3.5 no-underline hover:bg-[#c2090a] hover:text-white transition-colors duration-200 font-sans">
-            Send a Request
-          </a>
+          <p className="text-lg leading-[1.72] text-white/80 font-sans">
+            Ready to build something lasting? Reach out to start the
+            conversation.
+          </p>
         </div>
       </div>
     </section>

@@ -19,6 +19,9 @@ const titleWords = [
   { viewBox: "928 0 682 149", flex: "0 0 42.36%" }, // STUDIO
 ];
 
+// Split the description into words for the staggered animation
+const descriptionWords = ["Creative", "&", "Product", "Design"];
+
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const imgWrapRef = useRef<HTMLDivElement>(null);
@@ -38,8 +41,6 @@ const Hero = () => {
       const isMobile = window.innerWidth < 768;
       const imgProgress = Math.min(p / 0.7, 1);
 
-      // Mobile: start wider/taller so image is prominent, expand to near full-bleed
-      // Desktop: 65→100% wide, 72→100vh tall
       const imgW = isMobile ? 82 + 18 * imgProgress : 65 + 35 * imgProgress;
       const imgH = isMobile ? 52 + 48 * imgProgress : 72 + 28 * imgProgress;
 
@@ -86,13 +87,13 @@ const Hero = () => {
 
   return (
     <section ref={sectionRef} id="hero" className="relative h-[260vh]">
-      <div className="sticky top-0 h-screen overflow-hidden bg-white">
+      <div className="sticky top-0 h-screen overflow-hidden bg-cream">
         {/* Expanding image */}
         <div
           ref={imgWrapRef}
           className="absolute overflow-hidden will-change-[width,height] z-10"
           style={{
-            width: "82%", // mobile-first: start wide
+            width: "82%",
             height: "52vh",
             left: "50%",
             top: "50%",
@@ -112,7 +113,7 @@ const Hero = () => {
               className="absolute inset-0 w-full h-full object-cover select-none"
               style={{
                 opacity: i === flickerIdx ? 1 : 0,
-                transition: " 0.1s ",
+                transition: "0.1s",
               }}
             />
           ))}
@@ -134,45 +135,27 @@ const Hero = () => {
                     aria-hidden="true"
                     style={{
                       transform: mounted ? "translateY(0)" : "translateY(110%)",
-                      transition: `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${0.05 + i * 0.13}s`,
+                      transition: `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${
+                        0.05 + i * 0.13
+                      }s`,
                     }}>
-                    <path d={TITLE_PATH} fill="#c2090a" fillRule="evenodd" />
+                    <path
+                      d={TITLE_PATH}
+                      fill="var(--color-red)"
+                      fillRule="evenodd"
+                    />
                   </svg>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ── Mobile title ──
-               Layout: tagline top-left, image center, title at bottom full-width
-          ── */}
-          <div className="md:hidden flex items-start justify-between">
-            <p
-              className="text-[0.55rem] tracking-[0.18em] uppercase text-[#c2090a]/35 font-medium"
-              style={{
-                opacity: mounted ? 1 : 0,
-                transform: mounted ? "translateY(0)" : "translateY(6px)",
-                transition: "opacity 0.9s  0.1s, transform 0.9s  0.1s",
-              }}>
-              Creative
-              <br />& Product design
-            </p>
-            {/* year / index pill */}
-            <p
-              className="text-[0.55rem] tracking-[0.18em] uppercase text-[#c2090a]/35 font-medium"
-              style={{
-                opacity: mounted ? 1 : 0,
-                transition: "opacity 0.9s ease 0.2s",
-              }}>
-              © 2025
-            </p>
-          </div>
-
-          {/* Bottom area */}
-          <div className="flex flex-col gap-0">
-            {/* Mobile: full-width title SVG at bottom */}
-            <div className="md:hidden w-full" aria-label="Uyen Dao Studio">
-              {/* All three words in one full-width SVG */}
+          {/* ── Mobile: centered title, image behind, description at bottom ── */}
+          <div className="md:hidden flex-1 flex flex-col items-center justify-center">
+            {/* Spacer to push title to center */}
+            <div className="flex-1" />
+            {/* Centered full‑width title */}
+            <div className="w-full" aria-label="Uyen Dao Studio">
               <div
                 className="overflow-hidden w-full"
                 style={{
@@ -185,16 +168,55 @@ const Hero = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   className="w-full block"
                   aria-hidden="true">
-                  <path d={TITLE_PATH} fill="#c2090a" fillRule="evenodd" />
+                  <path
+                    d={TITLE_PATH}
+                    fill="var(--color-red)"
+                    fillRule="evenodd"
+                  />
                 </svg>
               </div>
             </div>
+            {/* Spacer after title, then description at bottom */}
+            <div className="flex-1" />
+            <div className="w-full pb-2">
+              <div className="flex flex-wrap justify-center gap-x-2 text-[1.1rem] font-medium uppercase tracking-widest text-red">
+                {descriptionWords.map((word, idx) => (
+                  <span key={idx} className="overflow-hidden">
+                    <span
+                      className="block"
+                      style={{
+                        transform: mounted
+                          ? "translateY(0)"
+                          : "translateY(110%)",
+                        transition: `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${
+                          0.2 + idx * 0.08
+                        }s`,
+                      }}>
+                      {word}
+                    </span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
 
-            {/* Desktop bottom bar */}
-            <div className="hidden md:flex items-center justify-center mt-0">
-              <p className="text-[1.5rem] font-medium uppercase tracking-[0.1em] text-[#c2090a]">
-                Creative &amp; Product Design
-              </p>
+          {/* ── Desktop description with split animation ── */}
+          <div className="hidden md:flex items-center justify-center mt-0">
+            <div className="flex flex-wrap justify-center gap-x-3 text-[1.5rem] font-medium uppercase tracking-widest text-red">
+              {descriptionWords.map((word, idx) => (
+                <span key={idx} className="overflow-hidden">
+                  <span
+                    className="block"
+                    style={{
+                      transform: mounted ? "translateY(0)" : "translateY(110%)",
+                      transition: `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${
+                        0.25 + idx * 0.08
+                      }s`,
+                    }}>
+                    {word}
+                  </span>
+                </span>
+              ))}
             </div>
           </div>
         </div>

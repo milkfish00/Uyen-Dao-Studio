@@ -7,14 +7,14 @@ import SplitTextLink from "./SplitTextLink";
 const navLinks = [
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
-  { label: "Process", href: "/process" },
+  { label: "Process", href: "/#process" },
 ];
 
 const mobileMenuLinks = [
-  { label: "Index", href: "/" },
-  { label: "Services", href: "/#process" },
-  { label: "Our Work", href: "/work" },
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Process", href: "/#process" },
   { label: "Inquire", href: "/contact" },
 ];
 
@@ -81,43 +81,59 @@ const Navbar = () => {
       {!isHome && (
         <nav
           className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-4 backdrop-blur-sm ${
-            isContact ? "bg-[#c2090a]" : isOpen ? "bg-white" : "bg-white"
+            isContact ? "bg-red" : "bg-cream"
           }`}>
           <Link
             href="/"
-            className={`text-[0.7rem] font-medium uppercase tracking-[0.14em] whitespace-nowrap ${
-              isContact || isOpen ? "text-[#000000]" : "text-[#c2090a]"
+            className={`text-[0.7rem] font-bold uppercase tracking-[0.14em] whitespace-nowrap ${
+              isContact ? "text-white" : "text-red"
             }`}>
             Uyen Dao Studio
           </Link>
-
-          {/* Desktop pill */}
-          <div className="hidden md:flex items-center gap-0.5 px-1.5 py-1.5">
+          {/* Desktop nav links — far right */}
+          <div className="hidden md:flex items-center gap-0.5">
             {navLinks.map((link) => (
               <SplitTextLink
                 key={link.href}
                 href={link.href}
-                className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#c2090a] transition-colors duration-200 hover:bg-white/10">
+                className={`rounded-lg uppercase px-4 py-2 text-[0.65rem] transition-colors duration-200 ${
+                  isContact ? "text-white" : "text-red"
+                }`}>
                 {link.label}
               </SplitTextLink>
             ))}
-            <span className="h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
             <SplitTextLink
-              href="/#contact"
-              className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#c2090a] font-medium whitespace-nowrap transition-colors duration-200 hover:opacity-90">
-              Contact
+              href="/contact"
+              className={`rounded-lg uppercase px-4 py-2 text-[0.65rem] font-medium whitespace-nowrap transition-colors duration-200 hover:opacity-70 ${
+                isContact ? "text-white" : "text-red"
+              }`}>
+              Inquire
             </SplitTextLink>
           </div>
-
-          {hamburger(isContact || isOpen ? "bg-[#EDEDDD]" : "bg-[#c2090a]")}
+          {/* Mobile hamburger only */}
+          <div className="md:hidden">
+            {hamburger(isContact ? "bg-cream" : "bg-red")}
+          </div>
         </nav>
       )}
 
-      {/* ── HOME: floating pill ── */}
+      {/* ── HOME mobile: top bar (mirrors non-home style) ── */}
       {isHome && (
-        <nav className="fixed bottom-18 left-0 right-0 z-50 flex justify-center pointer-events-none">
+        <nav className="md:hidden bg-[#f7f7f7] fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 ">
+          <Link
+            href="/"
+            className="text-[0.7rem] font-bold uppercase tracking-[0.14em] whitespace-nowrap text-red">
+            Uyen Dao Studio
+          </Link>
+          {hamburger("bg-red")}
+        </nav>
+      )}
+
+      {/* ── HOME desktop: floating pill ── */}
+      {isHome && (
+        <nav className="hidden md:flex fixed bottom-5 left-0 right-0 z-50 justify-center pointer-events-none">
           <div
-            className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-[rgba(119,22,5,0.15)] px-1.5 py-1.5 bg-[#c2090a] backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
+            className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-red/15 px-1.5 py-1.5 bg-red backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
               !pastHero || nearFooter
                 ? "opacity-0 -translate-y-2 pointer-events-none"
                 : "opacity-100 translate-y-0"
@@ -128,75 +144,50 @@ const Navbar = () => {
               Uyen Dao
             </Link>
 
-            <span className="hidden md:block h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
+            <span className="h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
 
-            <div className="hidden md:flex items-center gap-0.5">
+            <div className="flex items-center gap-0.5">
               {navLinks.map((link) => (
                 <SplitTextLink
                   key={link.href}
-                  href={link.href}
+                  href={link.href === "/#process" ? "#process" : link.href}
                   className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#ffffff] transition-colors duration-200 hover:bg-white/10">
                   {link.label}
                 </SplitTextLink>
               ))}
             </div>
 
-            <span className="hidden md:block h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
+            <span className="h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
 
             <SplitTextLink
-              href="/#contact"
-              className="hidden md:block rounded-lg uppercase px-4 py-2 text-[0.65rem] font-medium whitespace-nowrap bg-white text-[#c2090a] transition-colors duration-200 hover:opacity-90">
+              href="/contact"
+              className="rounded-lg uppercase px-4 py-2 text-[0.65rem] font-medium whitespace-nowrap bg-cream text-red transition-colors duration-200 hover:opacity-90">
               Inquire
             </SplitTextLink>
-
-            {hamburger("bg-[#EDEDDD]")}
           </div>
         </nav>
       )}
 
       {/* Mobile fullscreen menu */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col md:hidden bg-white transition-[opacity,visibility] duration-300 ${
+        className={`fixed inset-0 z-40 flex flex-col md:hidden bg-cream transition-[opacity,visibility] duration-300 ${
           isOpen
             ? "opacity-100 visible"
             : "pointer-events-none opacity-0 invisible"
         }`}>
-        {/* Top bar */}
-        <div className="flex items-center justify-between px-6 py-4">
-          <Link
-            href="/"
-            onClick={() => setIsOpen(false)}
-            className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[#c2090a]">
-            Uyen Dao
-          </Link>
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[#c2090a]">
-            Close
-          </button>
-        </div>
-
         {/* Nav links */}
         <div className="flex-1 flex flex-col justify-center px-6 -mt-8">
           {mobileMenuLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={
+                link.href === "/#process" && isHome ? "#process" : link.href
+              }
               onClick={() => setIsOpen(false)}
-              className="font-[#c2090a] uppercase leading-[0.9] text-[clamp(2.8rem,15vw,5.5rem)] text-[#c2090a] transition-opacity duration-200 hover:opacity-30">
+              className="uppercase leading-[0.9] text-[clamp(2.8rem,15vw,5.5rem)] text-red transition-opacity duration-200 hover:opacity-30">
               {link.label}
             </Link>
           ))}
-        </div>
-
-        {/* Footer info */}
-        <div className="px-6 pb-8">
-          <div className="grid grid-cols-2 gap-y-1 pb-5 border-b border-[#c2090a]/10 text-[0.65rem] text-[#c2090a]/60 leading-[1.9]">
-            <span>@uyendaostudio</span>
-            <span>hello@uyendaostudio.com</span>
-            <span>Ho Chi Minh City</span>
-          </div>
         </div>
       </div>
     </>

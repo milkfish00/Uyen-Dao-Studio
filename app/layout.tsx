@@ -4,7 +4,6 @@ import { Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import Navbar from "./components/ui/Navbar";
-import Footer from "./components/ui/Footer";
 import RevealOnScroll from "./components/ui/RevealOnScroll";
 
 const bdGrotesk = localFont({

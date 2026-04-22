@@ -2,10 +2,9 @@
 
 @theme {
   --color-ink: #000000;
-  --color-cream: #ffffff;
-  --color-ecru: #ffffff;
-  --color-accent: #000000;
-  --color-red: #000000;
+  --color-cream: #f7f7f7; /* off-white background — change here to update site-wide */
+  --color-ecru: #f7f7f7;
+  --color-red: #8c0014;
   --font-family-serif: var(--font-bd), sans-serif;
   --spacing-112: 28rem;
   --width-232: 58rem;
@@ -110,157 +109,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  background: #ffffff;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Thin.otf") format("opentype");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-ThinItalic.otf") format("opentype");
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Extralight.otf") format("opentype");
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-ExtralightItalic.otf") format("opentype");
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-LightItalic.otf") format("opentype");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Italic.otf") format("opentype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-MediumItalic.otf") format("opentype");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Semibold.otf") format("opentype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-SemiboldItalic.otf") format("opentype");
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-BoldItalic.otf") format("opentype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Extrabold.otf") format("opentype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-ExtraboldItalic.otf") format("opentype");
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-Black.otf") format("opentype");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Switzer";
-  src: url("/fonts/Switzer/Switzer-BlackItalic.otf") format("opentype");
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-html {
   font-family: var(--font-bd), sans-serif;
   color: #000000;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -280,6 +131,13 @@ body {
   object-fit: cover;
   visibility: hidden;
   opacity: 0;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .service-cursor-img {
+    display: block;
+  }
 }
 
 /* ── Services section ── */
@@ -301,10 +159,6 @@ body {
   font-size: clamp(3rem, 8vw, 6.5rem);
   text-transform: uppercase;
   display: inline;
-}
-
-#services li:last-child {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 #services .header-label {
@@ -335,31 +189,4 @@ body {
   border: 0.5px solid;
   padding: 0.35em 1em;
   border-radius: 999px;
-}
-
-.contact-input {
-  background: transparent;
-  border: none;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
-  padding: 12px 0;
-  font-size: 15px;
-  color: #ffffff;
-  outline: none;
-  font-family: inherit;
-  transition: border-color 0.3s;
-}
-
-.contact-input:focus {
-  border-bottom-color: rgba(236, 237, 221, 0.5);
-}
-
-.contact-input::placeholder {
-  color: rgba(236, 237, 221, 0.2);
-}
-
-.contact-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(236, 237, 221, 0.3);
 }
