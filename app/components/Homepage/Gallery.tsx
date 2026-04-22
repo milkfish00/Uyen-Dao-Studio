@@ -126,7 +126,7 @@ const Gallery = () => {
       </div>
 
       {/* Exhibition grid — scrolls over the sticky heading */}
-      <div className="relative z-10 ">
+      <div className="relative z-10 bg-cream">
         {works.map((w, i) => (
           <div key={w.title} className="px-[5vw] py-16 md:py-24">
             {/* ── Layout A (even): primary board left, hero + secondary board right stacked */}

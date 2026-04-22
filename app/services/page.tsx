@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -54,7 +53,6 @@ const SERVICES = [
 ];
 
 export default function ServicesPage() {
-  const searchParams = useSearchParams();
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
   const headerRef = useRef<HTMLDivElement>(null);
   const serviceTitleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
@@ -115,7 +113,7 @@ export default function ServicesPage() {
       }
     };
     setTimeout(tryScroll, 150);
-  }, [searchParams]);
+  }, []);
 
   return (
     <main className="min-h-screen bg-cream">
