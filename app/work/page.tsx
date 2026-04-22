@@ -1,194 +1,199 @@
 "use client";
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-type Project = {
-  slug: string;
-  title: string;
-  description: string;
-  categories: string[];
-  year: string;
-  thumbnail: string;
-};
+const PICSUM = "https://picsum.photos/seed/";
 
-const projects: Project[] = [
+const BASE = [
   {
-    slug: "lorem-ipsum",
+    idx: 1,
     title: "Lorem Ipsum",
-    description:
-      "Helping a busy airport to embrace and express the difference.",
-    categories: ["Brand Identity", "Strategy"],
-    year: "2024",
-    thumbnail:
-      "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
+    slug: "lorem-ipsum",
+    image: `${PICSUM}p1/480/720`,
   },
   {
-    slug: "dolor-sit",
+    idx: 2,
     title: "Dolor Sit",
-    description:
-      "Creating a retail environment destination with three floors of fashion retail.",
-    categories: ["Retail"],
-    year: "2024",
-    thumbnail:
-      "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
+    slug: "dolor-sit",
+    image: `${PICSUM}p2/480/720`,
   },
   {
-    slug: "amet-consect",
-    title: "Amet Consect",
-    description: "Building a world-class destination from the inside up.",
-    categories: ["Hospitality", "Identity"],
-    year: "2024",
-    thumbnail:
-      "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=800",
+    idx: 3,
+    title: "Amet Consec",
+    slug: "amet-consec",
+    image: `${PICSUM}p3/480/720`,
   },
   {
-    slug: "adipiscing",
+    idx: 4,
     title: "Adipiscing Elit",
-    description: "Shaping the next chapter of the great British shoe store.",
-    categories: ["Retail"],
-    year: "2023",
-    thumbnail:
-      "https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg?auto=compress&cs=tinysrgb&w=800",
+    slug: "adipiscing-elit",
+    image: `${PICSUM}p4/480/720`,
   },
   {
-    slug: "sed-do",
-    title: "Sed Do Eiusmod",
-    description: "Reframing an ancient ritual for modern life.",
-    categories: ["Brand Identity", "Art Direction"],
-    year: "2023",
-    thumbnail: "https://assets.codepen.io/16327/portrait-image-1.jpg",
+    idx: 5,
+    title: "Consectetur",
+    slug: "consectetur",
+    image: `${PICSUM}p5/480/720`,
   },
   {
-    slug: "tempor",
-    title: "Incididunt Tempor",
-    description:
-      "Refreshing a brand to put a smile at the heart of everything they do.",
-    categories: ["Hospitality"],
-    year: "2023",
-    thumbnail: "https://assets.codepen.io/16327/portrait-image-2.jpg",
-  },
-  {
-    slug: "ut-labore",
-    title: "Ut Labore",
-    description: "Creating the original bad-boy bolthole.",
-    categories: ["Hospitality"],
-    year: "2022",
-    thumbnail: "https://assets.codepen.io/16327/portrait-image-3.jpg",
-  },
-  {
-    slug: "dolore-magna",
-    title: "Dolore Magna",
-    description: "Redefining office space with a design-led approach.",
-    categories: ["Workplace"],
-    year: "2022",
-    thumbnail: "https://assets.codepen.io/16327/portrait-image-4.jpg",
-  },
-  {
-    slug: "enim-ad",
-    title: "Enim Ad Minim",
-    description:
-      "Bringing gender stereotypes with an immersive retail wonderland.",
-    categories: ["Retail", "Brand Identity"],
-    year: "2022",
-    thumbnail: "https://assets.codepen.io/16327/portrait-image-5.jpg",
+    idx: 6,
+    title: "Sed Euismod",
+    slug: "sed-euismod",
+    image: `${PICSUM}p6/480/720`,
   },
 ];
 
-const allCategories = [
-  "All",
-  "Retail",
-  "Brand Identity",
-  "Hospitality",
-  "Workplace",
-  "Art Direction",
-  "Identity",
-];
+// Triple for infinite loop
+const ITEMS = [...BASE, ...BASE, ...BASE];
+const N = BASE.length;
 
 export default function WorkPage() {
-  const [active, setActive] = useState("All");
+  const [ready, setReady] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const jumping = useRef(false);
 
-  const filtered =
-    active === "All"
-      ? projects
-      : projects.filter((p) => p.categories.includes(active));
+  // Which BASE index is centered — derived from scroll position
+  const [centerIdx, setCenterIdx] = useState(0);
+
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Jump to middle copy on mount — center item N in viewport
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    // Double rAF so layout (flex sizing) is fully settled
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const items = track.querySelectorAll<HTMLElement>(".card-wrap");
+        const target = items[N];
+        if (target) {
+          track.scrollLeft =
+            target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2;
+        }
+      });
+    });
+  }, []);
+
+  // Remap vertical → horizontal + infinite loop (from original)
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      // Use horizontal delta if available (trackpad), else vertical
+      const delta = Math.abs(e.deltaX) > 2 ? e.deltaX : e.deltaY;
+      track.scrollLeft += delta;
+    };
+
+    const onScroll = () => {
+      if (jumping.current) return;
+      const { scrollLeft, scrollWidth } = track;
+      const third = scrollWidth / 3;
+      if (scrollLeft >= third * 2) {
+        jumping.current = true;
+        track.scrollLeft = scrollLeft - third;
+        jumping.current = false;
+      } else if (scrollLeft <= 0) {
+        jumping.current = true;
+        track.scrollLeft = scrollLeft + third;
+        jumping.current = false;
+      }
+
+      // Find which item centre is closest to the viewport centre
+      const viewCenter = track.scrollLeft + track.clientWidth / 2;
+      const items = track.querySelectorAll<HTMLElement>(".card-wrap");
+      let closest = 0,
+        minDist = Infinity;
+      items.forEach((el, i) => {
+        const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - viewCenter);
+        if (d < minDist) {
+          minDist = d;
+          closest = i % N;
+        }
+      });
+      setCenterIdx(closest);
+    };
+
+    track.addEventListener("wheel", onWheel, { passive: false });
+    track.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      track.removeEventListener("wheel", onWheel);
+      track.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   return (
-    <main className="min-h-screen bg-[#EDEDDD]">
-      {/* ── Hero heading ── */}
-      <section className="px-6 pt-40 pb-10 sm:px-10 lg:px-16 text-center">
-        <h1
-          className="font-bold leading-tight tracking-tight"
-          style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)", color: "#771605" }}>
-          The Work
-        </h1>
-      </section>
-
-      {/* ── Filter bar ── */}
-      <section className="px-6 sm:px-10 lg:px-16 py-8">
-        <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
-          {allCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className="text-[0.65rem] font-medium uppercase tracking-[0.18em] transition-opacity duration-200 hover:opacity-100"
-              style={{
-                color: cat === active ? "#771605" : "rgba(119,22,5,0.35)",
-              }}>
-              {cat}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* ── 3-column grid ── */}
-      <section className="px-6 sm:px-10 lg:px-16 py-30">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16">
-          {filtered.map((p) => (
-            <Link key={p.slug} href={`/work/${p.slug}`} className="group block">
-              {/* Image */}
-              <div
-                className="relative w-full overflow-hidden"
-                style={{ aspectRatio: "4/3" }}>
-                {/* Category tags */}
-                <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5">
-                  {p.categories.map((c) => (
-                    <span
-                      key={c}
-                      className="px-2 py-0.5 text-[0.55rem] rounded-sm font-medium uppercase tracking-[0.14em]"
-                      style={{
-                        background: "rgba(255,255,255,0.90)",
-                        color: "#771605",
-                      }}>
-                      {c}
-                    </span>
-                  ))}
+    <main className="h-screen w-screen overflow-hidden flex flex-col bg-white select-none">
+      {/* Scrollable track */}
+      <div
+        ref={trackRef}
+        className="scrollbar-hide flex-1 overflow-x-auto overflow-y-hidden cursor-grab">
+        <div className="flex items-center h-full min-w-max gap-[5vw] px-[28vw]">
+          {ITEMS.map((p, i) => {
+            const baseI = i % N;
+            const isCenter = baseI === centerIdx;
+            return (
+              <Link
+                key={i}
+                href={`/work/${p.slug}`}
+                className={`card-wrap${isCenter ? " is-center" : ""} relative shrink-0 block overflow-hidden self-center${!isCenter ? " grayscale-[0.3] brightness-[0.82]" : ""}`}
+                draggable={false}
+                style={{
+                  width: isCenter
+                    ? "clamp(320px, 38vw, 600px)"
+                    : "clamp(240px, 32vw, 520px)",
+                  height: isCenter
+                    ? "clamp(500px, 92vh, 960px)"
+                    : "clamp(320px, 74vh, 740px)",
+                  transition:
+                    "width 0.5s cubic-bezier(0.16,1,0.3,1), height 0.5s cubic-bezier(0.16,1,0.3,1)",
+                }}>
+                {/* Image clip + reveal */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <img
+                    src={p.image}
+                    alt={p.title}
+                    className="absolute inset-0 w-full h-full object-cover img-reveal"
+                    draggable={false}
+                    style={{ animationDelay: `${(i % N) * 0.08}s` }}
+                  />
                 </div>
-                <img
-                  src={p.thumbnail}
-                  alt={p.title}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </div>
-              {/* Caption */}
-              <div className="mt-4">
-                <p
-                  className="font-semibold tracking-tight"
-                  style={{
-                    fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
-                    color: "#771605",
-                  }}>
-                  {p.title}
-                </p>
-                <p
-                  className="mt-2 leading-snug"
-                  style={{ fontSize: "0.78rem", color: "rgba(119,22,5,0.50)" }}>
-                  {p.description}
-                </p>
-              </div>
-            </Link>
-          ))}
+
+                {/* Hover overlay — title + index */}
+                <div className="hover-layer absolute inset-0 flex flex-col items-center justify-center">
+                  <h2 className="text-[clamp(1.4rem,3.5vw,5rem)]  text-[#c2090a] mix-blend-difference uppercase whitespace-nowrap  relative tracking-[-0.05em] font-bold  leading-none">
+                    {p.title}
+                    <span className="absolute top-[-0.3em] right-[-0.3em] text-[0.6em] font-bold">
+                      ✳
+                    </span>
+                  </h2>
+                </div>
+
+                {/* Index bottom-left on hover */}
+                <div className="hover-layer absolute bottom-4 left-4">
+                  <p className="text-[0.5rem] tracking-[0.2em] uppercase text-white/55">
+                    {String(p.idx).padStart(2, "0")}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
-      </section>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-10 py-6 pointer-events-none">
+        <p className="text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a]/38">
+          Selected Work
+        </p>
+        <p className="text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a]/38">
+          ({String(centerIdx + 1).padStart(2, "0")}/{N}) Projects
+        </p>
+      </div>
     </main>
   );
 }

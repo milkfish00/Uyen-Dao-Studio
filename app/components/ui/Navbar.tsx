@@ -5,17 +5,17 @@ import { usePathname } from "next/navigation";
 import SplitTextLink from "./SplitTextLink";
 
 const navLinks = [
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
   { label: "Process", href: "/process" },
 ];
 
 const mobileMenuLinks = [
   { label: "Index", href: "/" },
-  { label: "Services", href: "/process" },
+  { label: "Services", href: "/#process" },
   { label: "Our Work", href: "/work" },
-  { label: "About", href: "/#about" },
-  { label: "Contact", href: "/contact" },
+  { label: "About", href: "/about" },
+  { label: "Inquire", href: "/contact" },
 ];
 
 const Navbar = () => {
@@ -25,6 +25,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isContact = pathname === "/contact";
+  const isProjectPage = /^\/work\/.+/.test(pathname);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -53,78 +54,62 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", check);
   }, [isHome]);
 
+  const hamburger = (bgClass: string) => (
+    <button
+      type="button"
+      aria-expanded={isOpen}
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      onClick={() => setIsOpen((o) => !o)}
+      className="md:hidden flex h-8 w-8 flex-col items-center justify-center gap-2">
+      {[
+        isOpen ? "translate-y-[5px] rotate-45" : "",
+        isOpen ? "-translate-y-[5px] -rotate-45" : "",
+      ].map((cls, i) => (
+        <span
+          key={i}
+          className={`block h-px w-6 origin-center transition-all duration-300 ease-in-out ${bgClass} ${cls}`}
+        />
+      ))}
+    </button>
+  );
+
+  if (isProjectPage) return null;
+
   return (
     <>
-      {/* ── NON-HOME: classic top bar ── */}
+      {/* ── NON-HOME: top bar ── */}
       {!isHome && (
         <nav
-          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-4 backdrop-blur-sm"
-          style={{
-            backgroundColor: isContact
-              ? "#771605"
-              : isOpen
-                ? "rgba(119,22,5,0.95)"
-                : "rgba(255,255,255,0.9)",
-          }}>
+          className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-4 backdrop-blur-sm ${
+            isContact ? "bg-[#c2090a]" : isOpen ? "bg-white" : "bg-white"
+          }`}>
           <Link
             href="/"
-            className="text-[0.72rem] font-medium uppercase tracking-[0.14em] whitespace-nowrap"
-            style={{ color: isContact || isOpen ? "#ECEDDD" : "#771605" }}>
+            className={`text-[0.7rem] font-medium uppercase tracking-[0.14em] whitespace-nowrap ${
+              isContact || isOpen ? "text-[#000000]" : "text-[#c2090a]"
+            }`}>
             Uyen Dao Studio
           </Link>
 
-          <div
-            className="hidden md:flex items-center gap-0.5 rounded-lg border px-1.5 py-1.5 backdrop-blur-2xl"
-            style={{
-              borderColor: isContact
-                ? "rgba(255,255,255,0.15)"
-                : "rgba(119,22,5,0.10)",
-              backgroundColor: isContact
-                ? "rgba(0,0,0,0.25)"
-                : "rgba(119,22,5,0.82)",
-            }}>
+          {/* Desktop pill */}
+          <div className="hidden md:flex items-center gap-0.5 px-1.5 py-1.5">
             {navLinks.map((link) => (
               <SplitTextLink
                 key={link.href}
                 href={link.href}
-                className="rounded-lg uppercase px-4 py-2 text-[0.68rem] text-[#ECEDDD]/70 hover:text-[#ECEDDD] hover:bg-[#ECEDDD]/5 transition-colors duration-200">
+                className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#c2090a] transition-colors duration-200 hover:bg-white/10">
                 {link.label}
               </SplitTextLink>
             ))}
-            <span className="h-4 w-px bg-[#ECEDDD]/10 mx-0.5" />
+            <span className="h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
             <SplitTextLink
-              href="/contact"
-              className="uppercase rounded-lg px-4 py-2 text-[0.68rem] font-medium transition-colors duration-200 whitespace-nowrap bg-[#ECEDDD] text-[#771605] hover:bg-[#771605] hover:text-[#ECEDDD]">
-              Inquire →
+              href="/#contact"
+              className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#c2090a] font-medium whitespace-nowrap transition-colors duration-200 hover:opacity-90">
+              Contact
             </SplitTextLink>
           </div>
 
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            aria-expanded={isOpen}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            onClick={() => setIsOpen((o) => !o)}
-            className="md:hidden flex h-8 w-8 flex-col items-center justify-center gap-1.25 rounded-full transition-colors duration-200">
-            <span
-              className={`block h-[1.5px] w-4 origin-center transition-all duration-300 ease-in-out ${isOpen ? "translate-y-[6.5px] rotate-45" : ""}`}
-              style={{
-                backgroundColor: isContact || isOpen ? "#ECEDDD" : "#771605",
-              }}
-            />
-            <span
-              className={`block h-[1.5px] w-4 transition-all duration-300 ease-in-out ${isOpen ? "opacity-0 scale-x-0" : ""}`}
-              style={{
-                backgroundColor: isContact || isOpen ? "#ECEDDD" : "#771605",
-              }}
-            />
-            <span
-              className={`block h-[1.5px] w-4 origin-center transition-all duration-300 ease-in-out ${isOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`}
-              style={{
-                backgroundColor: isContact || isOpen ? "#ECEDDD" : "#771605",
-              }}
-            />
-          </button>
+          {hamburger(isContact || isOpen ? "bg-[#EDEDDD]" : "bg-[#c2090a]")}
         </nav>
       )}
 
@@ -132,98 +117,86 @@ const Navbar = () => {
       {isHome && (
         <nav className="fixed bottom-18 left-0 right-0 z-50 flex justify-center pointer-events-none">
           <div
-            className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border px-1.5 py-1.5 backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
+            className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-[rgba(119,22,5,0.15)] px-1.5 py-1.5 bg-[#c2090a] backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
               !pastHero || nearFooter
                 ? "opacity-0 -translate-y-2 pointer-events-none"
                 : "opacity-100 translate-y-0"
-            }`}
-            style={{
-              borderColor: "rgba(255,255,255,0.08)",
-              backgroundColor: "rgba(119,22,5,.9)",
-            }}>
-            {/* Logo */}
+            }`}>
             <Link
               href="/"
-              className="rounded-lg px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.14em] text-[#ECEDDD] hover:bg-[#771605]/5 transition-colors duration-200 whitespace-nowrap">
-              Uyen Dao Studio
+              className="rounded-lg px-4 py-2 text-[0.65rem] font-medium uppercase tracking-[0.14em] text-[#ffffff] transition-colors duration-200 hover:bg-white/10 whitespace-nowrap">
+              Uyen Dao
             </Link>
 
-            {/* Divider */}
-            <span className="hidden md:block h-4 w-px bg-[#ECEDDD]/10 mx-0.5" />
+            <span className="hidden md:block h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
 
-            {/* Desktop nav links */}
             <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map((link) => (
                 <SplitTextLink
                   key={link.href}
                   href={link.href}
-                  className="rounded-lg uppercase px-4 py-2 text-[0.68rem] text-[#ECEDDD] hover:text-[#ECEDDD] hover:bg-[#ECEDDD]/5 transition-colors duration-200">
+                  className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#ffffff] transition-colors duration-200 hover:bg-white/10">
                   {link.label}
                 </SplitTextLink>
               ))}
             </div>
 
-            {/* Divider */}
-            <span className="hidden md:block h-4 w-px bg-[#ECEDDD]/10 mx-0.5" />
+            <span className="hidden md:block h-4 w-px mx-0.5 bg-[#EDEDDD]/10" />
 
-            {/* Desktop contact */}
             <SplitTextLink
-              href="/contact"
-              className="hidden md:block uppercase rounded-lg px-4 py-2 text-[0.68rem] font-medium transition-colors duration-200 whitespace-nowrap bg-[#ECEDDD] text-[#771605] hover:bg-[#771605] hover:text-[#ECEDDD]">
-              Inquire →
+              href="/#contact"
+              className="hidden md:block rounded-lg uppercase px-4 py-2 text-[0.65rem] font-medium whitespace-nowrap bg-white text-[#c2090a] transition-colors duration-200 hover:opacity-90">
+              Inquire
             </SplitTextLink>
 
-            {/* Mobile hamburger */}
-            <button
-              type="button"
-              aria-expanded={isOpen}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              onClick={() => setIsOpen((o) => !o)}
-              className="md:hidden flex h-8 w-8 flex-col items-center justify-center gap-1.25 rounded-full hover:bg-[#ECEDDD]/10 transition-colors duration-200">
-              <span
-                className={`block h-[1.5px] w-4 bg-[#ECEDDD] origin-center transition-all duration-300 ease-in-out ${isOpen ? "translate-y-[6.5px] rotate-45" : ""}`}
-              />
-              <span
-                className={`block h-[1.5px] w-4 bg-[#ECEDDD] transition-all duration-300 ease-in-out ${isOpen ? "opacity-0 scale-x-0" : ""}`}
-              />
-              <span
-                className={`block h-[1.5px] w-4 bg-[#ECEDDD] origin-center transition-all duration-300 ease-in-out ${isOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`}
-              />
-            </button>
+            {hamburger("bg-[#EDEDDD]")}
           </div>
         </nav>
       )}
 
       {/* Mobile fullscreen menu */}
       <div
-        className={`fixed inset-0 z-40 bg-[#771605] flex flex-col md:hidden transition-[opacity,visibility] duration-300 ${
+        className={`fixed inset-0 z-40 flex flex-col md:hidden bg-white transition-[opacity,visibility] duration-300 ${
           isOpen
             ? "opacity-100 visible"
             : "pointer-events-none opacity-0 invisible"
         }`}>
-        {/* Nav links */}
-        <div className="flex-1 flex flex-col items-center justify-center -mt-8">
-          {mobileMenuLinks.slice(0, 3).map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="font-black uppercase leading-[0.88] text-[#ECEDDD] hover:text-[#ECEDDD]/50 transition-colors"
-              style={{ fontSize: "clamp(2.8rem, 15vw, 6rem)" }}>
-              {link.label}
-            </Link>
-          ))}
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-6 py-4">
+          <Link
+            href="/"
+            onClick={() => setIsOpen(false)}
+            className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[#c2090a]">
+            Uyen Dao
+          </Link>
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[#c2090a]">
+            Close
+          </button>
+        </div>
 
-          {mobileMenuLinks.slice(3).map((link) => (
+        {/* Nav links */}
+        <div className="flex-1 flex flex-col justify-center px-6 -mt-8">
+          {mobileMenuLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="font-black uppercase leading-[0.88] text-[#ECEDDD] hover:text-[#ECEDDD]/50 transition-colors"
-              style={{ fontSize: "clamp(2.8rem, 15vw, 6rem)" }}>
+              className="font-[#c2090a] uppercase leading-[0.9] text-[clamp(2.8rem,15vw,5.5rem)] text-[#c2090a] transition-opacity duration-200 hover:opacity-30">
               {link.label}
             </Link>
           ))}
+        </div>
+
+        {/* Footer info */}
+        <div className="px-6 pb-8">
+          <div className="grid grid-cols-2 gap-y-1 pb-5 border-b border-[#c2090a]/10 text-[0.65rem] text-[#c2090a]/60 leading-[1.9]">
+            <span>@uyendaostudio</span>
+            <span>hello@uyendaostudio.com</span>
+            <span>Ho Chi Minh City</span>
+          </div>
         </div>
       </div>
     </>

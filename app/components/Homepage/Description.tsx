@@ -7,26 +7,56 @@ import { SplitText } from "gsap/SplitText";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const Description = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
   const paraRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    const label = labelRef.current;
     const el = paraRef.current;
-    if (!el) return;
+    if (!section || !label || !el) return;
 
-    const split = new SplitText(el, { type: "words" });
+    gsap.set(label, { opacity: 0 });
+    gsap.set(el, { opacity: 0 });
 
-    gsap.from(split.words, {
-      opacity: 0,
-      y: 24,
-      duration: 0.6,
-      ease: "power3.out",
-      stagger: 0.04,
+    const split = new SplitText(el, {
+      type: "lines",
+      linesClass: "split-line",
+    });
+
+    // Wrap each line in an overflow-hidden div for the clip reveal
+    split.lines.forEach((line) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.overflow = "hidden";
+      line.parentNode?.insertBefore(wrapper, line);
+      wrapper.appendChild(line);
+    });
+
+    gsap.set(split.lines, { y: "100%" });
+
+    const tl = gsap.timeline({
+      defaults: { ease: "none" },
       scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
+        trigger: section,
+        start: "top 75%",
         toggleActions: "play none none none",
       },
     });
+
+    tl.to(label, { opacity: 0.7, duration: 0.4 })
+      .to(el, { opacity: 1, duration: 0 }, "<")
+      .to(
+        split.lines,
+        {
+          y: 0,
+          ease: "sine.out",
+          transformOrigin: "top",
+          stagger: 0.1,
+          duration: 1.2,
+        },
+        "<0.4",
+      );
 
     return () => {
       split.revert();
@@ -35,26 +65,15 @@ const Description = () => {
   }, []);
 
   return (
-    <section className="px-6 sm:px-10 lg:px-16 py-24 lg:py-36">
+    <section ref={sectionRef} className="px-6 sm:px-10 lg:px-16 py-40 lg:py-56">
       <div className="max-w-7xl mx-auto">
         {/* Top row: label + paragraph */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "40px",
-            marginBottom: "64px",
-          }}
-          className="lg:grid-cols-[200px_1fr] lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-10 lg:gap-16 mb-16">
           {/* Label */}
-          <div style={{ paddingTop: "6px" }}>
+          <div className="pt-1.5">
             <span
-              style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(119,22,5,0.4)",
-              }}>
+              ref={labelRef}
+              className="text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a]/40">
               + Our Focus
             </span>
           </div>
@@ -62,14 +81,7 @@ const Description = () => {
           {/* Main paragraph */}
           <p
             ref={paraRef}
-            style={{
-              fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)",
-              fontWeight: 500,
-              lineHeight: 1.15,
-              letterSpacing: "-0.02em",
-              color: "#771605",
-              margin: 0,
-            }}>
+            className="text-[clamp(1.6rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#c2090a]  m-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
             suscipit massa ut lectus consectetur pulvinar. Nulla aliquet
             vulputate magna vel viverra. Morbi vel nisi euismod, molestie est

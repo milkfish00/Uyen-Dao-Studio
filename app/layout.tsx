@@ -1,21 +1,42 @@
 import type { Metadata } from "next";
-import { Castoro_Titling, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import RevealOnScroll from "./components/ui/RevealOnScroll";
 
-const castoro = Castoro_Titling({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-castoro",
+const bdGrotesk = localFont({
+  src: [
+    {
+      path: "../public/fonts/BD/BDOGrotesk-Light-BF648a656f46f93.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/BD/BDOGrotesk-Regular-BF648a656f74a27.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/BD/BDOGrotesk-Medium-BF648a656f49882.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/BD/BDOGrotesk-Bold-BF648a656f312c4.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-bd",
   display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -30,8 +51,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${castoro.variable} ${jetbrains.variable}`}>
-      <body className="antialiased" style={{ color: "#771605" }}>
+    <html lang="en" className={`${bdGrotesk.variable} ${geistMono.variable}`}>
+      <body className="antialiased text-ink">
         <RevealOnScroll />
 
         <div className="relative z-10 min-h-screen">

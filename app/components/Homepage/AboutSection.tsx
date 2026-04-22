@@ -1,169 +1,92 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const EMAIL = "hello@uyendaostudio.com";
-
-const photos = [
-  {
-    url: "https://images.pexels.com/photos/3727464/pexels-photo-3727464.jpeg?auto=compress&cs=tinysrgb&w=900",
-    caption: "Studio Life",
-  },
-  {
-    url: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=900",
-    caption: "Creative Process",
-  },
-  {
-    url: "https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=900",
-    caption: "The Atelier",
-  },
-];
+gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutSection() {
-  const [current, setCurrent] = useState(0);
-  const [copied, setCopied] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(EMAIL).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  useEffect(() => {
+    const image = imageRef.current;
+    const text = textRef.current;
+    if (!image || !text) return;
+
+    gsap.set(image, { opacity: 0, y: 56 });
+    gsap.set(text, { opacity: 0, y: 36 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: image,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
     });
-  };
+
+    tl.to(image, { opacity: 1, y: 0, duration: 1.3, ease: "power3.out" }).to(
+      text,
+      { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+      "<0.3",
+    );
+
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="about"
-      style={{ background: "#EDEDDD", color: "#771605" }}
-      className="px-6 sm:px-10 lg:px-16 py-28 lg:py-40">
-      <div className="max-w-6xl mx-auto">
-        {/* Label */}
-        <div style={{ marginBottom: "56px" }}>
-          <span
-            style={{
-              fontSize: "0.65rem",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "rgba(119,22,5,0.35)",
-              border: "0.5px solid rgba(119,22,5,0.15)",
-              padding: "0.35em 1em",
-              borderRadius: "999px",
-            }}>
-            About
-          </span>
+      className="relative bg-[#000000] min-h-[200vh]">
+      {/* Brand name — sticky, pinned behind scroll content */}
+      <div className="sticky top-0 h-screen z-0 flex flex-col items-center justify-center overflow-hidden pointer-events-none select-none">
+        <p
+          className="font-bold uppercase text-white text-center leading-[0.88] tracking-[-0.03em]"
+          style={{ fontSize: "clamp(5rem, 22vw, 16rem)" }}>
+          UYEN DAO
+        </p>
+      </div>
+
+      {/* Scroll content — image + text scroll over the brand name */}
+      <div className="relative z-10 -mt-[40vh] flex flex-col items-center pb-40">
+        <div
+          ref={imageRef}
+          className="relative bg-white shadow-[0_48px_120px_rgba(0,0,0,0.8)]"
+          style={{
+            padding: "clamp(8px, 1.5vw, 14px)",
+            paddingBottom: "clamp(40px, 8vw, 72px)",
+          }}>
+          {/* Washi tape */}
+          <div
+            className="absolute -top-5 left-1/2 -translate-x-1/2 z-10 w-20 h-7 bg-[#c9a97e]/55"
+            style={{ clipPath: "polygon(1% 8%, 99% 2%, 98% 92%, 2% 98%)" }}
+          />
+          <div className="relative w-[80vw] max-w-115 aspect-3/4 overflow-hidden">
+            <Image
+              src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=800"
+              alt="Uyen Dao Studio"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 80vw, 460px"
+              priority
+            />
+          </div>
         </div>
 
         <div
-          style={{ display: "grid", gridTemplateColumns: "1fr", gap: "48px" }}
-          className="lg:grid-cols-2 lg:gap-24 items-start">
-          {/* Photo */}
-          <div style={{ position: "relative", aspectRatio: "3/4" }}>
-            {photos.map((p, i) => (
-              <div
-                key={p.url}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  opacity: i === current ? 1 : 0,
-                  transition: "opacity 0.6s ease",
-                }}>
-                <Image
-                  src={p.url}
-                  alt={p.caption}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 90vw, 45vw"
-                  priority={i === 0}
-                />
-              </div>
-            ))}
-            <div
-              style={{
-                position: "absolute",
-                bottom: "16px",
-                left: "16px",
-                display: "flex",
-                gap: "8px",
-                zIndex: 1,
-              }}>
-              {photos.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  aria-label={`Photo ${i + 1}`}
-                  style={{
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background:
-                      i === current ? "#fff" : "rgba(255,255,255,0.45)",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: 0,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Text */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              minHeight: "400px",
-              paddingTop: "4px",
-            }}>
-            <div>
-              <h2
-                style={{
-                  fontSize: "clamp(2.8rem, 6vw, 5rem)",
-                  fontWeight: 300,
-                  letterSpacing: "-0.04em",
-                  lineHeight: 0.92,
-                  marginBottom: "32px",
-                }}>
-                Brand&nbsp;identity
-                <br />
-                <span style={{ color: "rgba(119,22,5,0.2)" }}>
-                  &amp;&nbsp;digital design.
-                </span>
-              </h2>
-              <p
-                style={{
-                  fontSize: "13px",
-                  lineHeight: 1.85,
-                  color: "rgba(119,22,5,0.45)",
-                  maxWidth: "38ch",
-                  marginBottom: "40px",
-                }}>
-                Independent studio focused on brand identity, visual
-                storytelling, and digital craft. Based between continents —
-                working globally.
-              </p>
-            </div>
-
-            <div
-              style={{
-                borderTop: "0.5px solid rgba(119,22,5,0.1)",
-                paddingTop: "24px",
-              }}>
-              <button
-                onClick={copyEmail}
-                style={{
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "rgba(119,22,5,0.4)",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: 0,
-                }}>
-                {copied ? "Copied!" : EMAIL}
-              </button>
-            </div>
-          </div>
+          ref={textRef}
+          className="mt-14 text-center space-y-5 max-w-sm px-8">
+          <p className="text-lg leading-[1.72] text-white/80 font-sans">
+            Hi, I&apos;m Uyen &ndash; a brand identity designer crafting
+            tailor-made visual systems for ambitious founders.
+          </p>
+          <p className="text-lg leading-[1.72] text-white/80 font-sans">
+            Ready to build something lasting? Reach out to start the
+            conversation.
+          </p>
         </div>
       </div>
     </section>

@@ -1,20 +1,19 @@
 import Hero from "./components/Homepage/Hero";
-import AboutSection from "./components/Homepage/AboutSection";
 import ServicesSection from "./components/Homepage/ServicesSection";
 import Description from "./components/Homepage/Description";
-import Gallery from "./components/Homepage/Gallery";
+import GalleryAbout from "./components/Homepage/GalleryAbout";
 import Process from "./components/Homepage/Process";
+import ContactPage from "./components/Homepage/Contact";
+import BigImage from "./components/Homepage/BigImage";
+import Gallery from "./components/Homepage/Gallery";
 
 export default function Home() {
   return (
-    <div
-      className="bg-[#EDEDDD]"
-      style={{ marginBottom: "var(--footer-height)" }}>
+    <div className="bg-cream">
       <Hero />
       <Description />
       <Gallery />
-      <Process />
-      <AboutSection />
+      <GalleryAbout />
       <ServicesSection />
     </div>
   );

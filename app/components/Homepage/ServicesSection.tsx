@@ -120,9 +120,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section
-      id="services"
-      className="relative bg-[#EDEDDD] text-[#771605] px-8 py-24">
+    <section id="services" className="relative bg-cream text-ink px-8 py-40">
       {/* Cursor-following images */}
       {services.map((s, i) => (
         <img
@@ -137,10 +135,9 @@ export default function ServicesSection() {
       ))}
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-12">
-        <span className="header-label">Our Services</span>
-        <span className="header-label text-[#771605]">
-          {services.length.toString().padStart(2, "0")} Disciplines
+      <div className="mb-8 flex items-center justify-center">
+        <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#c2090a]/38 ">
+          + Our Services
         </span>
       </div>
 
@@ -154,7 +151,7 @@ export default function ServicesSection() {
             }}
             className="w-full py-6 cursor-default select-none">
             <div className="flex items-baseline justify-center">
-              <h3 className="service-title">
+              <h3 className="text-center  uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold text-[#c2090a] leading-none">
                 {s.title}
                 <sup className="service-num">(0{i + 1})</sup>
               </h3>

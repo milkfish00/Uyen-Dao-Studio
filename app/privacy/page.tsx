@@ -1,14 +1,12 @@
 export default function PrivacyPage() {
   return (
     <main className="px-5 py-16 sm:px-8 lg:px-10">
-      <div className="mx-auto max-w-3xl   pt-10 text-black">
-        <p className="text-sm uppercase tracking-[0.16em] text-black/50">
-          Legal
-        </p>
+      <div className="mx-auto max-w-3xl   pt-10 text-ink">
+        <p className="text-sm uppercase tracking-[0.16em] text-ink/50">Legal</p>
         <h1 className="mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-[-0.05em]">
           Lorem Ipsum
         </h1>
-        <div className="mt-10 space-y-6 text-base leading-7 text-black/75">
+        <div className="mt-10 space-y-6 text-base leading-7 text-ink/75">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim
