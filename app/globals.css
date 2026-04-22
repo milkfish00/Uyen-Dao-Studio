@@ -112,11 +112,13 @@ html {
   font-family: var(--font-bd), sans-serif;
   color: #000000;
   scroll-behavior: smooth;
+  background-color: var(--color-cream);
 }
 
 body {
   margin: 0;
   color: #000000;
+  overflow-x: hidden;
 }
 
 /* ── Service cursor images: hidden until GSAP reveals ── */

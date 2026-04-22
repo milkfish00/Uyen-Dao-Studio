@@ -214,7 +214,7 @@ export default function IndividualProjectPage({
       <div
         ref={trackRef}
         className="scrollbar-hide w-full overflow-y-auto overflow-x-hidden lg:h-full lg:overflow-x-auto lg:overflow-y-hidden lg:cursor-grab">
-        <div className="flex flex-col lg:flex-row lg:h-full">
+        <div className="flex flex-col lg:flex-row lg:h-full lg:min-w-max">
           {/* ── P1: HERO ── */}
           <section className="w-full shrink-0 flex flex-col-reverse lg:flex-row lg:h-full">
             {/* Left: title + meta + 2-col desc */}

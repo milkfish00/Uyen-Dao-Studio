@@ -101,12 +101,19 @@ export default function WorkPage() {
   const jumping = useRef(false);
 
   const [centerIdx, setCenterIdx] = useState(0);
-  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [breakpoint, setBreakpoint] = useState<
+    "mobile" | "tablet" | "desktop" | null
+  >(null);
   const [filter, setFilter] = useState("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => {
+      const w = window.innerWidth;
+      if (w < 768) setBreakpoint("mobile");
+      else if (w < 1024) setBreakpoint("tablet");
+      else setBreakpoint("desktop");
+    };
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -115,6 +122,7 @@ export default function WorkPage() {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    if (breakpoint !== "desktop") return;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const items = track.querySelectorAll<HTMLElement>(".card-wrap");
@@ -125,11 +133,12 @@ export default function WorkPage() {
         }
       });
     });
-  }, [isMobile]);
+  }, [breakpoint]);
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    if (breakpoint !== "desktop") return;
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -171,7 +180,7 @@ export default function WorkPage() {
       track.removeEventListener("wheel", onWheel);
       track.removeEventListener("scroll", onScroll);
     };
-  }, [isMobile]);
+  }, [breakpoint]);
 
   useEffect(() => {
     const el = mobileHeadingRef.current;
@@ -193,7 +202,7 @@ export default function WorkPage() {
       });
     }, el);
     return () => ctx.revert();
-  }, [isMobile]);
+  }, [breakpoint]);
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -202,13 +211,13 @@ export default function WorkPage() {
     return () => document.removeEventListener("click", handler);
   }, [dropdownOpen]);
 
-  if (isMobile === null) return null;
+  if (breakpoint === null) return null;
 
   const filteredItems =
     filter === "All" ? BASE : BASE.filter((p) => p.category === filter);
 
   // ── Mobile ───────────────────────────────────────────────────────────────────
-  if (isMobile) {
+  if (breakpoint === "mobile") {
     return (
       <main className="min-h-screen w-screen bg-cream">
         <div className="px-5 pt-40 pb-6 flex flex-col gap-5">
@@ -299,6 +308,101 @@ export default function WorkPage() {
             Selected Work
           </p>
           <p className="text-[0.55rem] tracking-[0.2em] uppercase text-red/38">
+            ({String(filteredItems.length).padStart(2, "0")}/{N}) Projects
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  // ── Tablet ───────────────────────────────────────────────────────────────────
+  if (breakpoint === "tablet") {
+    return (
+      <main className="min-h-screen w-screen bg-cream">
+        <div className="px-8 pt-40 pb-8 flex items-end justify-between">
+          <h1
+            ref={mobileHeadingRef}
+            className="text-[clamp(2.8rem,7vw,5rem)] font-bold tracking-[-0.05em] uppercase leading-[0.88] text-red">
+            <div className="flex flex-wrap gap-x-[0.3em]">
+              {["Selected", "Work"].map((word, i) => (
+                <div key={i} className="overflow-hidden">
+                  <span className="block heading-word">{word}</span>
+                </div>
+              ))}
+            </div>
+          </h1>
+
+          <div className="relative mb-1" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setDropdownOpen((v) => !v)}
+              className="flex items-center gap-2 text-[0.6rem] tracking-[0.2em] uppercase px-4 py-2 border border-red bg-cream rounded-2xl text-red hover:border-red/40 transition-colors">
+              {filter}
+              <svg
+                width="8"
+                height="5"
+                viewBox="0 0 8 5"
+                fill="none"
+                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}>
+                <path
+                  d="M1 1l3 3 3-3"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute top-full right-0 mt-1 z-30 bg-cream border border-black/15 shadow-sm min-w-28">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      setFilter(cat);
+                      setDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-[0.6rem] tracking-[0.2em] uppercase transition-colors block ${
+                      filter === cat
+                        ? "text-red bg-red/5"
+                        : "text-red/50 hover:text-red/80 hover:bg-red/4"
+                    }`}>
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="px-8 pb-28 grid grid-cols-2 gap-x-5 gap-y-10">
+          {filteredItems.map((p) => (
+            <Link key={p.idx} href={`/work/${p.slug}`} className="block">
+              <div className="relative aspect-3/4 overflow-hidden">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              </div>
+              <div className="pt-4">
+                <h2 className="text-red font-bold uppercase tracking-[-0.03em] leading-none text-[clamp(1rem,2.2vw,1.4rem)]">
+                  {p.title}
+                </h2>
+                <p className="text-[0.7rem] tracking-[0.15em] uppercase text-red/40 mt-1.5">
+                  {p.category}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between px-8 py-4 pointer-events-none">
+          <p className="text-[0.6rem] tracking-[0.2em] uppercase text-red/38">
+            Selected Work
+          </p>
+          <p className="text-[0.6rem] tracking-[0.2em] uppercase text-red/38">
             ({String(filteredItems.length).padStart(2, "0")}/{N}) Projects
           </p>
         </div>
