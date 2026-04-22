@@ -221,6 +221,9 @@ const Navbar = () => {
                         .getElementById("process")
                         ?.scrollIntoView({ behavior: "smooth" });
                     }, 320);
+                  } else if (isProcess && !isHome) {
+                    sessionStorage.setItem("scrollToProcess", "1");
+                    setIsOpen(false);
                   } else {
                     setIsOpen(false);
                   }

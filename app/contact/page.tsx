@@ -139,22 +139,22 @@ export default function ContactPage() {
 
           <div className="text-sm text-white/70 space-y-3">
             <p className="uppercase text-white/30 text-xs">Contact details</p>
-            <p>info@dennissnellenberg.com</p>
-            <p>+31 6 27 84 74 30</p>
+            <p>hello@uyendaostudio.comm</p>
+            <p>+1 234 45670</p>
           </div>
 
           <div className="text-sm text-white/70 space-y-2">
-            <p className="uppercase text-white/30 text-xs">Business details</p>
-            <p>CoC: 65527690</p>
-            <p>VAT: NL002323039B05</p>
-            <p>Location: The Netherlands</p>
+            <p className="uppercase text-white/30 text-xs">Services</p>
+            <p>Brand Identity</p>
+            <p>Art Direction</p>
+            <p>Fashion & Editorial</p>
           </div>
 
           <div className="text-sm text-white/70 space-y-2">
             <p className="uppercase text-white/30 text-xs">Socials</p>
-            <p>Awwwards</p>
             <p>Instagram</p>
-            <p>Dribbble</p>
+            <p>Behance</p>
+            <p>Tiktok</p>
             <p>LinkedIn</p>
           </div>
         </div>

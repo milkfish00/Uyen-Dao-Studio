@@ -53,7 +53,7 @@ const GalleryAbout = () => {
                 Info
               </p>
               <p className="text-red/60">hello@uyendaostudio.com</p>
-              <p className="text-red/60">0407 720 300</p>
+              <p className="text-red/60">+1 234 45670</p>
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -65,6 +65,16 @@ const GalleryAbout = () => {
                 className="text-red/60 hover:text-red transition-colors duration-200">
                 Instagram
               </a>
+              <a
+                href="#"
+                className="text-red/60 hover:text-red transition-colors duration-200">
+                Behance
+              </a>
+              <a
+                href="#"
+                className="text-red/60 hover:text-red transition-colors duration-200">
+                Tiktok
+              </a>{" "}
               <a
                 href="#"
                 className="text-red/60 hover:text-red transition-colors duration-200">

@@ -32,8 +32,7 @@ const Hero = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 80);
-    return () => clearTimeout(t);
+    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -102,7 +101,7 @@ const Hero = () => {
               : "translate(-50%, -48%) scale(0.97)",
             opacity: mounted ? 1 : 0,
             transition:
-              "opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s",
+              "opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
           }}>
           {heroImages.map((src, i) => (
             <img

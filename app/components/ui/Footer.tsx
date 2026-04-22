@@ -30,12 +30,17 @@ const Footer = () => {
         stagger: 0.1,
         scrollTrigger: {
           trigger: el,
-          start: "top 92%",
+          start: "top 95%",
           toggleActions: "play none none none",
         },
       });
     }, el);
-    return () => ctx.revert();
+    // Refresh after DOM settles so ScrollTrigger measures correct positions
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => {
+      cancelAnimationFrame(raf);
+      ctx.revert();
+    };
   }, [isHidden]);
 
   if (isHidden) return null;
@@ -52,7 +57,7 @@ const Footer = () => {
               <span
                 className={`footer-letter block font-bold tracking-[-0.04em] ${
                   isContact ? "text-white" : "text-red"
-                } text-[5rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[19rem]`}>
+                } text-[4rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[19rem]`}>
                 {ch}
               </span>
             </div>
