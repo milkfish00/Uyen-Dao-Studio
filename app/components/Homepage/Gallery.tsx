@@ -105,7 +105,7 @@ const Gallery = () => {
       <div className="sticky top-0 h-screen flex items-center justify-center bg-cream">
         <div ref={headingWrapRef} className="relative">
           <h2
-            className="flex flex-wrap justify-center text-red gap-x-[0.25em] uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold leading-none"
+            className="flex flex-wrap justify-center text-red gap-x-[0.25em] uppercase text-[clamp(2rem,8vw,7rem)] tracking-[-0.05em] font-bold leading-none"
             aria-label="Selected Work">
             {titleWords.map((word) => (
               <div key={word} className="overflow-hidden">
@@ -113,7 +113,7 @@ const Gallery = () => {
               </div>
             ))}
           </h2>
-          <span className="absolute text-red -top-[0.3em] -right-[0.8em] text-[3em] font-bold leading-none">
+          <span className="absolute text-red -top-[0.3em] -right-[0.8em] md:text-[3em] font-bold leading-none">
             ✳
           </span>
         </div>

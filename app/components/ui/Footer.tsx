@@ -1,115 +1,95 @@
 "use client";
-import Image from "next/image";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const headingRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const isContact = pathname === "/contact";
+  const isHidden =
+    pathname === "/about" ||
+    pathname === "/work" ||
+    /^\/work\/.+/.test(pathname);
+
+  useEffect(() => {
+    if (isHidden) return;
+    const el = headingRef.current;
+    if (!el) return;
+    const letters = el.querySelectorAll<HTMLElement>(".footer-letter");
+    gsap.set(letters, { y: "110%" });
+    const ctx = gsap.context(() => {
+      gsap.to(letters, {
+        y: 0,
+        duration: 1.1,
+        ease: "power3.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 92%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+    return () => ctx.revert();
+  }, [isHidden]);
+
+  if (isHidden) return null;
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full z-0 overflow-hidden bg-ink h-(--footer-height)">
-      <div className="flex flex-col justify-between h-full px-8 py-10 sm:px-10 lg:px-14">
-        {/* Top row: logo + 3 columns */}
-        <div className="flex flex-col sm:flex-row gap-10 sm:gap-0">
-          {/* Logo */}
-          <div className="sm:w-1/2">
-            <Image
-              src="/images/stretch.svg"
-              alt="Duong Studio"
-              width={56}
-              height={56}
-              className="w-12 h-12 invert"
-            />
-          </div>
-
-          {/* Columns */}
-          <div className="grid grid-cols-3 gap-8 sm:w-1/2">
-            {/* Navigation */}
-            <div>
-              <h4 className="text-[0.65rem] uppercase tracking-[0.2em] text-ecru/30 mb-5">
-                Navigation
-              </h4>
-              <ul className="flex flex-col gap-2">
-                {[
-                  { label: "About", href: "/about" },
-                  { label: "Portfolio", href: "/work" },
-                  { label: "Services", href: "/#services" },
-                  { label: "Let&apos;s Talk", href: "/contact" },
-                ].map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-ecru hover:text-ecru/60 transition-colors duration-200">
-                      {link.label === "Let&apos;s Talk"
-                        ? "Let\u2019s Talk"
-                        : link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+    <footer className={isContact ? "bg-red" : "bg-cream"}>
+      {/* Full‑width heading, capped at 9xl */}
+      <div
+        ref={headingRef}
+        className="w-screen max-w-9xl mx-auto flex items-center justify-center px-0">
+        <div className="flex items-end leading-none whitespace-nowrap">
+          {["U", "Y", "E", "N", "\u00A0", "D", "✳", "O"].map((ch, i) => (
+            <div key={i} className="overflow-hidden pb-[0.06em]">
+              <span
+                className={`footer-letter block font-bold tracking-[-0.04em] ${
+                  isContact ? "text-white" : "text-red"
+                } text-[5rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[19rem]`}>
+                {ch}
+              </span>
             </div>
-
-            {/* Connect */}
-            <div>
-              <h4 className="text-[0.65rem] uppercase tracking-[0.2em] text-ecru/30 mb-5">
-                Connect
-              </h4>
-              <ul className="flex flex-col gap-2">
-                <li>
-                  <a
-                    href="#"
-                    className="text-sm text-ecru hover:text-ecru/60 transition-colors duration-200">
-                    TikTok
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="text-sm text-ecru hover:text-ecru/60 transition-colors duration-200">
-                    Instagram
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="text-[0.65rem] uppercase tracking-[0.2em] text-ecru/30 mb-5">
-                Contact
-              </h4>
-              <a
-                href="mailto:hello@duongstudio.com"
-                className="text-sm text-ecru hover:text-ecru/60 transition-colors duration-200 break-all">
-                hello@duongstudio.com
-              </a>
-            </div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Bottom credits row */}
-        <div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.2em] text-ecru/25">
-          <span>&copy; Duong Studio 2026</span>
-          <span className="hidden sm:block">
-            Website by DUONG creative studio.
-          </span>
-          <button
-            onClick={scrollToTop}
-            className="hover:text-ecru transition-colors duration-200 cursor-pointer bg-transparent border-none uppercase tracking-[0.2em] text-[0.6rem] text-ecru/25 p-0">
-            Back to top
-          </button>
-        </div>
-
-        {/* Large watermark title — bleeds off bottom */}
-        <div className="-mx-8 sm:-mx-10 lg:-mx-14 -mb-[0.15em]">
-          <Image
-            src="/images/title.svg"
-            alt=""
-            aria-hidden="true"
-            width={1800}
-            height={200}
-            className="w-full opacity-15 invert"
-          />
+      {/* Bottom bar (unchanged) */}
+      <div
+        className={`px-6 sm:px-10 lg:px-16 py-5 flex flex-col items-center  sm:flex-row  sm:items-center justify-between gap-2 border-t ${
+          isContact ? "border-white/20" : "border-red/10"
+        } mt-2`}>
+        <span
+          className={`text-[0.6rem] uppercase tracking-[0.16em] ${
+            isContact ? "text-white/70" : "text-red/40"
+          }`}>
+          © {new Date().getFullYear()} Uyen Dao Studio
+        </span>
+        <div className="flex items-center gap-6 text-[0.6rem] uppercase tracking-[0.16em]">
+          <Link
+            href="/privacy"
+            className={`${
+              isContact
+                ? "text-white/70 hover:text-white"
+                : "text-red/40 hover:text-red/70"
+            } transition-colors duration-200`}>
+            Privacy
+          </Link>
+          <Link
+            href="/terms"
+            className={`${
+              isContact
+                ? "text-white/70 hover:text-white"
+                : "text-red/40 hover:text-red/70"
+            } transition-colors duration-200`}>
+            Terms
+          </Link>
         </div>
       </div>
     </footer>

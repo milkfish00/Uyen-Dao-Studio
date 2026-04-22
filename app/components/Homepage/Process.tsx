@@ -49,6 +49,7 @@ const Process = () => {
   const headingRef = useRef<HTMLDivElement>(null);
   const moverRef = useRef<HTMLDivElement>(null);
   const nodesContainerRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef(0);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -58,6 +59,42 @@ const Process = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Block scrolling past the top of the section until scrub reverses to start
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY >= 0) return;
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      const rect = wrap.getBoundingClientRect();
+      // Within 300px of the section top and star hasn't returned to start
+      if (rect.top >= -300 && rect.top < 20 && progressRef.current > 0.05) {
+        e.preventDefault();
+      }
+    };
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const goingUp = e.touches[0].clientY > touchStartY;
+      if (!goingUp) return;
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      const rect = wrap.getBoundingClientRect();
+      if (rect.top >= -300 && rect.top < 20 && progressRef.current > 0.05) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
   }, []);
 
   // Heading slide-up animation
@@ -98,6 +135,7 @@ const Process = () => {
 
     const calculateAndAnimate = () => {
       ctx.revert();
+      prevStep = -1;
 
       const firstNode = nodes[0];
       if (!firstNode) return;
@@ -133,6 +171,7 @@ const Process = () => {
             end: "bottom bottom",
             scrub: 1.2,
             onUpdate: (self) => {
+              progressRef.current = self.progress;
               const p = self.progress;
               const step = Math.min(
                 steps.length - 1,
@@ -204,7 +243,13 @@ const Process = () => {
       }, wrap);
     };
 
-    calculateAndAnimate();
+    // Double rAF: wait for React to flush the isDesktop layout change to DOM
+    let rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
+        calculateAndAnimate();
+        ScrollTrigger.refresh();
+      });
+    });
 
     const handleResize = () => {
       calculateAndAnimate();
@@ -215,6 +260,7 @@ const Process = () => {
     window.addEventListener("load", handleResize);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("load", handleResize);
       ctx.revert();
@@ -223,19 +269,19 @@ const Process = () => {
 
   return (
     <div id="process" ref={wrapRef} className="relative h-[400vh] bg-red">
-      <section className="sticky top-0 h-screen text-white flex flex-col items-center justify-center px-[5vw] overflow-hidden">
+      <section className="sticky top-0 h-screen text-white flex flex-col items-center justify-center px-[5vw] pt-16 md:pt-0 overflow-hidden">
         <div ref={headingRef} className="relative inline-block mb-2 md:mb-16">
           <h2
-            className="flex flex-col items-center text-center justify-center uppercase text-[clamp(2.5rem,8vw,7rem)] tracking-[-0.05em] font-bold leading-none"
+            className="flex flex-col items-center text-center justify-center uppercase text-[clamp(1rem,5.5vw,7rem)] tracking-[-0.05em] font-bold leading-none"
             aria-label="From idea to launch, we got you covered">
-            <div className="flex flex-wrap justify-center gap-x-[0.25em]">
+            <div className="flex flex-nowrap md:flex-wrap justify-center gap-x-[0.25em]">
               {["From", "idea", "to", "launch,"].map((word, i) => (
                 <div key={i} className="overflow-hidden">
                   <span className="block heading-word text-white">{word}</span>
                 </div>
               ))}
             </div>
-            <div className="flex flex-wrap justify-center gap-x-[0.25em]">
+            <div className="flex flex-nowrap md:flex-wrap justify-center gap-x-[0.25em]">
               {["we", "got", "you", "covered"].map((word, i) => (
                 <div key={i} className="overflow-hidden">
                   <span className="block heading-word text-white/40">
@@ -281,7 +327,7 @@ const Process = () => {
             {/* Moving star */}
             <div
               ref={moverRef}
-              className="absolute w-5 h-5 md:w-10 md:h-10 pointer-events-none z-20">
+              className="absolute w-10 h-10 pointer-events-none z-20">
               <StarSVG />
             </div>
           </div>
@@ -296,10 +342,10 @@ const Process = () => {
                     ? "opacity-100 translate-y-0 pointer-events-auto"
                     : "opacity-0 translate-y-2.5 pointer-events-none"
                 }`}>
-                <h3 className="text-[clamp(2.2rem,5vw,4rem)] font-medium tracking-[-0.03em] leading-none mb-5">
+                <h3 className="text-[clamp(1.7rem,5vw,4rem)] font-medium tracking-[-0.03em] leading-none mb-5">
                   {s.title}
                 </h3>
-                <p className="text-base md:text-lg leading-relaxed text-white/70 max-w-[44ch] mx-auto md:mx-0">
+                <p className="text-sm md:text-lg leading-relaxed text-white/70 max-w-[44ch] mx-auto md:mx-0">
                   {s.body}
                 </p>
               </div>

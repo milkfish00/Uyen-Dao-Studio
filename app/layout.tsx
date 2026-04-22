@@ -4,6 +4,7 @@ import { Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import Navbar from "./components/ui/Navbar";
+import Footer from "./components/ui/Footer";
 import RevealOnScroll from "./components/ui/RevealOnScroll";
 
 const bdGrotesk = localFont({
@@ -57,6 +58,7 @@ export default function RootLayout({
         <div className="relative z-10 min-h-screen">
           <Navbar />
           {children}
+          <Footer />
         </div>
       </body>
     </html>

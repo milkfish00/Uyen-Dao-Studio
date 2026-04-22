@@ -282,11 +282,11 @@ export default function WorkPage() {
                   draggable={false}
                 />
               </div>
-              <div className="pt-3">
-                <h2 className="text-red text-sm font-bold uppercase tracking-[-0.03em] leading-none">
+              <div className="pt-6">
+                <h2 className="text-red text-md font-bold uppercase tracking-[-0.03em] leading-none">
                   {p.title}
                 </h2>
-                <p className="text-[0.5rem] tracking-[0.15em] uppercase text-red/40 mt-1.5">
+                <p className="text-[0.75rem] tracking-[0.15em] uppercase text-red/40 mt-1.5">
                   {p.category}
                 </p>
               </div>

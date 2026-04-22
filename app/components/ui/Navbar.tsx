@@ -35,6 +35,22 @@ const Navbar = () => {
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isHome) return;
+    if (!sessionStorage.getItem("scrollToProcess")) return;
+    sessionStorage.removeItem("scrollToProcess");
+    let attempts = 0;
+    const tryScroll = () => {
+      const el = document.getElementById("process");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      } else if (attempts++ < 15) {
+        setTimeout(tryScroll, 100);
+      }
+    };
+    setTimeout(tryScroll, 250);
+  }, [isHome]);
+
+  useEffect(() => {
     if (!isHome) {
       setPastHero(true);
       return;
@@ -96,6 +112,11 @@ const Navbar = () => {
               <SplitTextLink
                 key={link.href}
                 href={link.href}
+                onClick={
+                  link.href === "/#process"
+                    ? () => sessionStorage.setItem("scrollToProcess", "1")
+                    : undefined
+                }
                 className={`rounded-lg uppercase px-4 py-2 text-[0.65rem] transition-colors duration-200 ${
                   isContact ? "text-white" : "text-red"
                 }`}>
@@ -151,6 +172,14 @@ const Navbar = () => {
                 <SplitTextLink
                   key={link.href}
                   href={link.href === "/#process" ? "#process" : link.href}
+                  onClick={
+                    link.href === "/#process"
+                      ? () =>
+                          document
+                            .getElementById("process")
+                            ?.scrollIntoView({ behavior: "smooth" })
+                      : undefined
+                  }
                   className="rounded-lg uppercase px-4 py-2 text-[0.65rem] text-[#ffffff] transition-colors duration-200 hover:bg-white/10">
                   {link.label}
                 </SplitTextLink>
@@ -170,24 +199,37 @@ const Navbar = () => {
 
       {/* Mobile fullscreen menu */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col md:hidden bg-cream transition-[opacity,visibility] duration-300 ${
+        className={`fixed inset-0 z-40 flex flex-col md:hidden transition-[opacity,visibility] duration-300 ${isContact ? "bg-red" : "bg-cream"} ${
           isOpen
             ? "opacity-100 visible"
             : "pointer-events-none opacity-0 invisible"
         }`}>
         {/* Nav links */}
         <div className="flex-1 flex flex-col justify-center px-6 -mt-8">
-          {mobileMenuLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={
-                link.href === "/#process" && isHome ? "#process" : link.href
-              }
-              onClick={() => setIsOpen(false)}
-              className="uppercase leading-[0.9] text-[clamp(2.8rem,15vw,5.5rem)] text-red transition-opacity duration-200 hover:opacity-30">
-              {link.label}
-            </Link>
-          ))}
+          {mobileMenuLinks.map((link) => {
+            const isProcess = link.href === "/#process";
+            return (
+              <Link
+                key={link.href}
+                href={isProcess && isHome ? "#process" : link.href}
+                onClick={(e) => {
+                  if (isProcess && isHome) {
+                    e.preventDefault();
+                    setIsOpen(false);
+                    setTimeout(() => {
+                      document
+                        .getElementById("process")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }, 320);
+                  } else {
+                    setIsOpen(false);
+                  }
+                }}
+                className={`uppercase leading-[0.9] text-[clamp(2.8rem,15vw,5.5rem)] transition-opacity duration-200 hover:opacity-30 ${isContact ? "text-white" : "text-red"}`}>
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </>

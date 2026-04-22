@@ -39,23 +39,22 @@ const Description = () => {
       defaults: { ease: "none" },
       scrollTrigger: {
         trigger: section,
-        start: "top 75%",
+        start: "top 88%",
         toggleActions: "play none none none",
       },
     });
 
-    tl.to(label, { opacity: 0.7, duration: 0.4 })
+    tl.to(label, { opacity: 0.7, duration: 0.3 })
       .to(el, { opacity: 1, duration: 0 }, "<")
       .to(
         split.lines,
         {
           y: 0,
-          ease: "sine.out",
-          transformOrigin: "top",
-          stagger: 0.1,
-          duration: 1.2,
+          ease: "power3.out",
+          stagger: 0.06,
+          duration: 0.7,
         },
-        "<0.4",
+        "<",
       );
 
     return () => {

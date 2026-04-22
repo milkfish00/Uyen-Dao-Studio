@@ -16,6 +16,17 @@ export default function ContactPage() {
   });
 
   useEffect(() => {
+    const html = document.documentElement;
+    const prev = html.style.backgroundColor;
+    html.style.backgroundColor = "#8c0014";
+    document.body.style.backgroundColor = "#8c0014";
+    return () => {
+      html.style.backgroundColor = prev;
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
+
+  useEffect(() => {
     const el = headingRef.current;
     if (!el) return;
     const words = el.querySelectorAll<HTMLElement>(".heading-word");
@@ -26,11 +37,7 @@ export default function ContactPage() {
         duration: 1,
         ease: "power3.out",
         stagger: 0.07,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
+        delay: 0.2,
       });
     }, el);
     return () => ctx.revert();
@@ -57,14 +64,14 @@ export default function ContactPage() {
             className="text-[clamp(3rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.04em] font-semibold">
             <div className="flex flex-wrap gap-x-[0.3em]">
               {["Let\u2019s", "start", "a"].map((word, i) => (
-                <div key={i} className="overflow-hidden">
+                <div key={i} className="overflow-hidden pb-[0.15em]">
                   <span className="block heading-word">{word}</span>
                 </div>
               ))}
             </div>
             <div className="flex flex-wrap gap-x-[0.3em]">
               {["project", "together"].map((word, i) => (
-                <div key={i} className="overflow-hidden">
+                <div key={i} className="overflow-hidden pb-[0.15em]">
                   <span className="block heading-word">{word}</span>
                 </div>
               ))}

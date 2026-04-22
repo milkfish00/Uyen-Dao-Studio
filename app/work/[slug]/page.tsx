@@ -8,7 +8,7 @@ const PICSUM = "https://picsum.photos/seed/";
 const PROJECTS = [
   {
     slug: "lorem-ipsum",
-    name: ["Lorem", "Ipsum"],
+    name: ["Lorem Ipsum"],
     school: "Lorem Ipsum Studio",
     year: "2023",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -34,7 +34,7 @@ const PROJECTS = [
   },
   {
     slug: "dolor-sit",
-    name: ["Dolor", "Sit"],
+    name: ["Dolor Sit"],
     school: "Dolor Sit Institute",
     year: "2022",
     desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt.",
@@ -60,7 +60,7 @@ const PROJECTS = [
   },
   {
     slug: "amet-consec",
-    name: ["Amet", "Consec"],
+    name: ["Amet Consec"],
     school: "Amet Consec Academy",
     year: "2023",
     desc: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
@@ -86,7 +86,7 @@ const PROJECTS = [
   },
   {
     slug: "adipiscing-elit",
-    name: ["Adipiscing", "Elit"],
+    name: ["Adipiscing Elit"],
     school: "Adipiscing Elit School",
     year: "2022",
     desc: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.",
@@ -112,7 +112,7 @@ const PROJECTS = [
   },
   {
     slug: "consectetur",
-    name: ["Consec-", "tetur"],
+    name: ["Consec tetur"],
     school: "Consectetur Design Lab",
     year: "2024",
     desc: "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae itaque earum rerum hic tenetur a sapiente delectus.",
@@ -138,7 +138,7 @@ const PROJECTS = [
   },
   {
     slug: "sed-euismod",
-    name: ["Sed", "Euismod"],
+    name: ["Sed Euismod"],
     school: "Sed Euismod College",
     year: "2023",
     desc: "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip.",

@@ -1,4 +1,6 @@
+// components/WorkSection.tsx
 "use client";
+
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
@@ -52,8 +54,10 @@ export default function WorkSection({ works }: { works?: Work[] }) {
   useEffect(() => {
     const el = headingRef.current;
     if (!el) return;
+
     const words = el.querySelectorAll<HTMLElement>(".heading-word");
     gsap.set(words, { y: "110%" });
+
     const ctx = gsap.context(() => {
       gsap.to(words, {
         y: 0,
@@ -63,10 +67,10 @@ export default function WorkSection({ works }: { works?: Work[] }) {
         scrollTrigger: {
           trigger: el,
           start: "top 85%",
-          toggleActions: "play none none none",
         },
       });
     }, el);
+
     return () => ctx.revert();
   }, []);
 
@@ -76,54 +80,64 @@ export default function WorkSection({ works }: { works?: Work[] }) {
     slidesToShow: 2.8,
     slidesToScroll: 1,
     arrows: false,
-    dots: false,
     swipeToSlide: true,
     responsive: [
       { breakpoint: 1280, settings: { slidesToShow: 2.2 } },
-      { breakpoint: 768, settings: { slidesToShow: 2.1 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
+      { breakpoint: 768, settings: { slidesToShow: 1.6 } },
+      {
+        breakpoint: 640,
+        settings: { centerMode: true, centerPadding: "9%", slidesToShow: 1 },
+      },
     ],
   };
 
   return (
-    <section id="work" className="relative bg-cream overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 sm:px-10 lg:px-16 pt-16 sm:pt-24 pb-5">
+    <section
+      id="work"
+      className="bg-cream overflow-hidden pt-16 pb-12 sm:py-0 hidden lg:block">
+      {/* scale effect for center-mode on mobile only */}
+      <style>{`
+        @media (max-width: 639px) {
+          #work .slick-slide > div { transition: transform 0.4s ease, opacity 0.4s ease; transform: scale(0.9); opacity: 0.55; }
+          #work .slick-center > div { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
+
+      {/* Header — desktop only */}
+      <div className="hidden sm:flex flex-col sm:flex-row sm:items-center sm:justify-between px-6 sm:px-10 lg:px-16 pt-16 sm:pt-24 pb-8 gap-6">
+        {/* Title */}
         <div ref={headingRef} className="flex flex-wrap gap-x-[0.15em]">
           {["Types", "of", "work"].map((word) => (
             <div key={word} className="overflow-hidden">
-              <span className="block heading-word text-2xl md:text-[3.15rem] tracking-[-0.03em] uppercase font-bold text-red">
+              <span className="block heading-word text-xl sm:text-2xl md:text-[3.15rem] tracking-[-0.03em] uppercase font-bold text-red">
                 {word}
               </span>
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Arrows */}
+        <div className="flex items-center gap-3 sm:gap-2">
           <button
             onClick={() => sliderRef.current?.slickPrev()}
-            aria-label="Previous"
-            className="flex items-center justify-center w-14 h-14 rounded-full border border-red text-red hover:bg-red hover:text-cream transition-colors duration-200">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-red text-red hover:bg-red hover:text-cream transition">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path
                 d="M18 12L6 12M6 12L11 17M6 12L11 7"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
               />
             </svg>
           </button>
+
           <button
             onClick={() => sliderRef.current?.slickNext()}
-            aria-label="Next"
-            className="flex items-center justify-center w-14 h-14 rounded-full border border-red text-red hover:bg-red hover:text-cream transition-colors duration-200">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-red text-red hover:bg-red hover:text-cream transition">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path
                 d="M6 12H18M18 12L13 7M18 12L13 17"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -131,22 +145,43 @@ export default function WorkSection({ works }: { works?: Work[] }) {
       </div>
 
       {/* Carousel */}
-      <div className=" pb-16 sm:pb-24">
+      <div className="pb-16 sm:pb-24">
         <Slider ref={sliderRef} {...settings}>
           {items.map((w) => (
-            <div key={w.title} className="pr-4 sm:pr-6">
-              <Link href="/work" className="group block">
+            <div key={w.title} className="px-2 sm:px-0 sm:pr-6">
+              <Link href="/work" className="group flex flex-col">
                 {/* Image */}
-                <div className="relative w-full overflow-hidden aspect-9/16 md:aspect-3/4">
+                <div className="relative w-full overflow-hidden aspect-3/4">
+                  {/* Mobile: top gradient so white title is readable */}
+                  <div className="sm:hidden absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/65 to-transparent z-10 pointer-events-none" />
                   <img
                     src={w.img}
                     alt={w.title}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.04]"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  {/* Mobile: title overlaid on image */}
+                  <div className="sm:hidden absolute top-0 left-0 right-0 p-4 z-20">
+                    <h3
+                      className="font-bold text-white leading-[0.88] tracking-[-0.03em] uppercase"
+                      style={{ fontSize: "clamp(1.5rem, 7.5vw, 2.4rem)" }}>
+                      {w.title}
+                    </h3>
+                  </div>
                 </div>
-                {/* Caption */}
-                <div className="pt-5">
-                  <h3 className="font-semibold tracking-tight text-red mb-1 text-[clamp(1.2rem,2vw,1.8rem)]">
+
+                {/* Mobile: category + view */}
+                <div className="sm:hidden flex items-center justify-between pt-2.5">
+                  <span className="text-[0.55rem] uppercase tracking-[0.15em] text-red/40">
+                    {w.category}
+                  </span>
+                  <span className="text-[0.55rem] uppercase tracking-[0.12em] text-red/60">
+                    View →
+                  </span>
+                </div>
+
+                {/* Desktop: title below */}
+                <div className="hidden sm:block pt-4">
+                  <h3 className="font-semibold text-red text-lg sm:text-xl tracking-tight">
                     {w.title}
                   </h3>
                 </div>
