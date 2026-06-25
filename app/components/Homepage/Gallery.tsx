@@ -78,7 +78,7 @@ const WorkOverlay = ({
   </div>
 );
 
-const titleWords = ["Project #1", "Name"];
+const titleWords = ["Projects"];
 
 const Gallery = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
