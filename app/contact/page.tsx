@@ -139,7 +139,7 @@ export default function ContactPage() {
 
           <div className="text-sm text-white/70 space-y-3">
             <p className="uppercase text-white/30 text-xs">Contact details</p>
-            <p>hello@uyendaodesign.comm</p>
+            <p>cressiedao@gmail.com</p>
             <p>+1 234 45670</p>
           </div>
 
