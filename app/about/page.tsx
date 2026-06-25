@@ -176,7 +176,7 @@ const GalleryAbout = () => {
                 </div>
                 {/* Red card — hidden on mobile */}
                 <div
-                  className={`hidden lg:block relative overflow-hidden rounded-[2rem] bg-red min-h-[28rem] ${
+                  className={`hidden lg:block relative overflow-hidden  bg-red min-h-[28rem] ${
                     isEven ? "" : "lg:order-first"
                   }`}>
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.16),transparent_48%)]" />
