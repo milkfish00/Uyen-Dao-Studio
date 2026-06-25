@@ -130,6 +130,13 @@ body {
   overflow-x: clip;
 }
 
+img[src*="picsum.photos"],
+img[src*="%2Fimages%2Ftitle.svg"],
+img[src*="%2Fimages%2Fstretch.svg"],
+.placeholder-media {
+  filter: grayscale(100%);
+}
+
 /* ── Service cursor images: hidden until GSAP reveals ── */
 .service-cursor-img {
   pointer-events: none;

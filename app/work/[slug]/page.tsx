@@ -201,7 +201,7 @@ export default function IndividualProjectPage({
 
   return (
     <main
-      className="w-screen bg-cream font-sans lg:h-screen"
+      className="individual-work-page w-screen bg-cream font-sans lg:h-screen"
       style={{ overflow: "clip" }}>
       {/* Fixed nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between px-[2.8rem] py-[1.6rem] pointer-events-none">

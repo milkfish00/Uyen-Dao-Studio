@@ -14,34 +14,29 @@ gsap.registerPlugin(ScrollTrigger);
 
 type Work = {
   title: string;
-  subtitle: string;
   category: string;
   img: string;
 };
 
 const PLACEHOLDER_WORKS: Work[] = [
   {
-    title: "Brand Identity",
-    subtitle: "Visual identity & strategy",
-    category: "Branding",
+    title: "Industrial Design",
+    category: "Industrial Design",
     img: "https://picsum.photos/seed/ws1/480/640",
   },
   {
-    title: "Packaging Design",
-    subtitle: "Structural & graphic design",
-    category: "Packaging",
+    title: "Brand Direction",
+    category: "Brand Direction",
     img: "https://picsum.photos/seed/ws2/480/640",
   },
   {
-    title: "Art Direction",
-    subtitle: "Campaign & editorial",
-    category: "Art Direction",
+    title: "Fashion Styling",
+    category: "Fashion Styling",
     img: "https://picsum.photos/seed/ws3/480/640",
   },
   {
-    title: "Digital Experience",
-    subtitle: "Web design & motion",
-    category: "Digital",
+    title: "Illustration",
+    category: "Illustration",
     img: "https://picsum.photos/seed/ws4/480/640",
   },
 ];

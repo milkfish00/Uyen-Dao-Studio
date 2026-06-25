@@ -1,9 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-
-gsap.registerPlugin(SplitText);
+import { useEffect, useState } from "react";
 
 const heroImages = [
   "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750",
@@ -16,8 +12,6 @@ const heroImages = [
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
 
   // Image carousel
   useEffect(() => {
@@ -25,39 +19,6 @@ const Hero = () => {
       setCurrent((i) => (i + 1) % heroImages.length);
     }, 4000);
     return () => clearInterval(id);
-  }, []);
-
-  // Text split animation on mount
-  useEffect(() => {
-    const title = titleRef.current;
-    const desc = descRef.current;
-    if (!title || !desc) return;
-
-    const splitTitle = new SplitText(title, { type: "chars" });
-    const splitDesc = new SplitText(desc, { type: "words" });
-
-    // Wrap each char/word in an overflow-hidden clip container
-    [...splitTitle.chars, ...splitDesc.words].forEach((el) => {
-      const wrap = document.createElement("div");
-      wrap.style.cssText =
-        "overflow:hidden;display:inline-block;vertical-align:bottom;";
-      el.parentNode?.insertBefore(wrap, el);
-      wrap.appendChild(el);
-    });
-
-    gsap.set([splitTitle.chars, splitDesc.words], { y: "110%" });
-
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    tl.to(splitTitle.chars, { y: "0%", duration: 0.75, stagger: 0.03 }).to(
-      splitDesc.words,
-      { y: "0%", duration: 0.65, stagger: 0.05 },
-      "-=0.3",
-    );
-
-    return () => {
-      splitTitle.revert();
-      splitDesc.revert();
-    };
   }, []);
 
   return (
@@ -86,8 +47,7 @@ const Hero = () => {
         {/* Bottom — large display title */}
         <div className="shrink-0 pt-3 md:pt-4">
           <h1
-            ref={titleRef}
-            className="uppercase font-bold text-center text-red leading-[0.88]"
+            className="uppercase font-bold text-center text-red leading-[0.88] text-[clamp(2rem,8vw,7rem)] "
             style={{ fontSize: "clamp(2.4rem, 7.5vw, 7rem)" }}>
             Uyen Dao Design
           </h1>

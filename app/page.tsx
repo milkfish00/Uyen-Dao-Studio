@@ -4,7 +4,6 @@ import Description from "./components/Homepage/Description";
 import Process from "./components/Homepage/Process";
 import Gallery from "./components/Homepage/Gallery";
 import WorkSection from "./components/Homepage/WorkSection";
-import Footer from "./components/ui/Footer";
 
 export default function Home() {
   return (

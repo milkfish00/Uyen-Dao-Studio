@@ -9,25 +9,13 @@ gsap.registerPlugin(ScrollTrigger);
 const services = [
   {
     title: "Industrial Design",
-    subtitle: "Strategy",
-    num: "01",
     href: "/services#industrial-design",
     img: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
   },
   {
-    title: "  Fashion Design",
-    subtitle: "Identity",
-    num: "02",
-    href: "/services#fashion-design",
+    title: "Brand & Creative Direction",
+    href: "/services#brand-creative",
     img: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800",
-  },
-
-  {
-    title: "Art Direction",
-    subtitle: "Campaign",
-    num: "04",
-    href: "/services#art-direction",
-    img: "https://assets.codepen.io/16327/portrait-image-14.jpg",
   },
 ];
 
@@ -164,7 +152,7 @@ export default function ServicesSection() {
       {/* Header */}
       <div className="mb-8 flex items-center justify-center">
         <span className="text-[0.6rem] font-bold tracking-[0.2em] uppercase text-red/38">
-          + Our Services
+          + Services
         </span>
       </div>
 

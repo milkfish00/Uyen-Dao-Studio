@@ -13,7 +13,7 @@ const SERVICES = [
     title: "Industrial Design",
     tagline: "Turning ideas into tangible product concepts",
     description:
-      "Helping entrepreneurs and creators visualize their ideas as physical products through concept sketches, form exploration, and early-stage product thinking.",
+      "From early concepts to refined product directions, I help transform ideas into thoughtful physical products through research, concept development, and form exploration.",
     items: [
       "Product concept sketches",
       "Form exploration",
@@ -22,32 +22,19 @@ const SERVICES = [
     ],
   },
   {
-    id: "fashion-design",
+    id: "brand-creative",
     num: "02",
-    title: "Fashion Design",
-    tagline: "Developing wearable product designs",
+    title: "Brand & Creative Direction",
+    tagline: "Shaping cohesive stories around products and brands",
+    href: "/services/brand-creative-direction",
     description:
-      "Supporting fashion creators with design illustration and technical documentation needed to develop garments.",
+      "A great product deserves more than just great design. It deserves a story. I help brands shape how their products are seen, experienced, and remembered through creative direction, styling, and visual storytelling. From concept to launch, I create cohesive brand experiences that connect products with people.",
     items: [
-      "Fashion illustration",
-      "Technical sketches",
-      "Tech pack development",
-      "Adobe Illustrator garment drawings",
-    ],
-  },
-  {
-    id: "art-direction",
-    num: "03",
-    title: "Art Direction",
-    tagline: "Shaping the visual identity of products",
-    description:
-      "Guiding the visual storytelling of a product through imagery, styling, and campaign direction.",
-    items: [
-      "Photoshoot direction",
-      "Visual marketing concepts",
-      "Campaign storytelling",
-      "Connecting brands with photographers and creatives",
-      "Styling experience for wearable products",
+      "Creative direction for products, campaigns, and brand experiences",
+      "Product styling for editorials, campaigns, e-commerce, and social media",
+      "Visual storytelling through imagery, hand-drawn illustration, and graphics",
+      "Brand identity systems that express a product's personality and positioning",
+      "Campaign direction and launch assets that feel cohesive",
     ],
   },
 ];
@@ -169,15 +156,29 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <Link
-              href="/contact"
-              className={`mt-10  self-start text-[0.6rem] tracking-[0.22em] uppercase px-5 py-3 border rounded-full transition-colors duration-200 ${
-                i % 2 === 1
-                  ? "border-cream/30 text-cream hover:bg-cream hover:text-red"
-                  : "border-red/30 text-red hover:bg-red hover:text-cream"
-              }`}>
-              Inquire →
-            </Link>
+            <div className="mt-10 flex flex-wrap gap-3 self-start">
+              <Link
+                href="/contact"
+                className={`text-[0.6rem] tracking-[0.22em] uppercase px-5 py-3 border rounded-full transition-colors duration-200 ${
+                  i % 2 === 1
+                    ? "border-cream/30 text-cream hover:bg-cream hover:text-red"
+                    : "border-red/30 text-red hover:bg-red hover:text-cream"
+                }`}>
+                Inquire →
+              </Link>
+
+              {s.href ? (
+                <Link
+                  href={s.href}
+                  className={`text-[0.6rem] tracking-[0.22em] uppercase px-5 py-3 border rounded-full transition-colors duration-200 ${
+                    i % 2 === 1
+                      ? "border-cream/20 text-cream/80 hover:border-cream hover:text-cream"
+                      : "border-red/20 text-red/75 hover:border-red hover:text-red"
+                  }`}>
+                  Learn More →
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           {/* Right: description + what I help with */}

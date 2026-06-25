@@ -66,7 +66,7 @@ const Description = () => {
   return (
     <section
       ref={sectionRef}
-      className="px-6 sm:px-10 lg:px-16 py-16 sm:py-24 lg:py-40">
+      className="px-6 sm:px-10 lg:px-16 pt-16 pb-8 sm:pt-24 sm:pb-12 lg:pt-40 lg:pb-20">
       <div className="max-w-7xl mx-auto">
         {/* Top row: label + paragraph */}
         <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-10 lg:gap-16 mb-16">
@@ -83,9 +83,9 @@ const Description = () => {
           <p
             ref={paraRef}
             className="text-[clamp(1.6rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.02em] text-red m-0">
-            I believe products are statement accessories. They coexist with
-            their users — enhancing everyday life through function, expression,
-            and style.
+            I believe products are an extension of personal identity. They exist
+            not only to solve problems, but to express who we are and how we
+            live.
           </p>
         </div>
       </div>

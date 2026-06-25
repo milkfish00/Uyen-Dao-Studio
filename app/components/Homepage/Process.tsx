@@ -20,12 +20,12 @@ const steps = [
   {
     n: "03",
     title: "Prototyping",
-    body: "Cardboard, foam, paper — the first physical version of your idea doesn't need to be perfect. It just needs to exist. I help you build your first tangible object on a real-world budget.",
+    body: "Physical prototypes can be developed to evaluate form, ergonomics, and user experience, depending on the project’s scope and requirements.",
   },
   {
     n: "04",
     title: "Concept",
-    body: "A refined concept ready to take the next step — whether that's a manufacturer, an investor, or simply proof that your idea is real. You started with nothing. Now you have something.",
+    body: "A refined concept that gives your idea direction and purpose. Whether you’re validating an opportunity, collaborating with engineers, or preparing to pitch, you’ll leave with something tangible to build on.",
   },
 ];
 
@@ -238,16 +238,16 @@ const Process = () => {
         <div ref={headingRef} className="relative inline-block mb-2 md:mb-16">
           <h2
             className="flex flex-col items-center text-center justify-center uppercase text-[clamp(1rem,5.5vw,7rem)] tracking-[-0.05em] font-bold leading-none"
-            aria-label="Big ideas, small budget, real results">
+            aria-label="Your Vision. Thoughtfully Designed.">
             <div className="flex flex-nowrap md:flex-wrap justify-center gap-x-[0.25em]">
-              {["Big", "ideas,"].map((word, i) => (
+              {["Your", "Vision."].map((word, i) => (
                 <div key={i} className="overflow-hidden">
                   <span className="block heading-word text-white">{word}</span>
                 </div>
               ))}
             </div>
             <div className="flex flex-nowrap md:flex-wrap justify-center gap-x-[0.25em]">
-              {["small", "budget."].map((word, i) => (
+              {["Thoughtfully", "Designed."].map((word, i) => (
                 <div key={i} className="overflow-hidden">
                   <span className="block heading-word text-white/40">
                     {word}

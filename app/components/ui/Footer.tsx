@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
   const headingRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const isContact = pathname === "/contact";
   const isHidden =
@@ -19,46 +20,68 @@ const Footer = () => {
   useEffect(() => {
     if (isHidden) return;
     const el = headingRef.current;
-    if (!el) return;
-    const letters = el.querySelectorAll<HTMLElement>(".footer-letter");
-    gsap.set(letters, { y: "110%" });
-    const ctx = gsap.context(() => {
-      gsap.to(letters, {
-        y: 0,
-        duration: 1.1,
-        ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 95%",
-          toggleActions: "play none none none",
-        },
+    const footer = footerRef.current;
+    if (!el || !footer) return;
+    const words = el.querySelectorAll<HTMLElement>(".footer-word");
+    gsap.set(words, { y: "110%" });
+
+    let ctx: ReturnType<typeof gsap.context>;
+
+    const init = () => {
+      ctx?.revert();
+      ctx = gsap.context(() => {
+        gsap.to(words, {
+          y: 0,
+          duration: 1.1,
+          ease: "power3.out",
+          stagger: 0.14,
+          scrollTrigger: {
+            trigger: footer,
+            start: "top bottom",
+            toggleActions: "play none none none",
+          },
+        });
+      }, el);
+    };
+
+    // Double rAF so all sibling components have painted before measuring
+    let raf2: number;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        init();
       });
-    }, el);
-    // Refresh after DOM settles so ScrollTrigger measures correct positions
-    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+
+    // Re-refresh once all assets have loaded (fonts, images, etc.)
+    const onLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("load", onLoad);
+
     return () => {
-      cancelAnimationFrame(raf);
-      ctx.revert();
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      window.removeEventListener("load", onLoad);
+      ctx?.revert();
     };
   }, [isHidden]);
 
   if (isHidden) return null;
 
   return (
-    <footer className={isContact ? "bg-red" : "bg-cream"}>
+    <footer ref={footerRef} className={isContact ? "bg-red" : "bg-cream"}>
       {/* Full‑width heading, capped at 9xl */}
-      <div
-        ref={headingRef}
-        className="w-screen max-w-9xl mx-auto flex items-center justify-center px-0">
-        <div className="flex items-end leading-none whitespace-nowrap">
-          {["U", "Y", "E", "N", "\u00A0", "D", "✳", "O"].map((ch, i) => (
-            <div key={i} className="overflow-hidden pb-[0.06em]">
+      <div ref={headingRef} className="px-4 sm:px-6 overflow-hidden mt-4 pb-2">
+        <div className="flex w-full justify-center flex-nowrap gap-[0.06em]">
+          {["UYEN", "DAO"].map((word, i) => (
+            <div key={i} className="overflow-hidden pb-[0.04em]">
               <span
-                className={`footer-letter block font-bold tracking-[-0.04em] ${
+                className={`footer-word block font-bold leading-none tracking-[-0.04em] ${
                   isContact ? "text-white" : "text-red"
-                } text-[4rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[19rem]`}>
-                {ch}
+                }`}
+                style={{ fontSize: "clamp(4rem, 20vw, 20rem)" }}>
+                {word}
               </span>
             </div>
           ))}
