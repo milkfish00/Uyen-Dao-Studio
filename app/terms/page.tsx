@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useEffect, useRef, useState, use } from "react";
 
+const SITE_IMAGE_ALT = "Uyen Dao Studio";
+
 const PICSUM = "https://picsum.photos/seed/";
 
 const PROJECTS = [
@@ -183,7 +185,6 @@ export default function IndividualProjectPage({
     images,
     next,
   } = project;
-
   const trackRef = useRef<HTMLDivElement>(null);
   const jumping = useRef(false);
 
@@ -262,7 +263,7 @@ export default function IndividualProjectPage({
             <div className="relative overflow-hidden w-[42%] h-full">
               <img
                 src={images[0]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
@@ -274,7 +275,7 @@ export default function IndividualProjectPage({
             <div className="relative shrink-0 w-[22vw] h-[65vh] -mr-[4vw] z-1">
               <img
                 src={images[1]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -282,7 +283,7 @@ export default function IndividualProjectPage({
             <div className="relative shrink-0 w-[38vw] h-[85vh] z-2">
               <img
                 src={images[2]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -290,7 +291,7 @@ export default function IndividualProjectPage({
             <div className="relative shrink-0 w-[28vw] h-[75vh] -ml-[2vw] z-1">
               <img
                 src={images[3]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -302,7 +303,7 @@ export default function IndividualProjectPage({
             <div className="absolute overflow-hidden top-[6vh] left-[28vw] w-[36vw] h-[42vh]">
               <img
                 src={images[4]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -310,7 +311,7 @@ export default function IndividualProjectPage({
             <div className="absolute overflow-hidden top-[18vh] left-[12vw] w-[24vw] h-[52vh]">
               <img
                 src={images[5]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -318,7 +319,7 @@ export default function IndividualProjectPage({
             <div className="absolute overflow-hidden top-[28vh] left-[22vw] w-[40vw] h-[50vh]">
               <img
                 src={images[6]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -326,7 +327,7 @@ export default function IndividualProjectPage({
             <div className="absolute overflow-hidden top-[4vh] right-[6vw] w-[22vw] h-[38vh]">
               <img
                 src={images[7]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -334,7 +335,7 @@ export default function IndividualProjectPage({
             <div className="absolute overflow-hidden bottom-[4vh] left-[2vw] w-[16vw] h-[44vh]">
               <img
                 src={images[8]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -342,7 +343,7 @@ export default function IndividualProjectPage({
             <div className="absolute overflow-hidden bottom-[4vh] right-[4vw] w-[18vw] h-[38vh]">
               <img
                 src={images[0]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -354,14 +355,14 @@ export default function IndividualProjectPage({
             <div className="relative shrink-0 w-[32vw] h-[88vh] mt-[4vh]">
               <img
                 src={images[1]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover grayscale"
               />
             </div>
             <div className="relative shrink-0 w-[36vw] h-[80vh] -ml-[6vw] z-2">
               <img
                 src={images[2]}
-                alt=""
+                alt={SITE_IMAGE_ALT}
                 className="w-full h-full object-cover grayscale"
               />
             </div>
@@ -383,14 +384,14 @@ export default function IndividualProjectPage({
               <div className="relative overflow-hidden aspect-4/3">
                 <img
                   src={images[3]}
-                  alt=""
+                  alt={SITE_IMAGE_ALT}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
               <div className="relative overflow-hidden aspect-4/3">
                 <img
                   src={images[4]}
-                  alt=""
+                  alt={SITE_IMAGE_ALT}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
@@ -398,7 +399,7 @@ export default function IndividualProjectPage({
               <div className="relative overflow-hidden col-span-2 aspect-16/7">
                 <img
                   src={images[5]}
-                  alt=""
+                  alt={SITE_IMAGE_ALT}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
@@ -459,7 +460,7 @@ export default function IndividualProjectPage({
             <div className="relative overflow-hidden w-[42%] h-full">
               <img
                 src={next.image}
-                alt={next.name}
+                alt={SITE_IMAGE_ALT}
                 className="next-img absolute inset-0 w-full h-full object-cover"
               />
             </div>

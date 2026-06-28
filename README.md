@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Sanity Setup
+
+The frontend already fetches content from Sanity through `next-sanity`. To connect it to your project:
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` to your Sanity project values.
+3. Optionally set `NEXT_PUBLIC_SANITY_API_VERSION` if you need a specific API date.
+4. Restart `npm run dev` after updating the environment.
+
+If you embed the Studio at `/studio`, allow your local app origin in Sanity:
+
+```bash
+npx sanity cors add http://localhost:3000 --credentials
+```
+
+Without the required environment variables, the app now fails with a clear Sanity configuration error instead of silently returning empty content.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -9,6 +9,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const SITE_IMAGE_ALT = "Uyen Dao Studio";
+
 gsap.registerPlugin(ScrollTrigger);
 
 type CaseStudy = {
@@ -173,7 +175,7 @@ function CaseCarousel({
                   <div className="sm:hidden absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/55 to-transparent z-10 pointer-events-none" />
                   <Image
                     src={item.image}
-                    alt={item.title}
+                    alt={SITE_IMAGE_ALT}
                     fill
                     className="placeholder-media absolute inset-0 object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     sizes="(min-width: 1024px) 32vw, 88vw"

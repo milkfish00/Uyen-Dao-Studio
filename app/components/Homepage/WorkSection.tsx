@@ -10,13 +10,19 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const SITE_IMAGE_ALT = "Uyen Dao Studio";
+
 gsap.registerPlugin(ScrollTrigger);
 
 type Work = {
   title: string;
   category: string;
   img: string;
+  slug?: string;
 };
+
+const hasImageSrc = (value: string | null | undefined): value is string =>
+  typeof value === "string" && value.trim().length > 0;
 
 const PLACEHOLDER_WORKS: Work[] = [
   {
@@ -42,7 +48,15 @@ const PLACEHOLDER_WORKS: Work[] = [
 ];
 
 export default function WorkSection({ works }: { works?: Work[] }) {
-  const items = works && works.length > 0 ? works : PLACEHOLDER_WORKS;
+  const items =
+    works && works.length > 0
+      ? works.map((work, index) => ({
+          ...work,
+          img: hasImageSrc(work.img)
+            ? work.img
+            : PLACEHOLDER_WORKS[index % PLACEHOLDER_WORKS.length].img,
+        }))
+      : PLACEHOLDER_WORKS;
   const sliderRef = useRef<Slider>(null);
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -142,16 +156,20 @@ export default function WorkSection({ works }: { works?: Work[] }) {
       {/* Carousel */}
       <div className="pb-16 sm:pb-24">
         <Slider ref={sliderRef} {...settings}>
-          {items.map((w) => (
-            <div key={w.title} className="px-2 sm:px-0 sm:pr-6">
-              <Link href="/work" className="group flex flex-col">
+          {items.map((w, index) => (
+            <div
+              key={w.slug || `${w.title}-${index}`}
+              className="px-2 sm:px-0 sm:pr-6">
+              <Link
+                href={w.slug ? `/work/${w.slug}` : "/work"}
+                className="group flex flex-col">
                 {/* Image */}
-                <div className="relative w-full overflow-hidden aspect-3/4">
+                <div className="relative w-full overflow-hidden aspect-video">
                   {/* Mobile: top gradient so white title is readable */}
                   <div className="sm:hidden absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/65 to-transparent z-10 pointer-events-none" />
                   <img
                     src={w.img}
-                    alt={w.title}
+                    alt={SITE_IMAGE_ALT}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   {/* Mobile: title overlaid on image */}

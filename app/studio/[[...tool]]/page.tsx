@@ -7,13 +7,33 @@
  * https://github.com/sanity-io/next-sanity
  */
 
-import { NextStudio } from 'next-sanity/studio'
-import config from '../../../sanity.config'
+import { NextStudio } from "next-sanity/studio";
+import config from "../../../sanity.config";
+import { hasSanityConfig, missingSanityEnvKeys } from "@/sanity/env";
 
-export const dynamic = 'force-static'
+export const dynamic = "force-static";
 
-export { metadata, viewport } from 'next-sanity/studio'
+export { metadata, viewport } from "next-sanity/studio";
 
 export default function StudioPage() {
-  return <NextStudio config={config} />
+  if (!hasSanityConfig) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-cream px-6 text-center text-red">
+        <div className="max-w-xl">
+          <p className="mb-3 text-[0.65rem] uppercase tracking-[0.22em] text-red/45">
+            Sanity Studio
+          </p>
+          <h1 className="mb-4 text-4xl font-bold uppercase tracking-[-0.05em]">
+            Configure Sanity to open the studio
+          </h1>
+          <p className="text-base leading-relaxed text-red/65">
+            Add {missingSanityEnvKeys.join(" and ")} to your environment, then
+            restart the app.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  return <NextStudio config={config} />;
 }

@@ -65,7 +65,7 @@ const Footer = () => {
       window.removeEventListener("load", onLoad);
       ctx?.revert();
     };
-  }, [isHidden]);
+  }, [pathname, isHidden]);
 
   if (isHidden) return null;
 

@@ -6,7 +6,17 @@ import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-const Description = () => {
+type SiteSettings = {
+  focusLabel?: string;
+  descriptionText?: string;
+} | null;
+
+const FALLBACK_TEXT =
+  "I believe products are an extension of personal identity. They exist not only to solve problems, but to express who we are and how we live.";
+
+const Description = ({ settings }: { settings?: SiteSettings }) => {
+  const focusLabel = settings?.focusLabel ?? "+ Our Focus";
+  const descriptionText = settings?.descriptionText ?? FALLBACK_TEXT;
   const sectionRef = useRef<HTMLElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const paraRef = useRef<HTMLParagraphElement>(null);
@@ -75,7 +85,7 @@ const Description = () => {
             <span
               ref={labelRef}
               className="text-[0.6rem] tracking-[0.2em] uppercase text-red/40">
-              + Our Focus
+              {focusLabel}
             </span>
           </div>
 
@@ -83,9 +93,7 @@ const Description = () => {
           <p
             ref={paraRef}
             className="text-[clamp(1.6rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.02em] text-red m-0">
-            I believe products are an extension of personal identity. They exist
-            not only to solve problems, but to express who we are and how we
-            live.
+            {descriptionText}
           </p>
         </div>
       </div>

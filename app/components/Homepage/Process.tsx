@@ -6,7 +6,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
-const steps = [
+const FALLBACK_STEPS: { n: string; title: string; body: string }[] = [
   {
     n: "01",
     title: "Ideation",
@@ -44,7 +44,22 @@ const StarSVG = () => (
   </svg>
 );
 
-const Process = () => {
+type SanityStep = {
+  _id?: string;
+  stepNumber: string;
+  title: string;
+  description: string;
+};
+
+const Process = ({ steps: rawSteps }: { steps?: SanityStep[] | null }) => {
+  const steps =
+    rawSteps && rawSteps.length > 0
+      ? rawSteps.map((s) => ({
+          n: s.stepNumber,
+          title: s.title,
+          body: s.description,
+        }))
+      : FALLBACK_STEPS;
   const wrapRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const moverRef = useRef<HTMLDivElement>(null);

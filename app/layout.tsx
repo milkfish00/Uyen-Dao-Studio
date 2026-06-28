@@ -3,10 +3,8 @@ import localFont from "next/font/local";
 import { Geist_Mono } from "next/font/google";
 
 import "./globals.css";
-import Navbar from "./components/ui/Navbar";
-import Footer from "./components/ui/Footer";
-import RevealOnScroll from "./components/ui/RevealOnScroll";
-import Preloader from "./components/ui/Preloader";
+import SiteShell from "./components/ui/SiteShell";
+import { SanityLive } from "@/sanity/lib/live";
 
 const bdGrotesk = localFont({
   src: [
@@ -52,16 +50,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bdGrotesk.variable} ${geistMono.variable}`}>
-      <body className="antialiased text-ink">
-        <Preloader />
-        <RevealOnScroll />
-
-        <div className="relative z-10 min-h-screen">
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
+    <html
+      lang="en"
+      className={`${bdGrotesk.variable} ${geistMono.variable}`}
+      suppressHydrationWarning>
+      <body className="antialiased text-ink" suppressHydrationWarning>
+        <SiteShell>{children}</SiteShell>
+        <SanityLive />
       </body>
     </html>
   );

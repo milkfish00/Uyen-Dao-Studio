@@ -4,6 +4,8 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+const SITE_IMAGE_ALT = "Uyen Dao Studio";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const PICSUM = "https://picsum.photos/seed/";
@@ -14,46 +16,64 @@ interface Work {
   slug: string;
   skills: string[];
   year: number;
-  // boards: full 11×17 tabloid presentation boards — no cropping
-  boards: [string, string];
-  // hero: portrait shot to accent the layout
-  hero: string;
+  image: string;
 }
 
-const works: Work[] = [
+type SanityWork = {
+  _id: string;
+  title: string;
+  slug: string;
+  skills?: string[];
+  year?: number;
+  boards?: (string | null)[];
+  hero?: string | null;
+};
+
+const hasImageSrc = (value: string | null | undefined): value is string =>
+  typeof value === "string" && value.trim().length > 0;
+
+const FALLBACK_WORKS: Work[] = [
   {
     title: "Lorem Ipsum",
     slug: "lorem-ipsum",
     skills: ["Strategy", "Identity", "Branding"],
     year: 2024,
-    boards: [mk("c1a", 880, 1360), mk("c1b", 880, 1360)],
-    hero: mk("c1c", 600, 900),
+    image: mk("c1a", 880, 1360),
   },
   {
     title: "Dolor Sit",
     slug: "dolor-sit",
     skills: ["Concept", "Packaging", "Storytelling"],
     year: 2024,
-    boards: [mk("c2a", 880, 1360), mk("c2b", 880, 1360)],
-    hero: mk("c2c", 600, 900),
+    image: mk("c2a", 880, 1360),
   },
   {
     title: "Amet Consec",
     slug: "amet-consec",
     skills: ["Innovation", "Strategy", "Prototype"],
     year: 2023,
-    boards: [mk("c3a", 880, 1360), mk("c3b", 880, 1360)],
-    hero: mk("c3c", 600, 900),
+    image: mk("c3a", 880, 1360),
   },
   {
     title: "Adipiscing Elit",
     slug: "adipiscing-elit",
     skills: ["Branding", "Art Direction", "Packaging"],
     year: 2023,
-    boards: [mk("c4a", 880, 1360), mk("c4b", 880, 1360)],
-    hero: mk("c4c", 600, 900),
+    image: mk("c4a", 880, 1360),
   },
 ];
+
+function toWork(w: SanityWork): Work {
+  const fallback = `https://picsum.photos/seed/${w._id}/880/1360`;
+  const primaryBoard = hasImageSrc(w.boards?.[0]) ? w.boards[0] : null;
+  return {
+    title: w.title,
+    slug: w.slug,
+    skills: w.skills ?? [],
+    year: w.year ?? new Date().getFullYear(),
+    image: primaryBoard ?? (hasImageSrc(w.hero) ? w.hero : fallback),
+  };
+}
 
 const WorkOverlay = ({
   title,
@@ -80,7 +100,9 @@ const WorkOverlay = ({
 
 const titleWords = ["Projects"];
 
-const Gallery = () => {
+const Gallery = ({ projects }: { projects?: SanityWork[] | null }) => {
+  const works: Work[] =
+    projects && projects.length > 0 ? projects.map(toWork) : FALLBACK_WORKS;
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingWrapRef = useRef<HTMLDivElement>(null);
 
@@ -157,133 +179,23 @@ const Gallery = () => {
       <div className="relative z-10 bg-cream">
         {works.map((w, i) => (
           <div
-            key={w.title}
+            key={w.slug || `${w.title}-${i}`}
             className={`px-[5vw] ${i === 0 ? "pt-6 pb-16" : "py-16"} md:py-24`}>
-            {/* ── Layout A (even): primary board left, hero + secondary board right stacked */}
-            {i % 2 === 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-[5fr_4fr] gap-4 md:gap-6 items-start">
-                {/* Primary board — full 11:17, no cropping */}
-                <Link
-                  href={`/work/${w.slug}`}
-                  className="img-wrap group relative block overflow-hidden"
-                  data-y-from="6"
-                  data-y-to="-6">
-                  <img
-                    src={w.boards[0]}
-                    alt={w.title}
-                    loading="lazy"
-                    className="w-full aspect-11/17 object-contain bg-red/3"
-                  />
-                  <WorkOverlay
-                    title={w.title}
-                    skills={w.skills}
-                    year={w.year}
-                  />
-                </Link>
-
-                {/* Right column: hero photo + secondary board, offset down */}
-                <div className="flex flex-col gap-4 md:gap-6 md:pt-[12%]">
-                  <Link
-                    href={`/work/${w.slug}`}
-                    className="img-wrap group relative block overflow-hidden"
-                    data-y-from="10"
-                    data-y-to="-5">
-                    <img
-                      src={w.hero}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      className="w-full aspect-2/3 object-cover"
-                    />
-                    <WorkOverlay
-                      title={w.title}
-                      skills={w.skills}
-                      year={w.year}
-                    />
-                  </Link>
-                  <Link
-                    href={`/work/${w.slug}`}
-                    className="img-wrap group relative block overflow-hidden"
-                    data-y-from="8"
-                    data-y-to="-8">
-                    <img
-                      src={w.boards[1]}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      className="w-full aspect-11/17 object-contain bg-red/3"
-                    />
-                    <WorkOverlay
-                      title={w.title}
-                      skills={w.skills}
-                      year={w.year}
-                    />
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              /* ── Layout B (odd): secondary board + hero left stacked, primary board right */
-              <div className="grid grid-cols-1 md:grid-cols-[4fr_5fr] gap-4 md:gap-6 items-start">
-                {/* Left column: secondary board + hero, offset down on right side */}
-                <div className="flex flex-col gap-4 md:gap-6 md:pb-[12%]">
-                  <Link
-                    href={`/work/${w.slug}`}
-                    className="img-wrap group relative block overflow-hidden"
-                    data-y-from="8"
-                    data-y-to="-6">
-                    <img
-                      src={w.boards[1]}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      className="w-full aspect-11/17 object-contain bg-red/3"
-                    />
-                    <WorkOverlay
-                      title={w.title}
-                      skills={w.skills}
-                      year={w.year}
-                    />
-                  </Link>
-                  <Link
-                    href={`/work/${w.slug}`}
-                    className="img-wrap group relative block overflow-hidden"
-                    data-y-from="10"
-                    data-y-to="-5">
-                    <img
-                      src={w.hero}
-                      alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      className="w-full aspect-2/3 object-cover"
-                    />
-                    <WorkOverlay
-                      title={w.title}
-                      skills={w.skills}
-                      year={w.year}
-                    />
-                  </Link>
-                </div>
-
-                {/* Primary board — large, anchored to top */}
-                <Link
-                  href={`/work/${w.slug}`}
-                  className="img-wrap group relative block overflow-hidden"
-                  data-y-from="6"
-                  data-y-to="-4">
-                  <img
-                    src={w.boards[0]}
-                    alt={w.title}
-                    loading="lazy"
-                    className="w-full aspect-11/17 object-contain bg-red/3"
-                  />
-                  <WorkOverlay
-                    title={w.title}
-                    skills={w.skills}
-                    year={w.year}
-                  />
-                </Link>
-              </div>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)] justify-items-center">
+              <Link
+                href={`/work/${w.slug}`}
+                className="img-wrap group relative block w-full max-w-[72rem] overflow-hidden"
+                data-y-from={i % 2 === 0 ? "6" : "8"}
+                data-y-to={i % 2 === 0 ? "-6" : "-4"}>
+                <img
+                  src={w.image}
+                  alt={SITE_IMAGE_ALT}
+                  loading="lazy"
+                  className="w-full h-full object-contain bg-red/3"
+                />
+                <WorkOverlay title={w.title} skills={w.skills} year={w.year} />
+              </Link>
+            </div>
           </div>
         ))}
 
