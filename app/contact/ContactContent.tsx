@@ -223,7 +223,7 @@ export default function ContactContent({
             {(services ?? []).map((service) => (
               <Link
                 key={service._id}
-                href={service.slug ? `/services/${service.slug}` : "/services"}
+                href="/services"
                 className="block transition-colors hover:text-white">
                 {service.title}
               </Link>

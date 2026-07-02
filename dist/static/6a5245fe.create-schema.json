@@ -1,0 +1,658 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "studioName",
+        "type": "string"
+      },
+      {
+        "name": "focusLabel",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "name": "descriptionText",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "initialValue": "Uyen Dao Studio",
+                "readOnly": true,
+                "name": "alt",
+                "type": "string",
+                "title": "Alt Text"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "heroImages",
+        "type": "array"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "description": "Use the public-facing phone number for the site.",
+        "name": "phoneNumber",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "platform",
+                "type": "string"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      },
+                      {
+                        "flag": "uri",
+                        "constraint": {
+                          "options": {
+                            "scheme": [
+                              "/^http$/",
+                              "/^https$/"
+                            ],
+                            "allowRelative": false,
+                            "relativeOnly": false,
+                            "allowCredentials": false
+                          }
+                        }
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "url",
+                "type": "url",
+                "title": "URL"
+              }
+            ],
+            "type": "object",
+            "name": "socialLink"
+          }
+        ],
+        "name": "socialLinks",
+        "type": "array",
+        "title": "Social Media Links"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "warning",
+            "message": "Search results usually truncate titles after about 60 characters."
+          }
+        ],
+        "description": "Default title tag for the website.",
+        "name": "seoTitle",
+        "type": "string",
+        "title": "SEO Title"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "warning",
+            "message": "Search results usually truncate descriptions after about 160 characters."
+          }
+        ],
+        "description": "Default meta description for the website.",
+        "name": "seoDescription",
+        "type": "text",
+        "title": "SEO Description"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "seoKeywords",
+        "type": "array",
+        "title": "SEO Tags"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "canonicalUrl",
+        "type": "url",
+        "title": "Canonical URL"
+      },
+      {
+        "initialValue": false,
+        "name": "noIndex",
+        "type": "boolean",
+        "title": "Hide From Search Engines"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "title": "Open Graph Title"
+          },
+          {
+            "rows": 3,
+            "name": "description",
+            "type": "text",
+            "title": "Open Graph Description"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "initialValue": "Uyen Dao Studio",
+                "readOnly": true,
+                "name": "alt",
+                "type": "string",
+                "title": "Alt Text"
+              }
+            ],
+            "name": "image",
+            "type": "image",
+            "title": "Open Graph Image"
+          }
+        ],
+        "name": "openGraph",
+        "type": "object"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error",
+            "message": "A project title is required before publishing."
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error",
+            "message": "Generate a slug before publishing this project."
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "year",
+        "type": "number"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Industrial Design",
+              "value": "Industrial Design"
+            },
+            {
+              "title": "Brand Direction",
+              "value": "Brand Direction"
+            },
+            {
+              "title": "Fashion Styling",
+              "value": "Fashion Styling"
+            },
+            {
+              "title": "Illustration",
+              "value": "Illustration"
+            }
+          ]
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "skills",
+        "type": "array"
+      },
+      {
+        "fields": [
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "rows": 4,
+            "name": "description",
+            "type": "text"
+          }
+        ],
+        "name": "additionalInformation",
+        "type": "object"
+      },
+      {
+        "options": {
+          "layout": "grid"
+        },
+        "description": "Drag images to rank them. The first image is used as the primary project image.",
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "boards",
+        "type": "array",
+        "title": "Board Images"
+      }
+    ],
+    "name": "project",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "order",
+        "type": "number"
+      },
+      {
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "summary",
+        "type": "array"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "coverImage",
+        "type": "image"
+      }
+    ],
+    "name": "service",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "stepNumber",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "order",
+        "type": "number"
+      }
+    ],
+    "name": "processStep",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "rows": 5,
+        "name": "intro",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "portrait",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "hotspot": true
+                },
+                "name": "image",
+                "type": "image"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "awardName",
+                "type": "string"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "min",
+                        "constraint": 1900
+                      },
+                      {
+                        "flag": "max",
+                        "constraint": 3000
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "year",
+                "type": "number"
+              },
+              {
+                "rows": 3,
+                "name": "description",
+                "type": "text",
+                "title": "Small Description"
+              }
+            ],
+            "type": "object",
+            "name": "recognition"
+          }
+        ],
+        "name": "recognitions",
+        "type": "array"
+      }
+    ],
+    "name": "aboutPage",
+    "type": "document"
+  }
+]

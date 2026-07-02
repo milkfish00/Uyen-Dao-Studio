@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  async redirects() {
+    return [
+      {
+        source: "/services/brand-and-creative-direction",
+        destination: "/services/brand-creative-direction",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

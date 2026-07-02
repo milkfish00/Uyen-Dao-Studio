@@ -81,6 +81,12 @@ export const SERVICES_QUERY = groq`
     _id,
     title,
     "slug": slug.current,
+    order,
+    tagline,
+    description,
+    summary,
+    items,
+    learnMoreHref,
     "coverImage": coalesce(coverImage.asset->url, image.asset->url)
   }
 `;
@@ -106,5 +112,36 @@ export const PROCESS_STEPS_QUERY = groq`
     stepNumber,
     title,
     description
+  }
+`;
+
+export const INDUSTRIAL_DESIGN_PROJECTS_QUERY = groq`
+  *[_type == "project" && "Industrial Design" in skills]
+  | order(year desc, _createdAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    skills,
+    "summary": additionalInformation.description,
+    "category": skills[0],
+    "image": coalesce(boards[0].asset->url, gallery[0].asset->url, mainImage.asset->url)
+  }
+`;
+
+/**
+ * Fetches projects tagged "Brand Direction" or "Fashion Styling" for the
+ * Brand & Creative Direction sub-page carousels.
+ * A project with both tags will appear in both carousels (filtered client-side).
+ */
+export const BRAND_CREATIVE_CASES_QUERY = groq`
+  *[_type == "project" && ("Brand Direction" in skills || "Fashion Styling" in skills)]
+  | order(year desc, _createdAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    skills,
+    "summary": additionalInformation.description,
+    "category": skills[0],
+    "image": coalesce(boards[0].asset->url, gallery[0].asset->url, mainImage.asset->url)
   }
 `;

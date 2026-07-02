@@ -28,8 +28,30 @@ export const service = defineType({
       type: "string",
     }),
     defineField({
+      name: "description",
+      title: "Description",
+      description: "Full description shown on the services page.",
+      type: "text",
+      rows: 5,
+    }),
+    defineField({
+      name: "learnMoreHref",
+      title: "Learn More URL",
+      description:
+        'Optional path for the "Learn More" button, e.g. /services/brand-creative-direction. Leave blank to hide the button.',
+      type: "string",
+    }),
+    defineField({
+      name: "items",
+      title: "What I Help With",
+      description:
+        "Bullet-point list of deliverables shown on the services page.",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({
       name: "summary",
-      title: "Summary",
+      title: "Summary (Rich Text)",
       type: "array",
       of: [defineArrayMember({ type: "block" })],
     }),
