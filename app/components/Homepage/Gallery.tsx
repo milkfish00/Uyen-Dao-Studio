@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
@@ -38,33 +39,33 @@ const FALLBACK_WORKS: Work[] = [
     slug: "lorem-ipsum",
     skills: ["Strategy", "Identity", "Branding"],
     year: 2024,
-    image: mk("c1a", 880, 1360),
+    image: mk("c1a", 1600, 900),
   },
   {
     title: "Dolor Sit",
     slug: "dolor-sit",
     skills: ["Concept", "Packaging", "Storytelling"],
     year: 2024,
-    image: mk("c2a", 880, 1360),
+    image: mk("c2a", 1600, 900),
   },
   {
     title: "Amet Consec",
     slug: "amet-consec",
     skills: ["Innovation", "Strategy", "Prototype"],
     year: 2023,
-    image: mk("c3a", 880, 1360),
+    image: mk("c3a", 1600, 900),
   },
   {
     title: "Adipiscing Elit",
     slug: "adipiscing-elit",
     skills: ["Branding", "Art Direction", "Packaging"],
     year: 2023,
-    image: mk("c4a", 880, 1360),
+    image: mk("c4a", 1600, 900),
   },
 ];
 
 function toWork(w: SanityWork): Work {
-  const fallback = `https://picsum.photos/seed/${w._id}/880/1360`;
+  const fallback = `https://picsum.photos/seed/${w._id}/1600/900`;
   const primaryBoard = hasImageSrc(w.boards?.[0]) ? w.boards[0] : null;
   return {
     title: w.title,
@@ -110,7 +111,7 @@ const Gallery = ({ projects }: { projects?: SanityWork[] | null }) => {
   useEffect(() => {
     const el = headingWrapRef.current;
     if (!el) return;
-    const words = el.querySelectorAll<HTMLElement>(".heading-word");
+    const words = el.querySelectorAll<HTMLElement>(`.heading-word`);
     gsap.set(words, { y: "110%" });
     const ctx = gsap.context(() => {
       gsap.to(words, {
@@ -134,8 +135,8 @@ const Gallery = ({ projects }: { projects?: SanityWork[] | null }) => {
       sectionRef.current
         ?.querySelectorAll<HTMLElement>(".img-wrap")
         .forEach((el) => {
-          const yFrom = parseFloat(el.dataset.yFrom ?? "8");
-          const yTo = parseFloat(el.dataset.yTo ?? "-8");
+          const yFrom = parseFloat(el.dataset.yFrom ?? "4");
+          const yTo = parseFloat(el.dataset.yTo ?? "-4");
           gsap.fromTo(
             el,
             { yPercent: yFrom },
@@ -158,7 +159,7 @@ const Gallery = ({ projects }: { projects?: SanityWork[] | null }) => {
   return (
     <div ref={sectionRef} className="relative overflow-clip">
       {/* Sticky heading — sits behind, clipped to this container */}
-      <div className="sticky top-0 flex  items-start justify-center pt-16 sm:pt-20 md:pt-24">
+      <div className="sticky top-0 flex items-start justify-center pt-16 sm:pt-20 md:pt-24">
         <div ref={headingWrapRef} className="relative">
           <h2
             className="flex flex-wrap justify-center text-red gap-x-[0.25em] uppercase text-[clamp(2rem,8vw,7rem)] tracking-[-0.05em] font-bold leading-none"
@@ -184,16 +185,23 @@ const Gallery = ({ projects }: { projects?: SanityWork[] | null }) => {
             <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)] justify-items-center">
               <Link
                 href={`/work/${w.slug}`}
-                className="img-wrap group relative block w-full max-w-[72rem] overflow-hidden"
-                data-y-from={i % 2 === 0 ? "6" : "8"}
-                data-y-to={i % 2 === 0 ? "-6" : "-4"}>
-                <img
-                  src={w.image}
-                  alt={SITE_IMAGE_ALT}
-                  loading="lazy"
-                  className="w-full h-full object-contain bg-red/3"
-                />
-                <WorkOverlay title={w.title} skills={w.skills} year={w.year} />
+                className="img-wrap group relative block w-full max-w-[72rem] overflow-hidden p-6 sm:p-10 lg:p-14"
+                data-y-from={i % 2 === 0 ? "4" : "6"}
+                data-y-to={i % 2 === 0 ? "-4" : "-3"}>
+                {/* Inner container to hold aspect-video (Landscape) with object-cover */}
+                <div className="relative aspect-video w-full overflow-hidden bg-red/3 rounded-sm">
+                  <img
+                    src={w.image}
+                    alt={SITE_IMAGE_ALT}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-750 ease-out group-hover:scale-101"
+                  />
+                  <WorkOverlay
+                    title={w.title}
+                    skills={w.skills}
+                    year={w.year}
+                  />
+                </div>
               </Link>
             </div>
           </div>

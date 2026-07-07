@@ -1,9 +1,14 @@
 "use client";
 
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import Slider from "react-slick";
+import type { Settings } from "react-slick";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +22,8 @@ type Work = {
   slug: string;
   category: string;
   image: string;
+  skills: string[];
+  year: number;
 };
 
 type SanityWork = {
@@ -38,6 +45,8 @@ const FALLBACK_WORKS: Work[] = [
     title: "Lorem Ipsum",
     slug: "lorem-ipsum",
     category: "Branding",
+    skills: ["Strategy", "Identity", "Branding"],
+    year: 2024,
     image: mk("p1", 480, 720),
   },
   {
@@ -45,6 +54,8 @@ const FALLBACK_WORKS: Work[] = [
     title: "Dolor Sit",
     slug: "dolor-sit",
     category: "Web",
+    skills: ["Concept", "Packaging", "Storytelling"],
+    year: 2024,
     image: mk("p2", 480, 720),
   },
   {
@@ -52,6 +63,8 @@ const FALLBACK_WORKS: Work[] = [
     title: "Amet Consec",
     slug: "amet-consec",
     category: "Identity",
+    skills: ["Innovation", "Strategy", "Prototype"],
+    year: 2023,
     image: mk("p3", 480, 720),
   },
   {
@@ -59,68 +72,87 @@ const FALLBACK_WORKS: Work[] = [
     title: "Adipiscing Elit",
     slug: "adipiscing-elit",
     category: "Motion",
+    skills: ["Branding", "Art Direction", "Packaging"],
+    year: 2023,
     image: mk("p4", 480, 720),
   },
 ];
 
 function toWork(work: SanityWork): Work {
   const fallback = `https://picsum.photos/seed/${work._id}h/480/720`;
-
   return {
     idx: 0,
     title: work.title,
     slug: work.slug,
     category: work.skills?.find(Boolean) || "Project",
+    skills: work.skills ?? [],
+    year: work.year ?? new Date().getFullYear(),
     image: hasImageSrc(work.hero) ? work.hero : fallback,
   };
 }
 
-function Card({ work, isCenter }: { work: Work; isCenter: boolean }) {
+function ArrowButton({
+  direction,
+  onClick,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+}) {
   return (
-    <Link
-      href={`/work/${work.slug}`}
-      className={`card-wrap relative block shrink-0 self-center overflow-hidden ${
-        isCenter ? "is-center" : "brightness-[0.82] grayscale-[0.3]"
-      }`}
-      draggable={false}
-      style={{
-        width: isCenter ? "clamp(320px,38vw,600px)" : "clamp(240px,32vw,520px)",
-        height: isCenter
-          ? "clamp(500px,92vh,960px)"
-          : "clamp(320px,74vh,740px)",
-        transition:
-          "width 0.5s cubic-bezier(0.16,1,0.3,1), height 0.5s cubic-bezier(0.16,1,0.3,1)",
-      }}>
-      <div className="absolute inset-0 overflow-hidden">
-        <img
-          src={work.image}
-          alt={work.title || SITE_IMAGE_ALT}
-          className="absolute inset-0 h-full w-full object-cover"
-          draggable={false}
+    <button
+      onClick={onClick}
+      className="flex items-center justify-center w-10 h-10 rounded-full border border-red text-red hover:bg-red hover:text-cream transition"
+      aria-label={direction === "prev" ? "Previous slide" : "Next slide"}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path
+          d={
+            direction === "prev"
+              ? "M18 12L6 12M6 12L11 17M6 12L11 7"
+              : "M6 12H18M18 12L13 7M18 12L13 17"
+          }
+          stroke="currentColor"
+          strokeWidth="1.5"
         />
-      </div>
-      <div className="hover-layer absolute inset-0 flex items-center justify-center">
-        <h2 className="relative whitespace-nowrap text-[clamp(1.4rem,3.5vw,5rem)] font-bold uppercase leading-none tracking-[-0.05em] text-red mix-blend-difference">
-          {work.title}
-        </h2>
-      </div>
-      <div className="hover-layer absolute bottom-4 left-4">
-        <p className="text-[0.5rem] uppercase tracking-[0.2em] text-white/55">
-          {String(work.idx).padStart(2, "0")}
-        </p>
-      </div>
-    </Link>
+      </svg>
+    </button>
   );
 }
+
+const WorkOverlay = ({
+  title,
+  skills,
+  year,
+}: {
+  title: string;
+  skills: string[];
+  year: number;
+}) => (
+  <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-red px-6 py-8 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+    <p className="text-center text-xl sm:text-2xl font-bold leading-tight tracking-tight text-cream">
+      {title}
+    </p>
+    {skills.length > 0 && (
+      <p className="text-center text-[0.6rem] font-medium uppercase tracking-[0.15em] text-cream/60">
+        {skills.join(" · ")}
+      </p>
+    )}
+    <p className="text-center text-xs text-cream/60">{year}</p>
+    <span className="mt-2 border border-cream px-4 py-1.5 text-xs font-medium text-cream">
+      View Project
+    </span>
+  </div>
+);
 
 export default function WorkContent({
   initialProjects,
 }: {
   initialProjects?: SanityWork[] | null;
 }) {
-  const jumping = useRef(false);
-  const trackRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const sliderRefs = useRef<{ [key: string]: Slider | null }>({});
+
+  const [filter, setFilter] = useState("All");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const works = useMemo(
     () =>
@@ -134,142 +166,39 @@ export default function WorkContent({
     [initialProjects],
   );
 
+  // 1. Extract ALL unique skills from your projects, not just skills[0]
   const categories = useMemo(() => {
     const values = new Set<string>();
-
     works.forEach((work) => {
-      if (work.category) {
-        values.add(work.category);
+      if (work.skills && Array.isArray(work.skills)) {
+        work.skills.forEach((skill) => {
+          if (skill) values.add(skill);
+        });
       }
     });
-
-    return ["All", ...values];
+    return ["All", ...Array.from(values)];
   }, [works]);
 
-  const [filter, setFilter] = useState("All");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [centerIdx, setCenterIdx] = useState(0);
-  const [breakpoint, setBreakpoint] = useState<
-    "mobile" | "tablet" | "desktop" | null
-  >(null);
+  // 2. Filter sections by checking if the skill exists anywhere in the project's skills array
+  const sectionsData = useMemo(() => {
+    const uniqueCategories = categories.filter((c) => c !== "All");
+    return uniqueCategories.map((category) => ({
+      category,
+      // Check if the current category exists anywhere inside the skills array
+      items: works.filter((work) => work.skills?.includes(category)),
+    }));
+  }, [categories, works]);
 
-  const visibleWorks = useMemo(() => {
-    if (filter === "All") {
-      return works;
-    }
-
-    return works.filter((work) => work.category === filter);
-  }, [filter, works]);
-
-  const itemCount = visibleWorks.length;
-  const loopedItems = useMemo(
-    () => [...visibleWorks, ...visibleWorks, ...visibleWorks],
-    [visibleWorks],
-  );
-
-  useEffect(() => {
-    const check = () => {
-      const width = window.innerWidth;
-
-      if (width < 768) {
-        setBreakpoint("mobile");
-      } else if (width < 1024) {
-        setBreakpoint("tablet");
-      } else {
-        setBreakpoint("desktop");
-      }
-    };
-
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track || breakpoint !== "desktop" || itemCount === 0) {
-      return;
-    }
-
-    setCenterIdx(0);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const items = track.querySelectorAll<HTMLElement>(".card-wrap");
-        const target = items[itemCount];
-
-        if (target) {
-          track.scrollLeft =
-            target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2;
-        }
-      });
-    });
-  }, [breakpoint, itemCount, filter]);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track || breakpoint !== "desktop" || itemCount === 0) {
-      return;
-    }
-
-    const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      const delta = Math.abs(event.deltaX) > 2 ? event.deltaX : event.deltaY;
-      track.scrollLeft += delta;
-    };
-
-    const onScroll = () => {
-      if (jumping.current) {
-        return;
-      }
-
-      const { scrollLeft, scrollWidth } = track;
-      const third = scrollWidth / 3;
-
-      if (scrollLeft >= third * 2) {
-        jumping.current = true;
-        track.scrollLeft = scrollLeft - third;
-        jumping.current = false;
-      } else if (scrollLeft <= 0) {
-        jumping.current = true;
-        track.scrollLeft = scrollLeft + third;
-        jumping.current = false;
-      }
-
-      const viewCenter = track.scrollLeft + track.clientWidth / 2;
-      const items = track.querySelectorAll<HTMLElement>(".card-wrap");
-      let closest = 0;
-      let minDist = Number.POSITIVE_INFINITY;
-
-      items.forEach((element, index) => {
-        const distance = Math.abs(
-          element.offsetLeft + element.offsetWidth / 2 - viewCenter,
-        );
-
-        if (distance < minDist) {
-          minDist = distance;
-          closest = index % itemCount;
-        }
-      });
-
-      setCenterIdx(closest);
-    };
-
-    track.addEventListener("wheel", onWheel, { passive: false });
-    track.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      track.removeEventListener("wheel", onWheel);
-      track.removeEventListener("scroll", onScroll);
-    };
-  }, [breakpoint, itemCount]);
+  const visibleSections = useMemo(() => {
+    if (filter === "All") return sectionsData;
+    return sectionsData.filter((sec) => sec.category === filter);
+  }, [filter, sectionsData]);
 
   useEffect(() => {
     const heading = headingRef.current;
-    if (!heading || breakpoint === "desktop") {
-      return;
-    }
+    if (!heading) return;
 
-    const words = heading.querySelectorAll<HTMLElement>(".heading-word");
+    const words = heading.querySelectorAll<HTMLElement>(`.heading-word`);
     gsap.set(words, { y: "110%" });
 
     const context = gsap.context(() => {
@@ -288,247 +217,158 @@ export default function WorkContent({
     }, heading);
 
     return () => context.revert();
-  }, [breakpoint, filter]);
+  }, [filter]);
 
   useEffect(() => {
-    if (!dropdownOpen) {
-      return;
-    }
-
+    if (!dropdownOpen) return;
     const handler = () => setDropdownOpen(false);
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
   }, [dropdownOpen]);
 
-  if (breakpoint === null) {
-    return null;
-  }
-
-  if (breakpoint === "mobile") {
-    return (
-      <main className="min-h-screen w-screen bg-cream">
-        <div className="flex flex-col gap-5 px-5 pt-40 pb-6">
-          <div className="relative mb-5 inline-block">
-            <h1
-              ref={headingRef}
-              className="text-[clamp(2.2rem,13vw,4rem)] font-bold uppercase leading-[0.88] tracking-[-0.05em] text-red">
-              <div className="flex flex-wrap gap-x-[0.3em]">
-                {["Selected", "Work"].map((word) => (
-                  <div key={word} className="overflow-hidden">
-                    <span className="heading-word block">{word}</span>
-                  </div>
-                ))}
-              </div>
-            </h1>
-          </div>
-
-          <div
-            className="relative inline-block"
-            onClick={(event) => event.stopPropagation()}>
-            <button
-              onClick={() => setDropdownOpen((value) => !value)}
-              className="flex items-center gap-2 rounded-2xl border border-red bg-cream px-3 py-2 text-[0.55rem] uppercase tracking-[0.2em] text-red transition-colors hover:border-red/40">
-              {filter}
-              <svg
-                width="8"
-                height="5"
-                viewBox="0 0 8 5"
-                fill="none"
-                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}>
-                <path
-                  d="M1 1l3 3 3-3"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-
-            {dropdownOpen ? (
-              <div className="absolute top-full left-0 z-30 mt-1 min-w-28 border border-black/15 bg-cream shadow-sm">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => {
-                      setFilter(category);
-                      setDropdownOpen(false);
-                    }}
-                    className={`block w-full px-3 py-2 text-left text-[0.55rem] uppercase tracking-[0.2em] transition-colors ${
-                      filter === category
-                        ? "bg-red/5 text-red"
-                        : "text-red/50 hover:bg-red/4 hover:text-red/80"
-                    }`}>
-                    {category}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-6 overflow-x-hidden px-5 pb-28">
-          {visibleWorks.map((work) => (
-            <Link key={work.slug} href={`/work/${work.slug}`} className="block">
-              <div className="relative aspect-square overflow-hidden">
-                <img
-                  src={work.image}
-                  alt={work.title || SITE_IMAGE_ALT}
-                  className="h-full w-full object-cover"
-                  draggable={false}
-                />
-              </div>
-              <div className="pt-6">
-                <h2 className="text-md font-bold uppercase leading-none tracking-[-0.03em] text-red">
-                  {work.title}
-                </h2>
-                <p className="mt-1.5 text-[0.75rem] uppercase tracking-[0.15em] text-red/40">
-                  {work.category}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="pointer-events-none fixed right-0 bottom-0 left-0 flex items-center justify-between px-5 py-4">
-          <p className="text-[0.55rem] uppercase tracking-[0.2em] text-red/38">
-            Selected Work
-          </p>
-          <p className="text-[0.55rem] uppercase tracking-[0.2em] text-red/38">
-            ({String(visibleWorks.length).padStart(2, "0")}/
-            {itemCount || works.length}) Projects
-          </p>
-        </div>
-      </main>
-    );
-  }
-
-  if (breakpoint === "tablet") {
-    return (
-      <main className="min-h-screen w-screen bg-cream">
-        <div className="flex items-end justify-between px-8 pt-40 pb-8">
-          <h1
-            ref={headingRef}
-            className="text-[clamp(2.8rem,7vw,5rem)] font-bold uppercase leading-[0.88] tracking-[-0.05em] text-red">
-            <div className="flex flex-wrap gap-x-[0.3em]">
-              {["Selected", "Work"].map((word) => (
-                <div key={word} className="overflow-hidden">
-                  <span className="heading-word block">{word}</span>
-                </div>
-              ))}
-            </div>
-          </h1>
-
-          <div
-            className="relative mb-1"
-            onClick={(event) => event.stopPropagation()}>
-            <button
-              onClick={() => setDropdownOpen((value) => !value)}
-              className="flex items-center gap-2 rounded-2xl border border-red bg-cream px-4 py-2 text-[0.6rem] uppercase tracking-[0.2em] text-red transition-colors hover:border-red/40">
-              {filter}
-              <svg
-                width="8"
-                height="5"
-                viewBox="0 0 8 5"
-                fill="none"
-                className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}>
-                <path
-                  d="M1 1l3 3 3-3"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-
-            {dropdownOpen ? (
-              <div className="absolute top-full right-0 z-30 mt-1 min-w-28 border border-black/15 bg-cream shadow-sm">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => {
-                      setFilter(category);
-                      setDropdownOpen(false);
-                    }}
-                    className={`block w-full px-3 py-2 text-left text-[0.6rem] uppercase tracking-[0.2em] transition-colors ${
-                      filter === category
-                        ? "bg-red/5 text-red"
-                        : "text-red/50 hover:bg-red/4 hover:text-red/80"
-                    }`}>
-                    {category}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 px-8 pb-28">
-          {visibleWorks.map((work) => (
-            <Link key={work.slug} href={`/work/${work.slug}`} className="block">
-              <div className="relative aspect-3/4 overflow-hidden">
-                <img
-                  src={work.image}
-                  alt={work.title || SITE_IMAGE_ALT}
-                  className="h-full w-full object-cover"
-                  draggable={false}
-                />
-              </div>
-              <div className="pt-4">
-                <h2 className="text-[clamp(1rem,2.2vw,1.4rem)] font-bold uppercase leading-none tracking-[-0.03em] text-red">
-                  {work.title}
-                </h2>
-                <p className="mt-1.5 text-[0.7rem] uppercase tracking-[0.15em] text-red/40">
-                  {work.category}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="pointer-events-none fixed right-0 bottom-0 left-0 flex items-center justify-between px-8 py-4">
-          <p className="text-[0.6rem] uppercase tracking-[0.2em] text-red/38">
-            Selected Work
-          </p>
-          <p className="text-[0.6rem] uppercase tracking-[0.2em] text-red/38">
-            ({String(visibleWorks.length).padStart(2, "0")}/
-            {itemCount || works.length}) Projects
-          </p>
-        </div>
-      </main>
-    );
-  }
+  const sliderSettings: Settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3.5,
+    slidesToScroll: 1,
+    arrows: false,
+    swipeToSlide: true,
+    responsive: [
+      { breakpoint: 1280, settings: { slidesToShow: 2.5 } },
+      { breakpoint: 768, settings: { slidesToShow: 1.5 } },
+      {
+        breakpoint: 640,
+        settings: { slidesToShow: 1, centerMode: true, centerPadding: "5%" },
+      },
+    ],
+  };
 
   return (
-    <main className="flex h-screen w-screen select-none flex-col overflow-hidden bg-cream">
-      <div
-        ref={trackRef}
-        className="scrollbar-hide flex-1 cursor-grab overflow-x-auto overflow-y-hidden">
-        <div className="flex h-full min-w-max items-center gap-[5vw] px-[28vw]">
-          {loopedItems.map((work, index) => {
-            const baseIndex = itemCount > 0 ? index % itemCount : 0;
-            const isCenter = baseIndex === centerIdx;
+    <main className="min-h-screen w-screen bg-cream text-red selection:bg-red selection:text-cream pb-32">
+      {/* Header Area */}
+      <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-0 px-6 sm:px-10 lg:px-16 pt-40 pb-12 border-b border-red/10">
+        <h1
+          ref={headingRef}
+          className="text-[clamp(2.5rem,8vw,6rem)] font-bold uppercase leading-[0.85] tracking-[-0.05em] text-red">
+          <div className="overflow-hidden">
+            <span className="heading-word block">projects</span>
+          </div>
+        </h1>
 
-            return (
-              <Card
-                key={`${work.slug}-${index}`}
-                work={work}
-                isCenter={isCenter}
+        {/* Filter Button */}
+        <div className="relative z-30" onClick={(e) => e.stopPropagation()}>
+          <button
+            onClick={() => setDropdownOpen((prev) => !prev)}
+            className="flex items-center gap-2 rounded-full border border-red bg-cream px-6 py-3 text-xs sm:px-4 sm:py-2 sm:text-[0.6rem] uppercase tracking-[0.2em] text-red transition-colors hover:bg-red hover:text-cream">
+            <span>Filter: {filter}</span>
+            <svg
+              width="8"
+              height="5"
+              viewBox="0 0 8 5"
+              fill="none"
+              className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}>
+              <path
+                d="M1 1l3 3 3-3"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
-            );
-          })}
+            </svg>
+          </button>
+
+          {dropdownOpen && (
+            <div className="absolute top-full left-0 sm:left-auto sm:right-0 mt-2 min-w-40 border border-red/20 bg-cream shadow-xl rounded-xl overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => {
+                    setFilter(category);
+                    setDropdownOpen(false);
+                  }}
+                  className={`block w-full px-5 py-3.5 sm:px-4 sm:py-3 text-left text-xs sm:text-[0.6rem] uppercase tracking-[0.2em] transition-colors border-b border-red/5 last:border-none ${
+                    filter === category
+                      ? "bg-red text-cream"
+                      : "text-red/70 hover:bg-red/5 hover:text-red"
+                  }`}>
+                  {category}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="pointer-events-none absolute right-0 bottom-0 left-0 flex items-center justify-between px-10 py-6">
-        <p className="text-[0.6rem] uppercase tracking-[0.2em] text-red/38">
-          Selected Work
-        </p>
-        <p className="text-[0.6rem] uppercase tracking-[0.2em] text-red/38">
-          ({String(centerIdx + 1).padStart(2, "0")}/{itemCount || works.length})
-          Projects
-        </p>
+      {/* Skills Category Sections */}
+      <div className="flex flex-col mt-4">
+        {visibleSections.map((section) => (
+          <section
+            key={section.category}
+            className="py-12 border-b border-red/10 last:border-b-0 overflow-hidden">
+            <div className="flex items-center justify-between px-6 sm:px-10 lg:px-16 mb-8">
+              <div>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-tight text-red">
+                  {section.category}
+                </h3>
+              </div>
+              {section.items.length > 1 && (
+                <div className="flex items-center gap-2">
+                  <ArrowButton
+                    direction="prev"
+                    onClick={() =>
+                      sliderRefs.current[section.category]?.slickPrev()
+                    }
+                  />
+                  <ArrowButton
+                    direction="next"
+                    onClick={() =>
+                      sliderRefs.current[section.category]?.slickNext()
+                    }
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="px-6 sm:px-10 lg:px-16">
+              <Slider
+                ref={(el) => {
+                  if (el) sliderRefs.current[section.category] = el;
+                }}
+                {...sliderSettings}>
+                {section.items.map((work) => (
+                  <div key={work.slug} className="pr-4 sm:pr-6 outline-none">
+                    <Link
+                      href={`/work/${work.slug}`}
+                      className="group block project-card">
+                      <div className="relative aspect-3/4 w-full overflow-hidden bg-red/5 rounded-sm">
+                        <img
+                          src={work.image}
+                          alt={work.title || SITE_IMAGE_ALT}
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-750 ease-out group-hover:scale-102"
+                          draggable={false}
+                        />
+                        <WorkOverlay
+                          title={work.title}
+                          skills={work.skills}
+                          year={work.year}
+                        />
+                      </div>
+
+                      <div className="pt-4 flex justify-between items-start gap-4">
+                        <h4 className="text-md font-bold uppercase tracking-[-0.02em] leading-tight text-red transition-colors group-hover:text-red/70">
+                          {work.title}
+                        </h4>
+                        <span className="text-[0.55rem] uppercase tracking-[0.2em] text-red/40 pt-0.5">
+                          {String(work.idx).padStart(2, "0")}
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </section>
+        ))}
       </div>
     </main>
   );

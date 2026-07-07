@@ -86,16 +86,16 @@ export default function WorkSection({ works }: { works?: Work[] }) {
   const settings: Settings = {
     infinite: true,
     speed: 600,
-    slidesToShow: 2.8,
+    slidesToShow: 3.5, // Bumped slightly up from 2.8 since portrait slides are narrower
     slidesToScroll: 1,
     arrows: false,
     swipeToSlide: true,
     responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 2.2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1.6 } },
+      { breakpoint: 1280, settings: { slidesToShow: 2.8 } },
+      { breakpoint: 768, settings: { slidesToShow: 1.8 } },
       {
         breakpoint: 640,
-        settings: { centerMode: true, centerPadding: "9%", slidesToShow: 1 },
+        settings: { centerMode: true, centerPadding: "8%", slidesToShow: 1 },
       },
     ],
   };
@@ -163,14 +163,14 @@ export default function WorkSection({ works }: { works?: Work[] }) {
               <Link
                 href={w.slug ? `/work/${w.slug}` : "/work"}
                 className="group flex flex-col">
-                {/* Image */}
-                <div className="relative w-full overflow-hidden aspect-video">
+                {/* Image — Aspect ratio changed to aspect-3/4 for dynamic Portrait styling */}
+                <div className="relative w-full overflow-hidden aspect-3/4 bg-red/5 rounded-sm">
                   {/* Mobile: top gradient so white title is readable */}
                   <div className="sm:hidden absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/65 to-transparent z-10 pointer-events-none" />
                   <img
                     src={w.img}
                     alt={SITE_IMAGE_ALT}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-750 ease-out group-hover:scale-103"
                   />
                   {/* Mobile: title overlaid on image */}
                   <div className="sm:hidden absolute top-0 left-0 right-0 p-4 z-20">
@@ -194,7 +194,7 @@ export default function WorkSection({ works }: { works?: Work[] }) {
 
                 {/* Desktop: title below */}
                 <div className="hidden sm:block pt-4">
-                  <h3 className="font-semibold text-red text-lg sm:text-xl tracking-tight">
+                  <h3 className="font-semibold text-red text-lg sm:text-xl tracking-tight transition-colors group-hover:text-red/70">
                     {w.title}
                   </h3>
                 </div>

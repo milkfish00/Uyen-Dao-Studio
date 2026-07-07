@@ -65,17 +65,17 @@ function CaseCarousel({
 }) {
   const settings: Settings = {
     infinite: true,
-    speed: 650,
-    slidesToShow: 2.8,
+    speed: 600,
+    slidesToShow: 3.5,
     slidesToScroll: 1,
     arrows: false,
     swipeToSlide: true,
     responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 2.2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1.6 } },
+      { breakpoint: 1280, settings: { slidesToShow: 2.8 } },
+      { breakpoint: 768, settings: { slidesToShow: 1.8 } },
       {
         breakpoint: 640,
-        settings: { slidesToShow: 1, centerMode: true, centerPadding: "9%" },
+        settings: { centerMode: true, centerPadding: "8%", slidesToShow: 1 },
       },
     ],
   };
@@ -117,15 +117,15 @@ function CaseCarousel({
         <Slider ref={sliderRef} {...settings}>
           {items.map((item) => (
             <div key={item._id} className="px-2 sm:px-0 sm:pr-6">
-              <article className="group flex flex-col">
-                <div className="relative w-full overflow-hidden aspect-3/4 bg-[#eaded4]">
+              <article className="group flex flex-col cursor-pointer">
+                <div className="relative w-full overflow-hidden aspect-3/4 bg-[#eaded4] rounded-sm">
                   <div className="sm:hidden absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/55 to-transparent z-10 pointer-events-none" />
                   {item.image ? (
                     <Image
                       src={item.image}
                       alt={item.title ?? SITE_IMAGE_ALT}
                       fill
-                      className="absolute inset-0 object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                      className="absolute inset-0 object-cover object-center transition-transform duration-750 ease-out group-hover:scale-103"
                       sizes="(min-width: 1024px) 32vw, 88vw"
                     />
                   ) : (
@@ -147,14 +147,9 @@ function CaseCarousel({
                 </div>
 
                 <div className="hidden sm:block pt-4">
-                  <h3 className="font-semibold text-red text-lg sm:text-xl tracking-tight">
+                  <h3 className="font-semibold text-red text-lg sm:text-xl tracking-tight transition-colors group-hover:text-red/70">
                     {item.title}
                   </h3>
-                  {item.summary && (
-                    <p className="mt-1 text-sm leading-[1.7] text-red/65 max-w-[34ch]">
-                      {item.summary}
-                    </p>
-                  )}
                 </div>
               </article>
             </div>

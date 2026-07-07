@@ -22,7 +22,6 @@ const mobileMenuLinks = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
   const [nearFooter, setNearFooter] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -53,14 +52,8 @@ const Navbar = () => {
   }, [isHome]);
 
   useEffect(() => {
-    if (!isHome) {
-      setPastHero(true);
-      return;
-    }
+    if (!isHome) return;
     const check = () => {
-      const hero = document.getElementById("hero");
-      const threshold = hero ? hero.offsetHeight : window.innerHeight;
-      setPastHero(window.scrollY >= threshold);
       const distFromBottom =
         document.documentElement.scrollHeight -
         window.scrollY -
@@ -157,7 +150,7 @@ const Navbar = () => {
         <nav className="hidden md:flex fixed bottom-5 left-0 right-0 z-50 justify-center pointer-events-none">
           <div
             className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-red/15 px-1.5 py-1.5 bg-red/70 backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
-              !pastHero || nearFooter
+              nearFooter
                 ? "opacity-0 -translate-y-2 pointer-events-none"
                 : "opacity-100 translate-y-0"
             }`}>

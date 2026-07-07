@@ -38,7 +38,7 @@ const studioTheme = buildLegacyTheme({
 
 export default defineConfig({
   basePath: "/studio",
-  title: "Uyen Dao Studio",
+  title: "Uyen Dao Design",
   icon: Logo,
   projectId: projectId || "missing-project-id",
   dataset: dataset || "missing-dataset",
