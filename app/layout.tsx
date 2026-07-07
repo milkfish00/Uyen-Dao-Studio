@@ -4,6 +4,7 @@ import { Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import SiteShell from "./components/ui/SiteShell";
+import CustomCursor from "./components/ui/CustomCursor";
 import { SanityLive } from "@/sanity/lib/live";
 
 const bdGrotesk = localFont({
@@ -55,6 +56,7 @@ export default function RootLayout({
       className={`${bdGrotesk.variable} ${geistMono.variable}`}
       suppressHydrationWarning>
       <body className="antialiased text-ink" suppressHydrationWarning>
+        <CustomCursor />
         <SiteShell>{children}</SiteShell>
         <SanityLive />
       </body>

@@ -16,6 +16,58 @@
   --ink: #000000;
 }
 
+/* Hide default cursor when custom cursor is active */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body {
+    cursor: none;
+  }
+
+  /* Ensure links don't show default cursor on hover */
+  a,
+  [role="link"],
+  button,
+  [role="button"] {
+    cursor: none;
+  }
+}
+
+/* Custom cursor styles */
+.custom-cursor {
+  transition:
+    transform 0.1s ease,
+    width 0.2s ease,
+    height 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.custom-cursor.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.custom-cursor.hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.custom-cursor svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.custom-cursor path {
+  transition:
+    fill 0.2s ease,
+    stroke 0.2s ease;
+}
+
+.custom-cursor.hover path {
+  fill: #000;
+  stroke: #fff;
+}
+
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;
