@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
+const SITE_IMAGE_ALT = "Uyen Dao Design";
 
 type SiteSettings = {
   studioName?: string;
