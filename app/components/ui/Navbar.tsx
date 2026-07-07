@@ -23,6 +23,7 @@ const mobileMenuLinks = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [nearFooter, setNearFooter] = useState(false);
+  const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isContact = pathname === "/contact";
@@ -63,6 +64,18 @@ const Navbar = () => {
     check();
     window.addEventListener("scroll", check, { passive: true });
     return () => window.removeEventListener("scroll", check);
+  }, [isHome]);
+
+  // Show floating nav only after scrolling past hero
+  useEffect(() => {
+    if (!isHome) return;
+    const checkScrollPastHero = () => {
+      // Hero is 100dvh, so we check if we've scrolled past the viewport height
+      setHasScrolledPastHero(window.scrollY > window.innerHeight * 0.9);
+    };
+    checkScrollPastHero();
+    window.addEventListener("scroll", checkScrollPastHero, { passive: true });
+    return () => window.removeEventListener("scroll", checkScrollPastHero);
   }, [isHome]);
 
   const hamburger = (bgClass: string) => (
@@ -150,9 +163,9 @@ const Navbar = () => {
         <nav className="hidden md:flex fixed bottom-5 left-0 right-0 z-50 justify-center pointer-events-none">
           <div
             className={`pointer-events-auto flex items-center gap-0.5 rounded-lg border border-red/15 px-1.5 py-1.5 bg-red/70 backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-out ${
-              nearFooter
-                ? "opacity-0 -translate-y-2 pointer-events-none"
-                : "opacity-100 translate-y-0"
+              hasScrolledPastHero && !nearFooter
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-2 pointer-events-none"
             }`}>
             <Link
               href="/"
