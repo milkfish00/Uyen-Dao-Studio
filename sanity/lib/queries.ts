@@ -92,18 +92,17 @@ export const SERVICES_QUERY = groq`
     "coverImage": coalesce(coverImage.asset->url, image.asset->url)
   }
 `;
-
 export const ABOUT_PAGE_QUERY = groq`
   *[_type == "aboutPage"][0] {
     heading,
     intro,
-    "portrait": portrait.asset->url,
+    portrait,
     recognitions[]{
       _key,
       awardName,
       year,
       description,
-      "images": coalesce(images[].asset->url, [])
+      images
     }
   }
 `;

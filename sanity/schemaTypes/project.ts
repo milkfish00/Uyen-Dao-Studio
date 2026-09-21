@@ -16,6 +16,7 @@ export const project = defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
+      description: "Click generate",
       options: { source: "title", maxLength: 96 },
       validation: (rule) =>
         rule

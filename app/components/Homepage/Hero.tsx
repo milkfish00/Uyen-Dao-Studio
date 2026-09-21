@@ -62,7 +62,7 @@ const Hero = ({ settings }: { settings?: SiteSettings }) => {
   return (
     <section
       id="hero"
-      className="relative h-[100dvh] w-full overflow-hidden bg-cream lg:border-10 border-red">
+      className="relative h-[100dvh] w-full overflow-hidden bg-cream lg:border-10 border-white">
       {/* Full screen edge-to-edge images */}
       <div className="absolute inset-0 w-full h-full">
         {slides.map((img, i) => (
@@ -84,7 +84,7 @@ const Hero = ({ settings }: { settings?: SiteSettings }) => {
       {/* Overlay Layout */}
       <div className="absolute bottom-0 inset-x-0 z-10 p-6 md:p-12 bg-gradient-to-t from-black/40 via-black/10 to-transparent">
         <h1
-          className="uppercase font-bold text-center text-[#8C0014] tracking-tight leading-[0.85] select-none dropped-shadow-sm"
+          className="uppercase font-bold text-center text-white tracking-tight leading-[0.85] select-none dropped-shadow-sm"
           style={{ fontSize: "clamp(2.5rem, 10vw, 9rem)" }}>
           {studioName}
         </h1>
