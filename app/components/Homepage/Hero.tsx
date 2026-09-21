@@ -62,7 +62,7 @@ const Hero = ({ settings }: { settings?: SiteSettings }) => {
   return (
     <section
       id="hero"
-      className="relative h-[100dvh] w-full overflow-hidden bg-cream lg:border-10 border-white">
+      className="relative h-[101dvh] w-full overflow-hidden bg-cream lg:border-10 border-white">
       {/* Full screen edge-to-edge images */}
       <div className="absolute inset-0 w-full h-full">
         {slides.map((img, i) => (
