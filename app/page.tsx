@@ -1,4 +1,5 @@
 import { sanityFetch } from "@/sanity/lib/live";
+import { imageUrl, imageUrls } from "@/sanity/lib/image";
 import {
   SETTINGS_QUERY,
   FEATURED_PROJECTS_QUERY,
@@ -6,6 +7,7 @@ import {
   SERVICES_QUERY,
   PROCESS_STEPS_QUERY,
 } from "@/sanity/lib/queries";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import Hero from "./components/Homepage/Hero";
 import ServicesSection from "./components/Homepage/ServicesSection";
 import Description from "./components/Homepage/Description";
@@ -17,7 +19,7 @@ type SiteSettings = {
   studioName?: string;
   focusLabel?: string;
   descriptionText?: string;
-  heroImages?: { _key: string; url: string; alt?: string }[];
+  heroImages?: (SanityImageSource & { _key: string; alt?: string })[];
 } | null;
 
 type FeaturedProject = {
@@ -26,8 +28,8 @@ type FeaturedProject = {
   slug: string;
   skills?: string[];
   year?: number;
-  boards?: (string | null)[];
-  hero?: string | null;
+  boards?: (SanityImageSource | null)[];
+  hero?: SanityImageSource | null;
 };
 
 type WorkCarouselItem = {
@@ -35,7 +37,7 @@ type WorkCarouselItem = {
   title: string;
   category: string;
   skills?: string[];
-  img: string;
+  img?: SanityImageSource | null;
   slug?: string;
 };
 
@@ -43,7 +45,7 @@ type Service = {
   _id: string;
   title: string;
   slug?: string;
-  coverImage?: string | null;
+  coverImage?: SanityImageSource | null;
 };
 
 type ProcessStep = {
@@ -68,14 +70,42 @@ export default async function Home() {
     sanityFetch<ProcessStep[]>({ query: PROCESS_STEPS_QUERY }),
   ]);
 
+  // Image objects carry the Studio's crop/hotspot; resolve them to cropped URLs
+  // before handing them to the client components.
+  const heroSettings = settings
+    ? {
+        ...settings,
+        heroImages: (settings.heroImages ?? []).flatMap((img) => {
+          const url = imageUrl(img);
+          return url ? [{ _key: img._key, alt: img.alt, url }] : [];
+        }),
+      }
+    : settings;
+
+  const galleryProjects = (featuredProjects ?? []).map((project) => ({
+    ...project,
+    boards: imageUrls(project.boards),
+    hero: imageUrl(project.hero),
+  }));
+
+  const carouselWorks = (workCarousel ?? []).map((work) => ({
+    ...work,
+    img: imageUrl(work.img) ?? "",
+  }));
+
+  const serviceCards = (services ?? []).map((service) => ({
+    ...service,
+    coverImage: imageUrl(service.coverImage),
+  }));
+
   return (
     <div className="bg-cream">
-      <Hero settings={settings} />
+      <Hero settings={heroSettings} />
       <Description settings={settings} />
-      <Gallery projects={featuredProjects} />
+      <Gallery projects={galleryProjects} />
       <Process steps={processSteps} />
-      <ServicesSection services={services} />
-      <WorkSection works={workCarousel ?? undefined} />
+      <ServicesSection services={serviceCards} />
+      <WorkSection works={carouselWorks} />
     </div>
   );
 }

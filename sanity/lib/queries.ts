@@ -1,5 +1,18 @@
 import { groq } from "next-sanity";
 
+/**
+ * Image fields are returned as whole objects (asset + crop + hotspot) rather
+ * than `asset->url`, so the front end can rebuild the URL with `imageUrl()` and
+ * honour the crop set in the Studio. An `asset->url` always resolves to the
+ * uncropped original.
+ */
+const IMAGE_FIELDS = `
+  _type,
+  crop,
+  hotspot,
+  asset
+`;
+
 export const SETTINGS_QUERY = groq`
   *[_type == "siteSettings"][0] {
     studioName,
@@ -15,7 +28,7 @@ export const SETTINGS_QUERY = groq`
     heroImages[] {
       _key,
       alt,
-      "url": asset->url
+      ${IMAGE_FIELDS}
     }
   }
 `;
@@ -26,8 +39,22 @@ const PROJECT_CARD_FIELDS = `
   "slug": slug.current,
   skills,
   year,
-  "boards": coalesce(boards[].asset->url, gallery[].asset->url, []),
-  "hero": coalesce(coverImage.asset->url, boards[0].asset->url, gallery[0].asset->url, mainImage.asset->url)
+  "boards": coalesce(boards[]{ ${IMAGE_FIELDS} }, gallery[]{ ${IMAGE_FIELDS} }, []),
+  "hero": coalesce(
+    coverImage{ ${IMAGE_FIELDS} },
+    boards[0]{ ${IMAGE_FIELDS} },
+    gallery[0]{ ${IMAGE_FIELDS} },
+    mainImage{ ${IMAGE_FIELDS} }
+  )
+`;
+
+const PROJECT_IMAGE_FALLBACK = `
+  coalesce(
+    coverImage{ ${IMAGE_FIELDS} },
+    boards[0]{ ${IMAGE_FIELDS} },
+    gallery[0]{ ${IMAGE_FIELDS} },
+    mainImage{ ${IMAGE_FIELDS} }
+  )
 `;
 
 export const FEATURED_PROJECTS_QUERY = groq`
@@ -43,7 +70,7 @@ export const WORK_CAROUSEL_QUERY = groq`
     "slug": slug.current,
     skills,
     "category": coalesce(skills[0], "Project"),
-    "img": coalesce(coverImage.asset->url, boards[0].asset->url, gallery[0].asset->url, mainImage.asset->url)
+    "img": ${PROJECT_IMAGE_FALLBACK}
   }
 `;
 
@@ -64,8 +91,8 @@ export const PROJECT_DETAIL_QUERY = groq`
       title,
       description
     },
-    "coverImage": coverImage.asset->url,
-    "boards": coalesce(boards[].asset->url, [])
+    "coverImage": coverImage{ ${IMAGE_FIELDS} },
+    "boards": coalesce(boards[]{ ${IMAGE_FIELDS} }, [])
   }
 `;
 
@@ -74,7 +101,7 @@ export const PROJECT_NAV_QUERY = groq`
     _id,
     title,
     "slug": slug.current,
-    "image": coalesce(coverImage.asset->url, boards[0].asset->url)
+    "image": coalesce(coverImage{ ${IMAGE_FIELDS} }, boards[0]{ ${IMAGE_FIELDS} })
   }
 `;
 
@@ -89,7 +116,7 @@ export const SERVICES_QUERY = groq`
     summary,
     items,
     learnMoreHref,
-    "coverImage": coalesce(coverImage.asset->url, image.asset->url)
+    "coverImage": coalesce(coverImage{ ${IMAGE_FIELDS} }, image{ ${IMAGE_FIELDS} })
   }
 `;
 export const ABOUT_PAGE_QUERY = groq`
@@ -125,7 +152,7 @@ export const INDUSTRIAL_DESIGN_PROJECTS_QUERY = groq`
     skills,
     "summary": additionalInformation.description,
     "category": skills[0],
-    "image": coalesce(coverImage.asset->url, boards[0].asset->url, gallery[0].asset->url, mainImage.asset->url)
+    "image": ${PROJECT_IMAGE_FALLBACK}
   }
 `;
 
@@ -143,6 +170,6 @@ export const BRAND_CREATIVE_CASES_QUERY = groq`
     skills,
     "summary": additionalInformation.description,
     "category": skills[0],
-    "image": coalesce(coverImage.asset->url, boards[0].asset->url, gallery[0].asset->url, mainImage.asset->url)
+    "image": ${PROJECT_IMAGE_FALLBACK}
   }
 `;

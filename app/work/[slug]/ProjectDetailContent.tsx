@@ -1,9 +1,10 @@
 "use client";
 
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import ImageLightbox from "@/app/components/ui/ImageLightbox";
 
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 const PICSUM = "https://picsum.photos/seed/";
 
 type ProjectDetail = {
@@ -38,6 +39,7 @@ export default function ProjectDetailContent({
   nextProject: NextProject;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -71,6 +73,9 @@ export default function ProjectDetailContent({
     }
     return imageSources[index % imageSources.length];
   };
+
+  // The seven frames shown on the page, in order, for the lightbox
+  const galleryImages = Array.from({ length: 7 }, (_, i) => imageAt(i));
 
   const nextHref = nextProject ? `/work/${nextProject.slug}` : "/work";
   const nextLabel = nextProject?.title || "All Work";
@@ -136,12 +141,18 @@ export default function ProjectDetailContent({
             {/* Image 1 Container */}
             <div className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
               <div className="relative w-full h-full  overflow-hidden rounded-sm">
-                <img
-                  src={imageAt(0)}
-                  alt={SITE_IMAGE_ALT}
-                  className="absolute inset-0 h-full w-full object-contain"
-                  draggable={false}
-                />
+                <button
+                  type="button"
+                  aria-label="View image 1 larger"
+                  onClick={() => setOpenIndex(0)}
+                  className="absolute inset-0 cursor-zoom-in">
+                  <img
+                    src={imageAt(0)}
+                    alt={SITE_IMAGE_ALT}
+                    className="absolute inset-0 h-full w-full object-contain"
+                    draggable={false}
+                  />
+                </button>
               </div>
             </div>
           </section>
@@ -149,72 +160,108 @@ export default function ProjectDetailContent({
           {/* SECTION 2: Uniform Frame (Image 1 alternate) */}
           <section className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
             <div className="relative w-full h-full  overflow-hidden rounded-sm">
-              <img
-                src={imageAt(1)}
-                alt={SITE_IMAGE_ALT}
-                className="absolute inset-0 h-full w-full object-contain"
-                draggable={false}
-              />
+              <button
+                type="button"
+                aria-label="View image 2 larger"
+                onClick={() => setOpenIndex(1)}
+                className="absolute inset-0 cursor-zoom-in">
+                <img
+                  src={imageAt(1)}
+                  alt={SITE_IMAGE_ALT}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </button>
             </div>
           </section>
 
           {/* SECTION 3: Uniform Frame (Image 2) */}
           <section className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
             <div className="relative w-full h-full  overflow-hidden rounded-sm">
-              <img
-                src={imageAt(2)}
-                alt={SITE_IMAGE_ALT}
-                className="absolute inset-0 h-full w-full object-contain"
-                draggable={false}
-              />
+              <button
+                type="button"
+                aria-label="View image 3 larger"
+                onClick={() => setOpenIndex(2)}
+                className="absolute inset-0 cursor-zoom-in">
+                <img
+                  src={imageAt(2)}
+                  alt={SITE_IMAGE_ALT}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </button>
             </div>
           </section>
 
           {/* SECTION 4: Uniform Frame (Image 3) */}
           <section className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
             <div className="relative w-full h-full  overflow-hidden rounded-sm">
-              <img
-                src={imageAt(3)}
-                alt={SITE_IMAGE_ALT}
-                className="absolute inset-0 h-full w-full object-contain"
-                draggable={false}
-              />
+              <button
+                type="button"
+                aria-label="View image 4 larger"
+                onClick={() => setOpenIndex(3)}
+                className="absolute inset-0 cursor-zoom-in">
+                <img
+                  src={imageAt(3)}
+                  alt={SITE_IMAGE_ALT}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </button>
             </div>
           </section>
 
           {/* SECTION 5: Uniform Frame (Image 4 - Grayscale) */}
           <section className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
             <div className="relative w-full h-full  overflow-hidden rounded-sm">
-              <img
-                src={imageAt(4)}
-                alt={SITE_IMAGE_ALT}
-                className="absolute inset-0 h-full w-full object-contain grayscale"
-                draggable={false}
-              />
+              <button
+                type="button"
+                aria-label="View image 5 larger"
+                onClick={() => setOpenIndex(4)}
+                className="absolute inset-0 cursor-zoom-in">
+                <img
+                  src={imageAt(4)}
+                  alt={SITE_IMAGE_ALT}
+                  className="absolute inset-0 h-full w-full object-contain grayscale"
+                  draggable={false}
+                />
+              </button>
             </div>
           </section>
 
           {/* SECTION 6: Uniform Frame (Image 5) */}
           <section className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
             <div className="relative w-full h-full  overflow-hidden rounded-sm">
-              <img
-                src={imageAt(5)}
-                alt={SITE_IMAGE_ALT}
-                className="absolute inset-0 h-full w-full object-contain"
-                draggable={false}
-              />
+              <button
+                type="button"
+                aria-label="View image 6 larger"
+                onClick={() => setOpenIndex(5)}
+                className="absolute inset-0 cursor-zoom-in">
+                <img
+                  src={imageAt(5)}
+                  alt={SITE_IMAGE_ALT}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </button>
             </div>
           </section>
 
           {/* SECTION 7: Uniform Frame (Image 6) */}
           <section className="relative h-[72vw] w-full shrink-0 p-6 sm:h-[60vw] lg:h-full lg:w-screen lg:p-[5vh]">
             <div className="relative w-full h-full  overflow-hidden rounded-sm">
-              <img
-                src={imageAt(6)}
-                alt={SITE_IMAGE_ALT}
-                className="absolute inset-0 h-full w-full object-contain"
-                draggable={false}
-              />
+              <button
+                type="button"
+                aria-label="View image 7 larger"
+                onClick={() => setOpenIndex(6)}
+                className="absolute inset-0 cursor-zoom-in">
+                <img
+                  src={imageAt(6)}
+                  alt={SITE_IMAGE_ALT}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </button>
             </div>
           </section>
 
@@ -245,6 +292,13 @@ export default function ProjectDetailContent({
           </section>
         </div>
       </div>
+
+      <ImageLightbox
+        images={galleryImages}
+        index={openIndex}
+        alt={SITE_IMAGE_ALT}
+        onChange={setOpenIndex}
+      />
     </main>
   );
 }

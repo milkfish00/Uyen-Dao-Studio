@@ -1,6 +1,7 @@
 // components/WorkSection.tsx
 "use client";
 
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
@@ -10,8 +11,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getProjectHref } from "@/app/lib/projectLink";
-
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 
 gsap.registerPlugin(ScrollTrigger);
 

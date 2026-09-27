@@ -1,7 +1,6 @@
 "use client";
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import { useEffect, useState } from "react";
-
-const SITE_IMAGE_ALT = "Uyen Dao Design";
 
 type SiteSettings = {
   studioName?: string;

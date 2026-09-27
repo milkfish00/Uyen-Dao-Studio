@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
@@ -13,7 +14,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 const PICSUM = "https://picsum.photos/seed/";
 const mk = (seed: string, w: number, h: number) => `${PICSUM}${seed}/${w}/${h}`;
 
@@ -344,7 +344,7 @@ export default function WorkContent({
                       <div className="relative aspect-3/4 w-full overflow-hidden bg-red/5 rounded-sm">
                         <img
                           src={work.image}
-                          alt={work.title || SITE_IMAGE_ALT}
+                          alt={SITE_IMAGE_ALT}
                           className="absolute inset-0 h-full w-full object-cover transition-transform duration-750 ease-out group-hover:scale-102"
                           draggable={false}
                         />

@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { altField } from "./altField";
 
 export const project = defineType({
   name: "project",
@@ -63,9 +64,11 @@ export const project = defineType({
     defineField({
       name: "coverImage",
       title: "Cover Image",
-      description: "The main image used to represent this project.",
+      description:
+        "The main image used to represent this project. Accepted files: JPG, PNG or WebP.",
       type: "image",
-      options: { hotspot: true },
+      options: { hotspot: true, accept: "image/jpeg,image/png,image/webp" },
+ fields: [altField],
       validation: (rule) =>
         rule.required().error("A cover image is required before publishing."),
     }),
@@ -73,13 +76,14 @@ export const project = defineType({
       name: "boards",
       title: "Board Images",
       description:
-        "Drag images to rank them. The first image is used as the primary project image.",
+        "Drag images to rank them. The first image is used as the primary project image. Accepted files: JPG, PNG or WebP.",
       type: "array",
       options: { layout: "grid" },
       of: [
         defineArrayMember({
           type: "image",
-          options: { hotspot: true },
+          options: { hotspot: true, accept: "image/jpeg,image/png,image/webp" },
+ fields: [altField],
         }),
       ],
     }),

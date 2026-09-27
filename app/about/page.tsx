@@ -1,5 +1,5 @@
 import AboutContent from "@/app/about/AboutContent";
-import { urlFor } from "@/sanity/lib/image";
+import { imageUrl, imageUrls } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import {
   ABOUT_PAGE_QUERY,
@@ -11,13 +11,13 @@ import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 type AboutPageData = {
   heading?: string;
   intro?: string;
-  portrait?: any; // Sanity image object (contains asset, crop, hotspot)
+  portrait?: SanityImageSource | null; // image object (asset, crop, hotspot)
   recognitions?: {
     _key?: string;
     awardName?: string;
     year?: number;
     description?: string;
-    images?: any[];
+    images?: (SanityImageSource | null)[];
   }[];
 } | null;
 
@@ -45,19 +45,12 @@ export default async function AboutPage() {
       sanityFetch<ServiceItem[]>({ query: SERVICES_QUERY }),
     ]);
 
-  // Convert Sanity portrait image object to cropped URL string
-  const portraitUrl = aboutPage?.portrait
-    ? urlFor(aboutPage.portrait).auto("format").fit("crop").url()
-    : null;
+  // Resolve image objects into URLs that respect the Studio crop/hotspot.
+  const portraitUrl = imageUrl(aboutPage?.portrait);
 
-  // Convert recognition image objects to cropped URL strings
   const recognitions = aboutPage?.recognitions?.map((rec) => ({
     ...rec,
-    images: rec.images
-      ? rec.images
-          .filter((img): img is SanityImageSource => Boolean(img))
-          .map((img) => urlFor(img).auto("format").fit("crop").url())
-      : [],
+    images: imageUrls(rec.images),
   }));
 
   return (

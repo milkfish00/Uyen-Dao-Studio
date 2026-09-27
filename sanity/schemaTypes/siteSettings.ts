@@ -1,6 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
+import { altField } from "./altField";
 
 export const siteSettings = defineType({
   name: "siteSettings",
@@ -36,21 +35,14 @@ export const siteSettings = defineType({
     defineField({
       name: "heroImages",
       title: "Hero Images",
+      description: "Accepted files: JPG, PNG or WebP.",
       type: "array",
       group: "general",
       of: [
         defineArrayMember({
           type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              title: "Alt Text",
-              type: "string",
-              initialValue: SITE_IMAGE_ALT,
-              readOnly: true,
-            }),
-          ],
+          options: { hotspot: true, accept: "image/jpeg,image/png,image/webp" },
+          fields: [altField],
         }),
       ],
     }),
@@ -172,17 +164,10 @@ export const siteSettings = defineType({
         defineField({
           name: "image",
           title: "Open Graph Image",
+          description: "Accepted files: JPG, PNG or WebP.",
           type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              title: "Alt Text",
-              type: "string",
-              initialValue: SITE_IMAGE_ALT,
-              readOnly: true,
-            }),
-          ],
+          options: { hotspot: true, accept: "image/jpeg,image/png,image/webp" },
+          fields: [altField],
         }),
       ],
     }),

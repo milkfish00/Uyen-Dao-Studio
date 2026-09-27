@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { altField } from "./altField";
 
 export const service = defineType({
   name: "service",
@@ -58,8 +59,10 @@ export const service = defineType({
     defineField({
       name: "coverImage",
       title: "Cover Image",
+      description: "Accepted files: JPG, PNG or WebP.",
       type: "image",
-      options: { hotspot: true },
+      options: { hotspot: true, accept: "image/jpeg,image/png,image/webp" },
+ fields: [altField],
     }),
   ],
   preview: {

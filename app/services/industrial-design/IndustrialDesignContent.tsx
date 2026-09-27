@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +10,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -144,7 +143,7 @@ export default function IndustrialDesignContent({
                       {item.image ? (
                         <Image
                           src={item.image}
-                          alt={item.title ?? SITE_IMAGE_ALT}
+                          alt={SITE_IMAGE_ALT}
                           fill
                           className="absolute inset-0 object-cover object-center transition-transform duration-750 ease-out group-hover:scale-103"
                           sizes="(min-width: 1024px) 32vw, 88vw"

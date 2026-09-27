@@ -1,7 +1,9 @@
 import { sanityFetch } from "@/sanity/lib/live";
+import { imageUrl, imageUrls } from "@/sanity/lib/image";
 import { PROJECT_DETAIL_QUERY, PROJECT_NAV_QUERY } from "@/sanity/lib/queries";
 import ProjectDetailContent from "@/app/work/[slug]/ProjectDetailContent";
 import { notFound } from "next/navigation";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 type ProjectDetail = {
   _id: string;
@@ -13,15 +15,15 @@ type ProjectDetail = {
     title?: string;
     description?: string;
   } | null;
-  coverImage?: string | null;
-  boards?: (string | null)[];
+  coverImage?: SanityImageSource | null;
+  boards?: (SanityImageSource | null)[];
 };
 
 type ProjectNavItem = {
   _id: string;
   title: string;
   slug: string;
-  image?: string | null;
+  image?: SanityImageSource | null;
 };
 
 export default async function IndividualProjectPage({
@@ -44,10 +46,26 @@ export default async function IndividualProjectPage({
   }
 
   const currentIndex = projects.findIndex((item) => item.slug === slug);
-  const nextProject =
+  const nextItem =
     currentIndex >= 0 && projects.length > 1
       ? projects[(currentIndex + 1) % projects.length]
       : null;
 
-  return <ProjectDetailContent project={project} nextProject={nextProject} />;
+  // Resolve image objects into URLs that respect the Studio crop/hotspot.
+  const projectWithImages = {
+    ...project,
+    coverImage: imageUrl(project.coverImage),
+    boards: imageUrls(project.boards),
+  };
+
+  const nextProject = nextItem
+    ? { ...nextItem, image: imageUrl(nextItem.image) }
+    : null;
+
+  return (
+    <ProjectDetailContent
+      project={projectWithImages}
+      nextProject={nextProject}
+    />
+  );
 }

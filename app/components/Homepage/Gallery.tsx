@@ -1,12 +1,11 @@
 "use client";
 
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getProjectHref } from "@/app/lib/projectLink";
-
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -189,13 +188,15 @@ const Gallery = ({ projects }: { projects?: SanityWork[] | null }) => {
                 className="img-wrap group relative block w-full max-w-[72rem] overflow-hidden p-6 sm:p-10 lg:p-14"
                 data-y-from={i % 2 === 0 ? "4" : "6"}
                 data-y-to={i % 2 === 0 ? "-4" : "-3"}>
-                {/* Inner container to hold aspect-video (Landscape) with object-cover */}
-                <div className="relative aspect-video w-full overflow-hidden bg-red/3 rounded-sm">
+                {/* Frame takes each image's natural ratio so nothing is cropped */}
+                <div className="relative w-full overflow-hidden bg-red/3 rounded-sm">
                   <img
                     src={w.image}
                     alt={SITE_IMAGE_ALT}
                     loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-750 ease-out group-hover:scale-101"
+                    // Heights change once images load, so re-measure scroll triggers
+                    onLoad={() => ScrollTrigger.refresh()}
+                    className="block h-auto w-full transition-transform duration-750 ease-out group-hover:scale-101"
                   />
                   <WorkOverlay
                     title={w.title}

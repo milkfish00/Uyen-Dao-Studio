@@ -1,10 +1,9 @@
 "use client";
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 
 gsap.registerPlugin(ScrollTrigger);
 

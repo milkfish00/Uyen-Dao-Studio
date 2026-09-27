@@ -1,6 +1,9 @@
-import ScrollToTop from "./ScrollToTop";
+"use client";
 
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
+import { useState } from "react";
+import ImageLightbox from "@/app/components/ui/ImageLightbox";
+import ScrollToTop from "./ScrollToTop";
 
 export type IndustrialProjectDetailData = {
   _id: string;
@@ -21,7 +24,9 @@ const hasImageSrc = (value: string | null | undefined): value is string =>
 
 const sharpen = (url: string, width: number) => {
   const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}w=${width}&q=100&auto=format`;
+  // `imageUrl()` already sets auto=format (alongside any crop rect); don't repeat it.
+  const format = url.includes("auto=format") ? "" : "&auto=format";
+  return `${url}${separator}w=${width}&q=100${format}`;
 };
 
 export default function IndustrialProjectDetail({
@@ -29,6 +34,7 @@ export default function IndustrialProjectDetail({
 }: {
   project: IndustrialProjectDetailData;
 }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const titleLines = project.title.split(/\s+/).filter(Boolean);
   const description = project.additionalInformation?.description?.trim() || "";
   const infoTitle = project.additionalInformation?.title?.trim() || "";
@@ -91,17 +97,30 @@ export default function IndustrialProjectDetail({
                 data-reveal="up"
                 data-reveal-delay={String(Math.min(index, 4) * 0.05)}
                 className="w-210 max-w-full">
-                <img
-                  src={sharpen(src, 1680)}
-                  alt={project.title || SITE_IMAGE_ALT}
-                  className="block h-auto w-full rounded-sm bg-red/5"
-                  loading="lazy"
-                />
+                <button
+                  type="button"
+                  aria-label={`View image ${index + 1} larger`}
+                  onClick={() => setOpenIndex(index)}
+                  className="block w-full cursor-zoom-in">
+                  <img
+                    src={sharpen(src, 1680)}
+                    alt={SITE_IMAGE_ALT}
+                    className="block h-auto w-full rounded-sm bg-red/5"
+                    loading="lazy"
+                  />
+                </button>
               </div>
             ))}
           </div>
         </section>
       ) : null}
+
+      <ImageLightbox
+        images={images}
+        index={openIndex}
+        alt={SITE_IMAGE_ALT}
+        onChange={setOpenIndex}
+      />
     </main>
   );
 }

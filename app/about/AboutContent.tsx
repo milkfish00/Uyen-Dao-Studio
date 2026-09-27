@@ -1,5 +1,6 @@
 "use client";
 
+import { SITE_IMAGE_ALT } from "@/sanity/lib/siteAlt";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -9,8 +10,6 @@ import Slider from "react-slick";
 import type { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-const SITE_IMAGE_ALT = "Uyen Dao Studio";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -259,7 +258,7 @@ export default function AboutContent({
                   }`}>
                   <RecognitionImage
                     images={images}
-                    alt={recognition.awardName || SITE_IMAGE_ALT}
+                    alt={SITE_IMAGE_ALT}
                   />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.16),transparent_48%)]" />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/10 to-transparent" />
